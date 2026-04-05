@@ -1,0 +1,298 @@
+{
+  "min": 0.03546738328423914,
+  "max": 0.1504654645771026,
+  "mean": 0.08684165521769244,
+  "median": 0.0853431470758775,
+  "p10": 0.07310830124321445,
+  "p25": 0.07847920068662954,
+  "p75": 0.0938169164988408,
+  "p90": 0.10316731050095397,
+  "p95": 0.10942589903741219,
+  "n_counties": 3222,
+  "source": "Anthropic EconomicIndex labor_market_impacts + ACS 5-year 2024 (2020\u20132024)",
+  "method": "Bartik shift-share: \u03a3_k share_k(county) \u00d7 observed_exposure_k",
+  "top20": [
+    {
+      "fips": "51013",
+      "county": "Arlington County",
+      "state": "Virginia",
+      "exposure": 0.1504654645771026,
+      "rank": 1
+    },
+    {
+      "fips": "51107",
+      "county": "Loudoun County",
+      "state": "Virginia",
+      "exposure": 0.1475747187093149,
+      "rank": 2
+    },
+    {
+      "fips": "51610",
+      "county": "Falls Church city",
+      "state": "Virginia",
+      "exposure": 0.14668648829330833,
+      "rank": 3
+    },
+    {
+      "fips": "13117",
+      "county": "Forsyth County",
+      "state": "Georgia",
+      "exposure": 0.14496029244796035,
+      "rank": 4
+    },
+    {
+      "fips": "51059",
+      "county": "Fairfax County",
+      "state": "Virginia",
+      "exposure": 0.14091918743526882,
+      "rank": 5
+    },
+    {
+      "fips": "11001",
+      "county": "District of Columbia",
+      "state": "District of Columbia",
+      "exposure": 0.14065120640786466,
+      "rank": 6
+    },
+    {
+      "fips": "48085",
+      "county": "Collin County",
+      "state": "Texas",
+      "exposure": 0.13714254292681397,
+      "rank": 7
+    },
+    {
+      "fips": "06075",
+      "county": "San Francisco County",
+      "state": "California",
+      "exposure": 0.1370640679493842,
+      "rank": 8
+    },
+    {
+      "fips": "06085",
+      "county": "Santa Clara County",
+      "state": "California",
+      "exposure": 0.13562910353991744,
+      "rank": 9
+    },
+    {
+      "fips": "24027",
+      "county": "Howard County",
+      "state": "Maryland",
+      "exposure": 0.13489834154848815,
+      "rank": 10
+    },
+    {
+      "fips": "08033",
+      "county": "Dolores County",
+      "state": "Colorado",
+      "exposure": 0.13470509135175407,
+      "rank": 11
+    },
+    {
+      "fips": "53033",
+      "county": "King County",
+      "state": "Washington",
+      "exposure": 0.13420958977872222,
+      "rank": 12
+    },
+    {
+      "fips": "08035",
+      "county": "Douglas County",
+      "state": "Colorado",
+      "exposure": 0.1341095397513532,
+      "rank": 13
+    },
+    {
+      "fips": "51600",
+      "county": "Fairfax city",
+      "state": "Virginia",
+      "exposure": 0.1335907304690412,
+      "rank": 14
+    },
+    {
+      "fips": "36061",
+      "county": "New York County",
+      "state": "New York",
+      "exposure": 0.13274994282917713,
+      "rank": 15
+    },
+    {
+      "fips": "51510",
+      "county": "Alexandria city",
+      "state": "Virginia",
+      "exposure": 0.131815246651154,
+      "rank": 16
+    },
+    {
+      "fips": "08014",
+      "county": "Broomfield County",
+      "state": "Colorado",
+      "exposure": 0.13162275382651406,
+      "rank": 17
+    },
+    {
+      "fips": "13121",
+      "county": "Fulton County",
+      "state": "Georgia",
+      "exposure": 0.13099763926434863,
+      "rank": 18
+    },
+    {
+      "fips": "47187",
+      "county": "Williamson County",
+      "state": "Tennessee",
+      "exposure": 0.13034256764322696,
+      "rank": 19
+    },
+    {
+      "fips": "48491",
+      "county": "Williamson County",
+      "state": "Texas",
+      "exposure": 0.129805063022709,
+      "rank": 20
+    }
+  ],
+  "bottom20": [
+    {
+      "fips": "05133",
+      "county": "Sevier County",
+      "state": "Arkansas",
+      "exposure": 0.059156172121276156,
+      "rank": 3203
+    },
+    {
+      "fips": "28051",
+      "county": "Holmes County",
+      "state": "Mississippi",
+      "exposure": 0.05908792931591275,
+      "rank": 3204
+    },
+    {
+      "fips": "47095",
+      "county": "Lake County",
+      "state": "Tennessee",
+      "exposure": 0.05878125971762111,
+      "rank": 3205
+    },
+    {
+      "fips": "28009",
+      "county": "Benton County",
+      "state": "Mississippi",
+      "exposure": 0.05875364297388692,
+      "rank": 3206
+    },
+    {
+      "fips": "35019",
+      "county": "Guadalupe County",
+      "state": "New Mexico",
+      "exposure": 0.05831965474588496,
+      "rank": 3207
+    },
+    {
+      "fips": "47135",
+      "county": "Perry County",
+      "state": "Tennessee",
+      "exposure": 0.05825799153731256,
+      "rank": 3208
+    },
+    {
+      "fips": "31037",
+      "county": "Colfax County",
+      "state": "Nebraska",
+      "exposure": 0.05807597267811004,
+      "rank": 3209
+    },
+    {
+      "fips": "02282",
+      "county": "Yakutat City and Borough",
+      "state": "Alaska",
+      "exposure": 0.057004634401706944,
+      "rank": 3210
+    },
+    {
+      "fips": "54071",
+      "county": "Pendleton County",
+      "state": "West Virginia",
+      "exposure": 0.05620448947916167,
+      "rank": 3211
+    },
+    {
+      "fips": "32009",
+      "county": "Esmeralda County",
+      "state": "Nevada",
+      "exposure": 0.05408906075504523,
+      "rank": 3212
+    },
+    {
+      "fips": "72095",
+      "county": "Maunabo Municipio",
+      "state": "Puerto Rico",
+      "exposure": 0.05342004580719746,
+      "rank": 3213
+    },
+    {
+      "fips": "32011",
+      "county": "Eureka County",
+      "state": "Nevada",
+      "exposure": 0.052300984763652116,
+      "rank": 3214
+    },
+    {
+      "fips": "35011",
+      "county": "De Baca County",
+      "state": "New Mexico",
+      "exposure": 0.05138972425104262,
+      "rank": 3215
+    },
+    {
+      "fips": "30037",
+      "county": "Golden Valley County",
+      "state": "Montana",
+      "exposure": 0.051358325130137605,
+      "rank": 3216
+    },
+    {
+      "fips": "13309",
+      "county": "Wheeler County",
+      "state": "Georgia",
+      "exposure": 0.04791873136347037,
+      "rank": 3217
+    },
+    {
+      "fips": "28063",
+      "county": "Jefferson County",
+      "state": "Mississippi",
+      "exposure": 0.04724035599397149,
+      "rank": 3218
+    },
+    {
+      "fips": "48137",
+      "county": "Edwards County",
+      "state": "Texas",
+      "exposure": 0.04433587780572281,
+      "rank": 3219
+    },
+    {
+      "fips": "48261",
+      "county": "Kenedy County",
+      "state": "Texas",
+      "exposure": 0.04417296665409334,
+      "rank": 3220
+    },
+    {
+      "fips": "02068",
+      "county": "Denali Borough",
+      "state": "Alaska",
+      "exposure": 0.042984304111156404,
+      "rank": 3221
+    },
+    {
+      "fips": "15005",
+      "county": "Kalawao County",
+      "state": "Hawaii",
+      "exposure": 0.03546738328423914,
+      "rank": 3222
+    }
+  ]
+}

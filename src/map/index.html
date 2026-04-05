@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Exposure Atlas — County-Level Index</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="header">
+    <div id="header-left">
+      <h1>AI Exposure Atlas</h1>
+      <p class="subtitle">
+        Where AI is currently active in the US workforce &mdash;
+        county-level index built from Anthropic&rsquo;s observed AI usage
+        and Census occupation data.
+      </p>
+    </div>
+    <div id="header-right">
+      <div id="dataset-toggle" role="group" aria-label="Dataset">
+        <button class="toggle-btn active" data-dataset="5yr">
+          5-Year Estimate
+          <span class="toggle-sub">2020–2024 · all 3,222 counties</span>
+        </button>
+        <button class="toggle-btn" data-dataset="1yr">
+          1-Year Estimate
+          <span class="toggle-sub">2024 · 861 larger counties</span>
+        </button>
+      </div>
+      <div id="search-container">
+        <input type="text" id="search-input"
+               placeholder="Search county…"
+               list="county-datalist"
+               autocomplete="off"
+               spellcheck="false" />
+        <datalist id="county-datalist"></datalist>
+      </div>
+      <a href="methodology.html" class="method-link">Methodology &amp; Sources ↗</a>
+    </div>
+  </div>
+
+  <div id="main">
+    <div id="map-container">
+      <svg id="map"></svg>
+
+      <div id="zoom-controls">
+        <button id="zoom-in"    title="Zoom in">+</button>
+        <button id="zoom-reset" title="Reset view">⊙</button>
+        <button id="zoom-out"   title="Zoom out">−</button>
+      </div>
+
+      <div id="tooltip" class="hidden"></div>
+    </div>
+
+    <div id="detail-panel" class="hidden" role="complementary" aria-label="County detail">
+      <div id="detail-header">
+        <div id="detail-title">
+          <div id="detail-county"></div>
+          <div id="detail-state"></div>
+        </div>
+        <button id="close-panel" aria-label="Close panel">✕</button>
+      </div>
+      <div id="detail-score-row">
+        <div id="detail-score"></div>
+        <div id="detail-score-context"></div>
+      </div>
+      <div id="detail-workforce"></div>
+      <div id="detail-occ-header">
+        <span class="sort-col" data-col="name"   title="Sort by name">Occupation group<span class="sort-icon"> ↕</span></span>
+        <span class="sort-col" data-col="share"  title="Sort by workforce share">Share<span class="sort-icon"> ↕</span></span>
+        <span class="sort-col sort-active" data-col="contrib" title="Sort by AI contribution">AI contribution<span class="sort-icon"> ↓</span></span>
+      </div>
+      <div id="detail-occ-list"></div>
+      <div id="detail-footer">
+        Contribution = workforce share &times; occupation AI exposure score.
+        <a href="methodology.html" target="_blank">Methodology ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="bottom-bar">
+    <div id="legend">
+      <div class="legend-title">AI Exposure Index</div>
+      <div class="legend-bar-row">
+        <span class="legend-endpoint" id="legend-lo"></span>
+        <svg id="legend-svg" aria-hidden="true"></svg>
+        <span class="legend-endpoint" id="legend-hi"></span>
+      </div>
+      <div class="legend-axis-labels">
+        <span>least exposed</span>
+        <span>most exposed</span>
+      </div>
+      <div class="legend-sublabel">Scale ×100 &nbsp;&middot;&nbsp; full county range</div>
+    </div>
+
+    <div id="stats-bar">
+      <div class="stat"><span class="sval" id="stat-n"></span><span class="slabel">counties</span></div>
+      <div class="stat"><span class="sval" id="stat-mean"></span><span class="slabel">mean index</span></div>
+      <div class="stat"><span class="sval" id="stat-range"></span><span class="slabel">index range</span></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+  <script src="map.js"></script>
+</body>
+</html>

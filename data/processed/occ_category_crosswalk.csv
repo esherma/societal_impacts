@@ -1,0 +1,26 @@
+occ_category,soc_prefixes,category_exposure,n_occupations_matched
+Management occupations,11-,0.09744857142857144,35
+Business and financial operations occupations,13-,0.17663448275862068,29
+Computer and mathematical occupations,15-,0.37874761904761906,21
+Architecture and engineering occupations,17-,0.03807058823529412,34
+"Life, physical, and social science occupations",19-,0.1219108695652174,46
+Community and social service occupations,21-,0.05161666666666667,12
+Legal occupations,23-,0.2157571428571429,7
+Educational instruction and library occupations,25-,0.1292964912280702,57
+"Arts, design, entertainment, sports, media occupations",27-,0.14241470588235292,34
+Health diagnosing and treating practitioners,29-1,0.028743902439024388,41
+Health technologists and technicians,29-2,0.05896315789473685,19
+Healthcare support occupations,31-,0.049381249999999995,16
+Firefighting and prevention workers,33-1|33-2,0.00525,6
+Law enforcement workers,33-3|33-9,0.014526666666666665,15
+Food preparation and serving occupations,35-,0.009426666666666668,15
+Building and grounds cleaning and maintenance,37-,0.024737499999999996,8
+Personal care and service occupations,39-,0.01914814814814815,27
+Sales and related occupations,41-,0.236095,20
+Office and administrative support occupations,43-,0.19056599999999999,50
+"Farming, fishing, and forestry occupations",45-,0.0018454545454545453,11
+Construction and extraction occupations,47-,0.0040375,56
+"Installation, maintenance, and repair occupations",49-,0.00712,50
+Production occupations,51-,0.0077632653061224495,98
+Transportation occupations,53-1|53-2|53-3|53-4|53-5|53-6,0.009789655172413795,29
+Material moving occupations,53-7,0.0,15

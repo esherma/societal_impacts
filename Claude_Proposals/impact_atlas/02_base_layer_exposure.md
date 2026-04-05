@@ -42,7 +42,7 @@ Using multiple exposure measures lets us check whether geographic patterns are r
 - Available via Census API
 - Provides occupation counts by detailed SOC code for every county, MSA, and census tract
 - 5-year estimates (e.g., 2019-2023) give reliable counts even for small geographies
-- Key table: B24010/B24020 (Sex by Occupation for the Civilian Employed Population 16+) or S2401 (Occupation by Sex and Median Earnings)
+- Key table: S2401 (Occupation by Sex and Median Earnings)
 
 **Geographic unit decision**:
 

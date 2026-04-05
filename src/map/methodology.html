@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Methodology — AI Exposure Atlas</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      line-height: 1.7;
+    }
+    .page {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: #60a5fa;
+      text-decoration: none;
+      margin-bottom: 32px;
+    }
+    .back-link:hover { text-decoration: underline; }
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+    .tagline {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin-bottom: 48px;
+    }
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      margin: 40px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #1e2d4a;
+    }
+    h3 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin: 20px 0 6px;
+    }
+    p { font-size: 0.88rem; color: #94a3b8; margin-bottom: 12px; }
+    p strong { color: #cbd5e1; }
+    code {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.82rem;
+      background: #1e2d4a;
+      color: #7dd3fc;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .formula {
+      background: #111827;
+      border: 1px solid #1e2d4a;
+      border-left: 3px solid #2563eb;
+      border-radius: 6px;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.85rem;
+      color: #93c5fd;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin: 16px 0;
+    }
+    th {
+      text-align: left;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #475569;
+      padding: 8px 12px;
+      border-bottom: 1px solid #1e2d4a;
+    }
+    td {
+      padding: 6px 12px;
+      border-bottom: 1px solid #0f172a;
+      color: #94a3b8;
+      vertical-align: top;
+    }
+    td:first-child { color: #cbd5e1; }
+    tr:hover td { background: #111827; }
+    .score-chip {
+      display: inline-block;
+      background: #1e3a5f;
+      color: #7dd3fc;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .limitation-box {
+      background: #111827;
+      border: 1px solid #1e2d4a;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 12px 0;
+    }
+    .limitation-box p { margin: 0; }
+    ul {
+      padding-left: 20px;
+      font-size: 0.88rem;
+      color: #94a3b8;
+      margin-bottom: 12px;
+    }
+    ul li { margin-bottom: 6px; }
+    .planned {
+      display: inline-block;
+      font-size: 0.68rem;
+      background: #1a3355;
+      color: #60a5fa;
+      padding: 1px 7px;
+      border-radius: 8px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .source-block {
+      background: #111827;
+      border: 1px solid #1e2d4a;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 10px 0;
+    }
+    .source-title { font-weight: 600; color: #cbd5e1; font-size: 0.85rem; }
+    .source-meta { font-size: 0.78rem; color: #475569; margin-top: 2px; }
+    .source-desc { font-size: 0.82rem; color: #94a3b8; margin-top: 6px; }
+  </style>
+</head>
+<body>
+<div class="page">
+  <a href="index.html" class="back-link">← Back to Atlas</a>
+
+  <h1>Methodology &amp; Sources</h1>
+  <p class="tagline">How the AI Exposure Index is constructed, what it measures, and what it does not.</p>
+
+  <!-- ── What This Is ── -->
+  <h2>What the Index Measures</h2>
+  <p>
+    The <strong>AI Exposure Index</strong> answers: <em>How concentrated is this county's workforce in
+    occupations where AI systems are currently being actively used?</em> It is a weighted average of
+    occupation-level AI activity scores, where the weights are each occupation's share of the local
+    civilian workforce.
+  </p>
+  <p>
+    The index is <strong>not</strong> a prediction of job loss. It measures current observed usage
+    of AI tools (specifically, Claude) across occupation types — not theoretical capability, not
+    future automation potential. Counties with high scores have large shares of workers in occupations
+    where AI is already integrated into daily work. Counties with low scores have workforces concentrated
+    in occupations where AI usage has not yet been observed at scale.
+  </p>
+  <p>
+    The practical scale: county index values in the US range from roughly
+    <strong>0.035</strong> (rural agricultural counties, Appalachia) to
+    <strong>0.150</strong> (Northern Virginia tech corridor, Silicon Valley).
+    The national county mean is approximately <strong>0.087</strong>.
+  </p>
+
+  <!-- ── Method ── -->
+  <h2>Construction Method: Bartik Shift-Share</h2>
+  <p>
+    The core method is a <strong>Bartik-style shift-share</strong>, the same approach used in
+    the China shock literature (Autor, Dorn &amp; Hanson 2013) for constructing geographic
+    exposure to national-level labor market shocks.
+  </p>
+  <div class="formula">
+    AI_Exposure(county) = &Sigma;<sub>k</sub> [ share<sub>k</sub>(county) &times; exposure_score<sub>k</sub> ]
+  </div>
+  <p>Where:</p>
+  <ul>
+    <li><strong>share<sub>k</sub>(county)</strong> is the fraction of the county's civilian employed
+        population in occupation group <em>k</em></li>
+    <li><strong>exposure_score<sub>k</sub></strong> is the mean observed AI exposure across all
+        6-digit SOC occupations within ACS occupation group <em>k</em></li>
+  </ul>
+  <p>
+    The shift-share approach attributes variation in county-level exposure entirely to the county's
+    occupational mix — not to local adoption patterns or industry structure. This is both a strength
+    (it's purely driven by workforce composition, which is well-measured) and a limitation (two counties
+    with identical occupation mixes get the same score even if one has much higher AI adoption).
+  </p>
+
+  <!-- ── Occupation Crosswalk ── -->
+  <h2>Occupation Group Crosswalk</h2>
+  <p>
+    The ACS C24010 table reports employment across 25 occupation groups. These are mapped to
+    SOC major group prefixes to match the Anthropic occupation-level exposure scores.
+    The category exposure score is the <strong>unweighted mean</strong> of observed_exposure
+    across all 6-digit SOC occupations within the prefix set.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>ACS Occupation Group</th>
+        <th>SOC Prefix(es)</th>
+        <th># Occupations</th>
+        <th>Category Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Computer and mathematical</td><td>15-</td><td>21</td><td><span class="score-chip">0.3787</span></td></tr>
+      <tr><td>Sales and related</td><td>41-</td><td>20</td><td><span class="score-chip">0.2361</span></td></tr>
+      <tr><td>Legal</td><td>23-</td><td>7</td><td><span class="score-chip">0.2158</span></td></tr>
+      <tr><td>Office and administrative support</td><td>43-</td><td>50</td><td><span class="score-chip">0.1906</span></td></tr>
+      <tr><td>Business and financial operations</td><td>13-</td><td>29</td><td><span class="score-chip">0.1766</span></td></tr>
+      <tr><td>Arts, design, entertainment, sports, media</td><td>27-</td><td>34</td><td><span class="score-chip">0.1424</span></td></tr>
+      <tr><td>Educational instruction and library</td><td>25-</td><td>57</td><td><span class="score-chip">0.1293</span></td></tr>
+      <tr><td>Life, physical, and social science</td><td>19-</td><td>46</td><td><span class="score-chip">0.1219</span></td></tr>
+      <tr><td>Management</td><td>11-</td><td>35</td><td><span class="score-chip">0.0974</span></td></tr>
+      <tr><td>Health technologists and technicians</td><td>29-2</td><td>19</td><td><span class="score-chip">0.0590</span></td></tr>
+      <tr><td>Community and social service</td><td>21-</td><td>12</td><td><span class="score-chip">0.0516</span></td></tr>
+      <tr><td>Healthcare support</td><td>31-</td><td>16</td><td><span class="score-chip">0.0494</span></td></tr>
+      <tr><td>Architecture and engineering</td><td>17-</td><td>34</td><td><span class="score-chip">0.0381</span></td></tr>
+      <tr><td>Health diagnosing and treating practitioners</td><td>29-1</td><td>41</td><td><span class="score-chip">0.0287</span></td></tr>
+      <tr><td>Building and grounds cleaning &amp; maintenance</td><td>37-</td><td>8</td><td><span class="score-chip">0.0247</span></td></tr>
+      <tr><td>Personal care and service</td><td>39-</td><td>27</td><td><span class="score-chip">0.0191</span></td></tr>
+      <tr><td>Law enforcement workers</td><td>33-3, 33-9</td><td>15</td><td><span class="score-chip">0.0145</span></td></tr>
+      <tr><td>Transportation</td><td>53-1 thru 53-6</td><td>29</td><td><span class="score-chip">0.0098</span></td></tr>
+      <tr><td>Food preparation and serving</td><td>35-</td><td>15</td><td><span class="score-chip">0.0094</span></td></tr>
+      <tr><td>Production</td><td>51-</td><td>98</td><td><span class="score-chip">0.0078</span></td></tr>
+      <tr><td>Installation, maintenance, and repair</td><td>49-</td><td>50</td><td><span class="score-chip">0.0071</span></td></tr>
+      <tr><td>Firefighting and prevention workers</td><td>33-1, 33-2</td><td>6</td><td><span class="score-chip">0.0053</span></td></tr>
+      <tr><td>Construction and extraction</td><td>47-</td><td>56</td><td><span class="score-chip">0.0040</span></td></tr>
+      <tr><td>Farming, fishing, and forestry</td><td>45-</td><td>11</td><td><span class="score-chip">0.0018</span></td></tr>
+      <tr><td>Material moving</td><td>53-7</td><td>15</td><td><span class="score-chip">0.0000</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ── Data Sources ── -->
+  <h2>Data Sources</h2>
+
+  <div class="source-block">
+    <div class="source-title">Anthropic Economic Index — Labor Market Impacts</div>
+    <div class="source-meta">HuggingFace: <code>Anthropic/EconomicIndex / labor_market_impacts/job_exposure.csv</code> &middot; Released March 2026</div>
+    <div class="source-desc">
+      756 occupations at 6-digit SOC level with <code>observed_exposure</code> scores.
+      Observed exposure combines theoretical AI task feasibility (Eloundou et al. β scores)
+      with actual Claude API and consumer usage patterns, weighted by time-on-task.
+      This is the occupation-level exposure input to the shift-share.
+    </div>
+  </div>
+
+  <div class="source-block">
+    <div class="source-title">American Community Survey (ACS) 5-Year Estimates, 2024</div>
+    <div class="source-meta">US Census Bureau &middot; Table C24010 &middot; Released December 2024 &middot; Period: 2020–2024</div>
+    <div class="source-desc">
+      County-level civilian employment counts by 25 occupation groups.
+      5-year estimates pool survey responses to achieve reliable estimates even for small counties.
+      Covers all 3,222 US counties and county-equivalents.
+    </div>
+  </div>
+
+  <div class="source-block">
+    <div class="source-title">American Community Survey (ACS) 1-Year Estimates, 2024</div>
+    <div class="source-meta">US Census Bureau &middot; Table C24010 &middot; Released September 2024</div>
+    <div class="source-desc">
+      Same occupation table as the 5-year data, but using only 2024 survey responses.
+      Available for 861 counties with population &ge; 65,000.
+      Provides more current workforce composition for large counties.
+    </div>
+  </div>
+
+  <div class="source-block">
+    <div class="source-title">US Atlas TopoJSON</div>
+    <div class="source-meta">npm: <code>us-atlas@3</code> &middot; County boundaries at 1:10m scale from Census TIGER/Line</div>
+    <div class="source-desc">Used for county boundary polygons and state borders in the choropleth map.</div>
+  </div>
+
+  <!-- ── Limitations ── -->
+  <h2>Known Limitations</h2>
+
+  <div class="limitation-box">
+    <h3>Aggregation to broad occupation groups</h3>
+    <p>
+      The ACS summary tables report employment at 25 broad occupation groups
+      (e.g., "Computer and mathematical occupations"), not at 6-digit SOC detail.
+      Within each group, the category score is an unweighted mean across all matching
+      SOC occupations — which masks substantial within-group variation.
+      For example, "Computer programmers" (74.5% exposure) and "Network support
+      specialists" (3.2% exposure) are both in the "Computer and mathematical" group,
+      averaged to a group score of 37.9%.
+    </p>
+  </div>
+
+  <div class="limitation-box">
+    <h3>Small-county sampling noise</h3>
+    <p>
+      ACS 5-year estimates for counties with fewer than ~5,000 workers carry large
+      margins of error. Occasionally, random sampling fluctuations produce anomalous
+      occupation concentrations. Dolores County, CO (1,336 workers) is a known
+      example where the estimate implies an unusually high share of computer/math
+      workers. Exercise caution interpreting outliers in very small counties.
+    </p>
+  </div>
+
+  <div class="limitation-box">
+    <h3>Geographic unit mismatch with labor markets</h3>
+    <p>
+      Counties are administrative units that often don't correspond to actual labor
+      market areas. San Bernardino County, CA has a land area larger than nine US
+      states and contains dramatically different labor markets (coastal suburbs,
+      inland logistics corridors, desert communities). A single county-level index
+      obscures this heterogeneity. Commuting zone and PUMA-level analysis are
+      planned.
+    </p>
+  </div>
+
+  <div class="limitation-box">
+    <h3>Observed ≠ affected</h3>
+    <p>
+      High AI Exposure Index does not mean workers in those counties are at risk of
+      displacement. The Anthropic data measures where Claude is being <em>used</em> —
+      in many cases for augmentation (AI assisting workers) rather than automation
+      (AI replacing tasks). The index is a measure of current AI activity in the
+      occupational mix, not a prediction of labor market outcomes.
+    </p>
+  </div>
+
+  <!-- ── Planned Features ── -->
+  <h2>Planned Features <span class="planned">Phase 2</span></h2>
+  <ul>
+    <li>
+      <strong>Commuting zone resolution.</strong> Aggregate county data to BEA/USDA
+      commuting zones (~709 areas), which better reflect actual labor market geography.
+      Will require building commuting zone TopoJSON boundaries from county polygons.
+    </li>
+    <li>
+      <strong>Augmentation vs. automation split.</strong> The Anthropic Economic Index
+      distinguishes task-level augmentation (AI assisting) from automation (AI replacing).
+      A second map layer showing automation-heavy vs. augmentation-heavy regions
+      would make the policy implications clearer.
+    </li>
+    <li>
+      <strong>Theoretical exposure toggle.</strong> Current map shows "observed" exposure
+      (where Claude is actually being used). A second layer using Eloundou et al. (2023)
+      theoretical β scores would show where AI <em>could</em> be deployed based on
+      capability alone — the gap between observed and theoretical is a measure of
+      latent risk.
+    </li>
+    <li>
+      <strong>Employment-weighted category scores.</strong> Current category scores use
+      unweighted occupation averages. Weighting by national employment within each
+      group (from BLS OES data) would give more accurate category scores.
+    </li>
+    <li>
+      <strong>PUMA-level microdata.</strong> ACS Public Use Microdata (PUMS) with
+      6-digit SOC codes would allow more precise matching to the Anthropic occupation
+      scores, at the cost of PUMA-level geography instead of county-level.
+    </li>
+  </ul>
+
+  <!-- ── Citation ── -->
+  <h2>Citation</h2>
+  <p>
+    If referencing this index, please cite the primary data sources:
+  </p>
+  <div class="source-block">
+    <div class="source-desc" style="font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.78rem; line-height: 1.8; color: #94a3b8;">
+      Anthropic. (2026). <em>Economic Index: Labor Market Impacts</em> [Data].
+      HuggingFace: Anthropic/EconomicIndex.<br/>
+      US Census Bureau. (2024). <em>American Community Survey 5-Year Estimates</em>,
+      Table C24010. <a href="https://data.census.gov" style="color: #60a5fa;">data.census.gov</a>.<br/>
+      AI Exposure Atlas shift-share construction. societal_impacts/src/pipeline/.
+    </div>
+  </div>
+</div>
+</body>
+</html>

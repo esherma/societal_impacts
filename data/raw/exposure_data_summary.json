@@ -1,0 +1,17 @@
+{
+  "job_exposure.csv": {
+    "rows": 756,
+    "columns": [
+      "occ_code",
+      "title",
+      "observed_exposure"
+    ]
+  },
+  "task_penetration.csv": {
+    "rows": 17998,
+    "columns": [
+      "task",
+      "penetration"
+    ]
+  }
+}
