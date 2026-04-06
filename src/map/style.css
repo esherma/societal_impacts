@@ -455,20 +455,22 @@ body {
 /* ── Legend ──────────────────────────────────── */
 #legend { flex-shrink: 0; }
 
-.legend-label-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 220px;
-  margin-bottom: 4px;
-}
-
 .legend-title {
   font-size: 0.7rem;
   font-weight: 600;
   color: #cbd5e1;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+  margin-bottom: 5px;
+}
+
+#legend-svg { display: block; }
+
+.legend-endpoints {
+  display: flex;
+  justify-content: space-between;
+  width: 220px;
+  margin-top: 3px;
 }
 
 .legend-endpoint {
@@ -476,8 +478,6 @@ body {
   color: #94a3b8;
   font-weight: 600;
 }
-
-#legend-svg { display: block; }
 
 .legend-sublabel {
   font-size: 0.62rem;

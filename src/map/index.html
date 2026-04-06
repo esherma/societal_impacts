@@ -30,10 +30,9 @@
       <div id="search-container">
         <input type="text" id="search-input"
                placeholder="Search county…"
-               list="county-datalist"
                autocomplete="off"
                spellcheck="false" />
-        <datalist id="county-datalist"></datalist>
+        <div id="search-results" class="hidden"></div>
       </div>
       <a href="methodology.html" class="method-link">Methodology &amp; Sources ↗</a>
     </div>
@@ -81,22 +80,29 @@
   <div id="bottom-bar">
     <div id="legend">
       <div class="legend-title">AI Exposure Index</div>
-      <div class="legend-bar-row">
+      <svg id="legend-svg" aria-hidden="true"></svg>
+      <div class="legend-endpoints">
         <span class="legend-endpoint" id="legend-lo"></span>
-        <svg id="legend-svg" aria-hidden="true"></svg>
         <span class="legend-endpoint" id="legend-hi"></span>
       </div>
-      <div class="legend-axis-labels">
-        <span>least exposed</span>
-        <span>most exposed</span>
-      </div>
-      <div class="legend-sublabel">Scale ×100 &nbsp;&middot;&nbsp; full county range</div>
+      <div class="legend-sublabel">Scale ×100 &nbsp;&middot;&nbsp; p5–p95 range</div>
     </div>
 
     <div id="stats-bar">
       <div class="stat"><span class="sval" id="stat-n"></span><span class="slabel">counties</span></div>
       <div class="stat"><span class="sval" id="stat-mean"></span><span class="slabel">mean index</span></div>
       <div class="stat"><span class="sval" id="stat-range"></span><span class="slabel">index range</span></div>
+    </div>
+
+    <div id="rankings">
+      <div class="rank-col">
+        <div class="rank-heading">Most Exposed</div>
+        <ul id="top-list"></ul>
+      </div>
+      <div class="rank-col">
+        <div class="rank-heading">Least Exposed</div>
+        <ul id="bottom-list"></ul>
+      </div>
     </div>
   </div>
 
