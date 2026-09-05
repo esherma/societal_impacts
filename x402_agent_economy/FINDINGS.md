@@ -1,8 +1,14 @@
 # Measuring the x402 agent payment economy on Base — Findings
 
-Data pulled 2026-09-05. Pipeline: `scripts/00`–`05`. Raw and processed data
+Data pulled 2026-09-05. Pipeline: `scripts/00`–`06`. Raw and processed data
 in `data/raw/` and `data/processed/`. Full data-access investigation in
 `notes/PHASE0_DATA_PATH.md`.
+
+**Update (same day, after initial pass)**: `scripts/06_pull_bazaar_registry.py`
+pulls Coinbase's own x402 Bazaar discovery registry — a live, unauthenticated,
+first-party API most of the findings below did not originally use. It changes
+the picture meaningfully; see "Phase 2 addendum" below before treating the
+original recipient/volume numbers as complete.
 
 ## TL;DR
 
@@ -184,6 +190,82 @@ our data is negligible, $0.01).
   tokenization platform, and Mogami) have names associated with token/agent
   launch ecosystems; we flag this as **unresolved**, not excluded, per the
   brief's instruction to label conservatively.
+
+## Phase 2 addendum — Coinbase's own Bazaar registry gives real names and much bigger numbers
+
+`scripts/06_pull_bazaar_registry.py` calls `api.cdp.coinbase.com/platform/v2/x402/discovery/resources`
+— a live, unauthenticated, first-party endpoint that lists every resource
+registered with the CDP facilitator's Bazaar extension, each with a real
+`payTo` address, price, and a `quality` block (`l30DaysTotalCalls`,
+`l30DaysUniquePayers`) computed by Coinbase's own facilitator accounting —
+not inferred by us. We pulled the full registry: **16,556 resources**, of
+which **16,101 are on Base mainnet**.
+
+**This is a fundamentally different, mostly non-overlapping slice of the
+ecosystem from Phases 1–4 above.** Only 7 of our 275 on-chain-derived
+recipient addresses also appear as Bazaar `payTo` addresses — the two
+methods are sampling largely different facilitator populations (our pipeline
+leans on Heurist/X402rs/Questflow/etc.; the Bazaar only covers CDP-facilitator
+merchants that opted into the discovery extension).
+
+**Named, recognizable companies do show up** — something the on-chain-only
+approach in Phases 1–4 could not produce (100% of those 275 recipients had
+zero on-chain name tags):
+
+- **Bitrefill** (`api.bitrefill.com`) — real gift-card/bill-pay company;
+  $27,000 implied 30-day volume from just 168 calls (enterprise-scale, not
+  micropayments).
+- **Chainlink** (`agents.chain.link`) — 52,422 calls in 30 days at $0.01
+  each; a metered micro-service, not a headline dollar figure, but by far
+  the highest call volume of any single identified brand.
+- **Apify** (`agi.apify.com`, `api.apify.com`) — real web-scraping/automation
+  platform.
+- **Arkham Intelligence** (`api.arkm.com`) and **Nansen** (`api.nansen.ai`)
+  — both real, known on-chain analytics companies.
+
+**We did not find Stripe or any major neocloud (Together, Fireworks,
+Replicate, RunPod, CoreWeave, Hyperbolic, Modal, etc.) as a first-party
+Bazaar-registered merchant.** The only "Stripe" hits are a third-party
+company-research API (`predictleads`) selling data *about* Stripe, not
+Stripe itself, and the one "Baseten" hit is a third-party proxy wrapping
+Baseten's API, not Baseten's own listing. This is consistent with (not
+proof of) the architectural reason given previously: Stripe's x402
+implementation mints a fresh, disposable receiving address per transaction,
+which structurally can't appear as a stable, repeated `payTo` in a registry
+like this one. Major neoclouds may simply not have opted into Coinbase's
+specific discovery index, even where they support x402 directly (Hyperbolic
+has a public x402 integration with no published address, per our own check).
+
+**Aggregate volume implied by this registry is bigger than what we found
+on-chain, and we should not take Coinbase's self-reported numbers as ground
+truth either.** Summing `price × l30DaysTotalCalls` across all 16,101 Base
+resources gives **$37,095** in implied 30-day volume ($10,095 excluding the
+single Bitrefill outlier) — both bigger than our entire on-chain figure of
+$6,195 accumulated across a much longer window. But we spot-checked one
+entity (Arkham) directly against real on-chain transfers to that `payTo`
+address and found the **on-chain rate implies substantially more than the
+399 calls/30-days Coinbase reports** — 50 confirmed `transferWithAuthorization`
+calls landed in under 2 days from a single payer alone. So the Bazaar's
+self-reported quality metrics likely *undercount* real usage too; neither
+source alone should be trusted as complete.
+
+**The clearest evidence yet for the core research question came from this
+spot-check, not from the original pipeline.** The heavy payer found while
+verifying Arkham's numbers (`0x27AbCDdd44c4959aC729D080703e677f13A3248c`)
+paid **29 distinct recipient addresses in its 50 most recent transactions**,
+including confirmed Bazaar entries for **Apify** and a data-feed company
+(`theaslangroupllc.com`, energy/stablecoin data APIs), alongside Arkham
+itself. This is a real, named, on-chain-verified example of a single agent
+wallet rotating across multiple identifiable commercial providers — exactly
+what Phase 3 was looking for, just found through the Bazaar cross-reference
+rather than the original facilitator-address pipeline.
+
+**What this addendum does not support**: we have not re-run Phases 3/4
+(payer graph, behavioral features) against Bazaar-identified recipients —
+`data/processed/bazaar_entities_ranked.csv` is a registry snapshot, not
+settlement-level data, so it can't feed the payer-feature pipeline directly
+without pulling each `payTo` address's own on-chain transfer history (as we
+did manually for Arkham). That's the natural next step, not yet done.
 
 ## Phase 3 — the rotation question
 
