@@ -265,7 +265,81 @@ rather than the original facilitator-address pipeline.
 `data/processed/bazaar_entities_ranked.csv` is a registry snapshot, not
 settlement-level data, so it can't feed the payer-feature pipeline directly
 without pulling each `payTo` address's own on-chain transfer history (as we
-did manually for Arkham). That's the natural next step, not yet done.
+did manually for Arkham). That's what the next section does, at scale.
+
+## Phase 3 addendum — the top 50 Bazaar entities, on-chain, and a critical caveat
+
+`scripts/07_analyze_top_bazaar_recipients.py` (+ `07b_retry_failed.py`) pulls
+real on-chain USDC transfer history directly for the top 50 Bazaar `payTo`
+addresses by implied volume — the same "query by recipient address directly"
+method that surfaced the Arkham/Apify example, run as a proper batch instead
+of a one-off. Output: `data/processed/top50_bazaar_onchain.csv` (per-entity
+real stats vs. Coinbase's self-reported numbers) and
+`data/processed/top50_bazaar_shared_payers.csv` (payers seen at >1 entity).
+
+**Self-reported numbers are unreliable in both directions.** Across the 43 of
+50 entities we could get real data for (7 remained unresolvable even after a
+patient retry pass — see below), real on-chain 30-day volume summed to
+**$127,705** against Coinbase's self-reported **$35,628** for the same set —
+3.6x higher. But the direction isn't consistent: Bitrefill's real volume
+($74,598–$141,915 depending on the pull, both partial) is 3–5x its
+self-reported figure; laso.finance's real $44,703 is ~60x its self-reported
+$751; conversely mudko.com's real volume ($0.08–$0.09) is a small fraction of
+its self-reported $744.90. **Neither the Bazaar's quality metric nor a
+single on-chain pull should be treated as ground truth on its own** — use
+both, and expect real activity to differ from self-reported by an order of
+magnitude in either direction.
+
+**Some of the highest-volume entities are structurally invisible to a free
+API.** `agents.chain.link` (Chainlink, 52,422 self-reported calls/30d),
+`enrichx402.com` (63,003 calls/30d), `api.onesource.io` (16,106 calls/30d),
+and `win.oneshotagent.com` (14,481 calls/30d) all failed to return *any*
+data even after 5 retries at a 30-second timeout — their underlying
+transfer history is apparently too large for Blockscout's free tier to
+serve a plain address query in reasonable time. This means our verified
+numbers are systematically biased toward small-and-medium volume entities;
+the very largest are excluded, not measured-and-found-small.
+
+**The rotation number is bigger than Phase 3's, and less trustworthy.**
+63 payer wallets paid more than one of the top 50 named entities directly
+(vs. 123 of 1,170, or 10.5%, in the original facilitator-based pipeline) —
+one wallet hit **17 distinct entities**. But before treating this as
+stronger evidence of genuine multi-vendor commerce, we checked the timing of
+the top wallet (`0xc9c7b38c0942914fc8ea12063bc92dcd3b581670`) against its
+cached transaction history, and it is not what organic shopping-around looks
+like:
+
+```
+2026-09-04 09:24, 09:25          -> alphavantage.x402.paywithlocus.com
+2026-09-04 12:08, 12:08, 12:08   -> api.nansen.ai, lonestaroracle.xyz, cybercentry.co.uk
+2026-09-04 19:00, 19:01, 19:02   -> vape-x402, theaslangroupllc.com, myceliasignal.com
+2026-09-05 01:00, 01:01 (x5)     -> stocktrends.com, whaletape.xyz
+2026-09-05 12:08, 12:09, 12:10   -> actionlayer.io, linkedpanda.com, scvd.store
+2026-09-05 19:00, 19:00, 19:01   -> scvd.store, theaslangroupllc.com (x2)
+...continuing on a ~6-hour cadence through 2026-09-07
+```
+
+This is a **scheduled job firing roughly every 6 hours**, each burst hitting
+a rotating handful of small, often multi-subdomain "families" from a single
+apparent operator (`theaslangroupllc.com`'s dozens of "-pulse" products,
+`lonestaroracle.xyz`'s dozens of thematic subdomains, `paywithlocus.com`'s
+per-API subdomains) rather than genuinely distinct competing businesses.
+The same cluster of long-tail, templated-looking domains recurs across many
+of the 63 "rotating" wallets, which is much more consistent with several
+instances of a shared monitoring/testing script (an SDK example, an uptime
+checker, or something re-validating the Bazaar's own quality metrics) than
+with independent agents each discovering and choosing between vendors.
+
+**This does not overturn the original 10.5% finding — it's a different,
+messier population that needs the same scrutiny before being cited.** We
+have not run this timing check across all 63 wallets, nor re-checked
+whether the original Phase 3 payer set (the 123 of 1,170) shows the same
+6-hour-cadence signature or looks more organic — that is the necessary next
+step before either number is presented as "real cross-provider commerce" in
+anything meant for policy or business use. The lesson for the wider project:
+**"payer hit multiple recipients" is necessary but not sufficient evidence
+of substitution/shopping behavior — timing structure has to be checked
+before the count means what it looks like it means.**
 
 ## Phase 3 — the rotation question
 

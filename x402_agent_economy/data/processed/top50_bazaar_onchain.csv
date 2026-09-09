@@ -1,0 +1,51 @@
+payTo,domains,bazaar_l30d_calls,bazaar_l30d_implied_usd,onchain_l30d_transfer_count,onchain_l30d_usd_volume,onchain_l30d_distinct_payers,onchain_incomplete_pull,onchain_methods
+0x480cd46e6fade651a0437deadda53d5c8e7d846a,api.bitrefill.com,168,27000.25,698,74598.39,262,True,"{'0xa9059cbb': 607, '0x1fad948c': 1, '0xe3ee160e': 90}"
+0x325bdf6f7efab24a2210c48c1b64cab2eae1d430,enrichx402.com;stable-enrich-git-fix-stableenrich-exa-api-schema-merit-systems.vercel.app;stable-enrich-git-shafu-stableenrich-peopl-a13b22-merit-systems.vercel.app;stableenrich.dev,63003,1659.09,0,0,0,True,{}
+0x942bd3e3073543c674efc0c378d5bce20f9120c1,api.arkm.com,399,760.4,250,639.6,20,True,"{'0xe3ee160e': 248, '0xcf092995': 2}"
+0x3291e96b3bff7ed56e3ca8364273c5b4654b2b37,laso.finance;x402endpoint-utiwoa54hq-uc.a.run.app,171,751.3,417,44703.02,73,False,"{'0xa9059cbb': 160, '0xe3ee160e': 142, '0x6a761202': 55, '0xdeff4b24': 1, '0xca350aa6': 20, '0xcf092995': 8, '0x765e827f': 1, 'transferWithAuthorization': 27, '0x57ecfd28': 3}"
+0x53598173ce7c26025bab0520d9e9d0c28fbcf7de,mudko.com;router.mudko.com,17,744.9,22,0.08,10,False,"{'0xe3ee160e': 19, '0xcf092995': 3}"
+0x3873d15cf3209c32aaa8d9aa542164e658567129,api.govparse.io,87,510.02,50,2.83,4,True,{'0xe3ee160e': 50}
+0x158e90dd58fbe897ed8c244f472febee37283d00,agents.chain.link,52422,395.55,0,0,0,True,{}
+0x4aabe17c239ef71c3a26ba7c2b3e0aebbfc1df26,agi.apify.com;api.apify.com,352,352.0,342,433.18,39,False,"{'settle': 31, '0xe3ee160e': 212, '0xcf092995': 20, '0xff11e7b4': 58, 'transferWithAuthorization': 21}"
+0x50ab2018c06c6e4eaa9ba52057eb55ed284912fc,airdroppulse.theaslangroupllc.com;alphapulse.theaslangroupllc.com;api.vetpulse.theaslangroupllc.com;arbipulse.theaslangroupllc.com;autopulse.theaslangroupllc.com;biopulse.theaslangroupllc.com;buildpul,1492,304.42,742,267.02,49,True,"{'0xe3ee160e': 614, '0xa9059cbb': 11, 'transferWithAuthorization': 89, '0xcf092995': 27, '0x23b872dd': 1}"
+0x2d16a243ba9facc6ac85519d5efad2149dc4c6c3,aeml-x402.zeabur.app;api.truthbear.co,1950,299.39,723,241.69,10,True,{}
+0x66d7c2f952362bfb24fd7f02a9bec9c754ea83bc,api.strale.io,4169,255.55,100,5.54,3,True,{}
+0x213c8d7434e2ae7aa1c392767c5120778d413215,cheaptokens.ai,249,249.0,323,1144.16,25,False,{}
+0xb04994fbca786ae03ce3354fed2435c2e04020ec,api.m2mcent.com,1020,203.24,685,119.36,6,True,{}
+0xdd257723b86b4947483905cdacbbbc70facf2ec0,stable-travel-git-migrate-stabletravel-router-140-merit-systems.vercel.app;stabletravel.dev,6646,160.69,350,7.52,11,True,"{'0xe3ee160e': 349, 'transferWithAuthorization': 1}"
+0x05fdaf598d420e7caf649928c1893764ddf8a7d6,molecular-packs-metadata-docs.trycloudflare.com,1110,133.81,695,110.13,40,True,{}
+0xdd350976b8cffc65938c0464d39a2c78be079bd0,scvd.store,47,105.71,177,1055.39,14,False,{}
+0x93053f1e7a5efeda532fe69cbbe43cbec3a0f13f,api.nansen.ai,4157,88.48,750,1205.51,31,True,{}
+0x9aaceabad8e1858b72fcea1665381b168841b2fa,google-trends.use.x402atlas.com,1981,86.47,100,4.56,4,True,{}
+0x26572ff23c6c52bfb1a69cb0c9114a8be443b422,api.runx.ai;api.sourcey.com;ausca.com;gofrantic.com,28,86.0,71,569.5,2,False,{}
+0x4df66b6c140778fe0717880a7c6dde5ea53acdea,api.kadec0.xyz,2591,83.43,749,24.88,34,True,{}
+0x36038e1d712c5e39f35952164ec58ec2b96caee7,kronossignals.com,3651,82.42,50,1.43,5,True,{'0xe3ee160e': 50}
+0x76a672eee56d29d475b0715cc03b8c99d70ec8a2,api.sirenic.eu,1254,77.83,36,3.24,6,True,"{'0xe3ee160e': 32, '0xa9059cbb': 4}"
+0x4466d4a84b7c49a6a094ec6eef4a0712d6dd125e,api.cn402.com;api.x402node.dev,3703,77.33,200,2.29,28,True,{'0xe3ee160e': 200}
+0xabf4fabd7c416fb67202e5f9002389fc75e2a9d0,agent402.tools,5041,73.26,50,0.19,8,True,{}
+0x876be690234aad9c7ae8bb02c6900f5844acaf68,www.productclank.com,3,72.0,6,103.1,4,False,{}
+0x9fb365e4e9385e2a39febad70368267e6f571d9a,win.oneshotagent.com,14481,69.07,0,0,0,True,{}
+0x52e29e0d2aa49bfbfc548c0a9f2196f4aa51f3ea,api.onesource.io,16106,67.68,0,0,0,True,{}
+0xe740d5701749d262da5e4fcb9f814c5b6d91cf46,api.linkedpanda.com,293,65.12,603,79.22,47,False,{}
+0x9dba414637c611a16bea6f0796bfcbcbdc410df8,api.aidress.ai;twit-api-production-de12.up.railway.app;x402.twit.sh,9512,57.95,0,0,0,True,{}
+0xfee13309251b632317ea2d475d6aba7e7e0219e6,centry.cybercentry.co.uk,57,57.0,131,141.2,11,False,{}
+0xe9030014f5dae217d0a152f02a043567b16c1abf,blockrun-web-vbsbhh7lea-uc.a.run.app;blockrun.ai,6122,54.94,0,0,0,True,{}
+0x6d91adf2c545047cbbc5b37a5f457cce081b48d3,api.aitrailblazer.net,199,53.79,173,50.39,5,False,{}
+0x1cdffd2ff63d2ccff383050a87725ee79d210425,www.quicknode.com,1,49.0,1,49.0,1,False,{}
+0xaeeb8eabdc05532a26123045f99d208eb1cc00ab,api.stocktrends.com,196,42.95,266,53.13,14,False,{}
+0xbf22b6ddb5a08c823856a779f1004eea60c5ab92,dripstack.xyz,42,42.0,44,13.62,12,False,{}
+0x6d6e695b09861467c7d462f5aaf31cf3540b9192,api.aidress.ai;api.exa.ai,6060,41.02,200,1.38,6,True,{}
+0x52ab53912d37759b2ad364f22dd06b16714b6c06,aero.lonestaroracle.xyz;agri.lonestaroracle.xyz;analyst.lonestaroracle.xyz;api.aidress.ai;asia.lonestaroracle.xyz;bundle.lonestaroracle.xyz;capitol.lonestaroracle.xyz;cascade.lonestaroracle.xyz;chains,566,36.5,148,18.06,18,True,{}
+0x6cab485fc28ec70d3845113b704d4824e4d2b24f,x402.miroshark.xyz,35,35.0,23,1818.63,8,False,{}
+0xd593832ce9c2b13b192ba50b55dd9af44e96700d,api.myceliasignal.com,1012,32.24,450,11.56,15,True,{}
+0x8ecbd65228930060363c70854da7d37d57ffc358,vps.phoneagent.xyz,6,32.02,11,65.03,8,False,{}
+0x5e709929a4ab69ec3a8811d03417869059bc4eb9,api.craigmbrown.com,171,31.52,150,51.07,47,True,"{'0xe3ee160e': 122, '0xa9059cbb': 27, '0xcf092995': 1}"
+0x8aab9a6d28e9aba2a15a613c90f24f352f0cce15,vape-x402.vapex402.workers.dev,1337,30.49,748,15.56,16,True,{}
+0x0e84ddedaae6a779c462c22a59f301ec31b6b808,api.aidress.ai;x402.ottoai.services,6713,29.32,0,0,0,True,{}
+0x7c655d3d3944bd27994dd81a036c3afb19806c40,vaaya.ai,803,29.22,142,4.65,17,True,{}
+0x3c5cbe28eca3b96023c45d3f877da834f1c7d5fa,alphavantage.x402.paywithlocus.com;anthropic.x402.stage.paywithlocus.com;apollo.x402.paywithlocus.com;billboard.x402.paywithlocus.com;builtwith.x402.paywithlocus.com;clado.x402.paywithlocus.com;deepgr,1005,29.19,750,6.09,9,True,{}
+0x87f929c4ecac1556a507ce6b92ef95c52b28dba4,launchcheck-x402.fly.dev,26,29.0,26,44.0,1,False,{}
+0x25a8b697da5c0baf698fd6bd9701b5e825214145,whaletape.xyz,253,27.0,47,7.39,7,True,"{'0xe3ee160e': 46, '0xcef6d209': 1}"
+0x8755a2faf86c9e3758450d703f8bbcada343c62e,api.molty.cash,26,26.0,40,10.74,4,False,{}
+0x2a90d68071b16ba7ab236709d4e37a54f56fea3b,agents.actionlayer.io;deepai.pay.zeroclick.io,104,24.23,74,19.37,11,True,{'0xe3ee160e': 74}
+0x973a31858f4d2125f48c880542da11a2796f12d6,402.com.tr,327,23.6,49,2.06,7,True,{'0xe3ee160e': 49}

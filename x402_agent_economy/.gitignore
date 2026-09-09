@@ -1,4 +1,5 @@
 data/raw/blockscout_pages/
 data/raw/bazaar_pages/
+data/raw/top50_pages/
 scripts/__pycache__/
 *.pyc
