@@ -7,7 +7,7 @@
 (async function () {
   // ── 1. Load data ──────────────────────────────────────────────────
   const [topoData, atlas, rankings] = await Promise.all([
-    d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json"),
+    d3.json("data/counties-2023.json"),
     d3.json("data/atlas.json"),
     d3.json("data/rankings.json"),
   ]);
