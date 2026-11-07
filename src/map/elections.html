@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Exposure &amp; the 2026 Midterms — King County Prototype</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="elections.css" />
+</head>
+<body>
+  <div id="header">
+    <div id="header-left">
+      <h1>AI Exposure &amp; the 2026 Midterms <span class="badge">Prototype · unofficial results</span></h1>
+      <p class="subtitle">
+        Did places with more AI-exposed workforces vote differently in 2026?
+        Precinct results for King County, WA, compared with 2024, alongside
+        tract-level AI exposure. <span id="snapshot-note"></span>
+      </p>
+    </div>
+    <div id="header-right">
+      <div id="layer-toggle" class="seg" role="group" aria-label="Map layer">
+        <button class="seg-btn active" data-layer="e">AI exposure</button>
+        <button class="seg-btn" data-layer="d2p26">2026 House D share</button>
+        <button class="seg-btn" data-layer="sw">Swing vs 2024</button>
+        <button class="seg-btn" data-layer="ba">BA+ share</button>
+      </div>
+      <div id="unit-toggle" class="seg" role="group" aria-label="Geographic unit">
+        <button class="seg-btn active" data-unit="precincts">Precincts</button>
+        <button class="seg-btn" data-unit="tracts">Tracts</button>
+      </div>
+      <a href="index.html" class="method-link">← County atlas</a>
+    </div>
+  </div>
+
+  <div id="main">
+    <div id="map-container">
+      <svg id="map"></svg>
+      <div id="zoom-controls">
+        <button id="zoom-in"    title="Zoom in">+</button>
+        <button id="zoom-reset" title="Reset view">⊙</button>
+        <button id="zoom-out"   title="Zoom out">−</button>
+      </div>
+      <div id="tooltip" class="hidden"></div>
+    </div>
+
+    <aside id="analysis-panel" aria-label="Analysis">
+      <section>
+        <h2>The question</h2>
+        <p class="lede">
+          Conditional on 2024 vote, education, income and congressional district,
+          did higher-exposure tracts swing differently from 2024 President to 2026 House?
+        </p>
+        <div id="headline"></div>
+      </section>
+
+      <section>
+        <div class="chart-head">
+          <h3>Swing by AI exposure <span class="muted">(20 equal-count bins of tracts)</span></h3>
+          <div id="bin-toggle" class="seg small" role="group" aria-label="Scatter view">
+            <button class="seg-btn active" data-bins="raw">Raw</button>
+            <button class="seg-btn" data-bins="residualized">Controls removed</button>
+          </div>
+        </div>
+        <svg id="binscatter" role="img" aria-label="Binned scatter of swing against AI exposure"></svg>
+        <div id="bin-tooltip" class="hidden"></div>
+        <p class="note" id="bin-note"></p>
+      </section>
+
+      <section>
+        <h3>Effect of +1 SD exposure <span class="muted">(tract-level WLS, HC1 SEs)</span></h3>
+        <table id="model-table">
+          <thead><tr><th>Specification</th><th>Swing (pp)</th><th>Turnout ratio</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <p class="note">
+          Weighted by 2026 ballots counted. 1 SD of exposure ≈ <span id="sd-note"></span> index points.
+          Turnout ratio = (2026 ballots / registered) ÷ (2024 ballots / registered), election-night counts in both years.
+        </p>
+      </section>
+
+      <section class="caveats">
+        <h3>Why this can't answer the question yet</h3>
+        <ul>
+          <li><b>Unofficial, partial count.</b> The 2026 election-night count covers roughly half of expected
+            ballots, compared with about 68% for the 2024 snapshot it's compared against. Late WA ballots
+            lean younger and more Democratic, so swing estimates will move.</li>
+          <li><b>Exposure ≈ education.</b> Tract exposure correlates <span id="corr-note"></span> with BA+ share.
+            The sign flips once education is controlled, which is exactly what confounding looks like. A noisy
+            education control leaves residual confounding that the exposure term can absorb.</li>
+          <li><b>Ecological inference.</b> These are places, not voters. A tract full of exposed
+            workers that swung doesn't mean the exposed workers swung.</li>
+          <li><b>Measured ≠ perceived.</b> The index measures occupational exposure, not whether voters
+            <i>believe</i> AI threatens their jobs. That's a survey question; see the 2028 plan in
+            <code>Claude_Proposals/impact_atlas/04_election_overlay.md</code>.</li>
+          <li><b>One county.</b> The county is about 78% Democratic. Its range of exposure and partisanship isn't representative.</li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+
+  <div id="bottom-bar">
+    <div id="legend">
+      <div class="legend-title" id="legend-title"></div>
+      <svg id="legend-svg" aria-hidden="true"></svg>
+      <div class="legend-endpoints">
+        <span class="legend-endpoint" id="legend-lo"></span>
+        <span class="legend-endpoint" id="legend-mid"></span>
+        <span class="legend-endpoint" id="legend-hi"></span>
+      </div>
+      <div class="legend-sublabel" id="legend-sub"></div>
+    </div>
+    <div id="stats-bar">
+      <div class="stat"><span class="sval" id="stat-swing"></span><span class="slabel">county swing</span></div>
+      <div class="stat"><span class="sval" id="stat-d26"></span><span class="slabel">2026 House D</span></div>
+      <div class="stat"><span class="sval" id="stat-d24"></span><span class="slabel">2024 Pres D</span></div>
+      <div class="stat"><span class="sval" id="stat-bal"></span><span class="slabel">2026 ballots counted</span></div>
+    </div>
+    <div class="sources">
+      Results: King County Elections (unofficial). Exposure: Anthropic Economic Index × ACS 2020–24 C24010.
+      Boundaries: King County GIS, Census TIGER 2024.
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0"></script>
+  <script src="elections.js"></script>
+</body>
+</html>

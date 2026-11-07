@@ -1,0 +1,93 @@
+/* Elections overlay page — extends style.css */
+
+.badge {
+  display: inline-block; margin-left: 8px; padding: 2px 7px; border-radius: 4px;
+  font-size: 0.62rem; font-weight: 600; letter-spacing: 0.02em; vertical-align: middle;
+  background: #3b2f12; color: #fbbf24; border: 1px solid #5c4813;
+}
+
+#header-right { flex-wrap: wrap; justify-content: flex-end; }
+
+.seg { display: flex; border: 1px solid #283050; border-radius: 6px; overflow: hidden; }
+.seg-btn {
+  background: transparent; color: #94a3b8; border: none; cursor: pointer;
+  padding: 6px 10px; font-size: 0.72rem; font-family: inherit;
+}
+.seg-btn + .seg-btn { border-left: 1px solid #283050; }
+.seg-btn:hover { color: #e2e8f0; background: #1e2d4a; }
+.seg-btn.active { background: #2563eb; color: #fff; }
+.seg.small .seg-btn { padding: 3px 8px; font-size: 0.66rem; }
+
+#main { display: grid; grid-template-columns: 1fr 400px; }
+
+.unit { stroke: #fff; stroke-width: 0.15; cursor: pointer; }
+.unit:hover { stroke: #0f172a; stroke-width: 1.2; }
+.unit.nodata { fill: #d0d8e4; }
+
+#analysis-panel {
+  background: #111827; border-left: 1px solid #1e2d4a; overflow-y: auto;
+  padding: 16px 18px 24px; font-size: 0.8rem; line-height: 1.5; color: #cbd5e1;
+}
+#analysis-panel section + section { margin-top: 18px; padding-top: 14px; border-top: 1px solid #1e2d4a; }
+#analysis-panel h2 { font-size: 0.95rem; color: #f1f5f9; margin-bottom: 4px; }
+#analysis-panel h3 { font-size: 0.78rem; color: #e2e8f0; font-weight: 600; margin-bottom: 6px; }
+.muted { color: #64748b; font-weight: 400; }
+.lede { color: #94a3b8; }
+.note { margin-top: 6px; font-size: 0.7rem; color: #64748b; }
+
+#headline {
+  margin-top: 10px; padding: 10px 12px; background: #0b1220; border: 1px solid #1e2d4a;
+  border-radius: 6px;
+}
+#headline .big { font-size: 1.5rem; font-weight: 700; color: #f1f5f9; letter-spacing: -0.02em; }
+#headline .sub { font-size: 0.72rem; color: #94a3b8; }
+
+.chart-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+#binscatter { display: block; width: 100%; height: 220px; margin-top: 6px; }
+#binscatter .axis text { fill: #94a3b8; font-size: 10px; }
+#binscatter .axis path, #binscatter .axis line { stroke: #334155; }
+#binscatter .grid line { stroke: #1e293b; }
+#binscatter .zero { stroke: #475569; stroke-dasharray: 3 3; }
+#binscatter .fit { stroke: #93c5fd; stroke-width: 2; fill: none; }
+#binscatter .pt { fill: #3b82f6; stroke: #111827; stroke-width: 2; }
+#binscatter .hit { fill: transparent; cursor: default; }
+#binscatter .axis-label { fill: #64748b; font-size: 10px; }
+
+#bin-tooltip, #tooltip.el {
+  position: fixed; pointer-events: none; z-index: 500;
+  background: #0b1220; border: 1px solid #283050; border-radius: 6px;
+  padding: 8px 10px; font-size: 0.72rem; color: #cbd5e1; max-width: 260px;
+}
+#bin-tooltip.hidden { display: none; }
+
+#model-table { width: 100%; border-collapse: collapse; font-size: 0.74rem; font-variant-numeric: tabular-nums; }
+#model-table th { text-align: left; color: #64748b; font-weight: 500; padding: 4px 4px; border-bottom: 1px solid #1e2d4a; }
+#model-table td { padding: 5px 4px; border-bottom: 1px solid #172033; }
+#model-table td:not(:first-child), #model-table th:not(:first-child) { text-align: right; }
+#model-table .se { color: #64748b; font-size: 0.68rem; }
+
+.caveats ul { padding-left: 16px; }
+.caveats li { margin-bottom: 6px; color: #94a3b8; font-size: 0.74rem; }
+.caveats b { color: #cbd5e1; }
+.caveats code { font-size: 0.66rem; color: #93c5fd; }
+
+.tt-row { display: flex; justify-content: space-between; gap: 12px; }
+.tt-row span:last-child { color: #f1f5f9; font-variant-numeric: tabular-nums; }
+
+.sources { font-size: 0.66rem; color: #64748b; max-width: 360px; line-height: 1.4; }
+
+@media (max-width: 900px) {
+  body { overflow: auto; height: auto; }
+  #main { grid-template-columns: 1fr; }
+  #map-container { height: 70vh; }
+  #analysis-panel { border-left: none; border-top: 1px solid #1e2d4a; }
+  body { overflow-x: hidden; }
+  #header { flex-direction: column; padding: 12px 16px; gap: 10px; }
+  #header-left, #header-right { width: 100%; min-width: 0; flex-shrink: 1; }
+  #header-right { justify-content: flex-start; gap: 8px; }
+  .seg { flex-wrap: wrap; max-width: 100%; }
+  .badge { margin-left: 0; }
+  #bottom-bar { flex-wrap: wrap; gap: 12px; }
+  #stats-bar { flex-wrap: wrap; gap: 12px 18px; flex-shrink: 1; min-width: 0; width: 100%; }
+  #stats-bar .stat { flex: 1 1 40%; }
+}
