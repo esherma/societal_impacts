@@ -1,139 +1,56 @@
-# Election Overlay: Did AI Exposure Shape Voting in 2026 (and Will It in 2028)?
+# Election Overlay (2026 Midterms): Tried and Shelved
 
-*Status: Prototype shipped (King County, WA, unofficial election-night results). Nov 7, 2026.*
+*Nov 7, 2026. Unofficial election-night results.*
 
-## The question
+**Question.** Did places with more AI-exposed workforces vote differently in the 2026 midterms?
 
-> Were there differential voting patterns based on (perceived) AI job-disruption potential?
+## 1. What we did
 
-There are two different questions inside this one:
+- **Geography.** King County, WA was the only place with precinct CSVs for both 2024 and 2026
+  plus boundary files on election night. No national precinct file exists yet.
+- **Exposure.** Built a **national census-tract** version of the Bartik index (85,382 tracts)
+  from ACS 2020–24 C24010, with BA+ share and median income as controls. This part is kept:
+  `src/pipeline/06_tract_exposure.py` → `data/processed/tract_exposure.parquet`.
+- **Outcome.** Swing = 2026 US House D two-party share − 2024 Harris two-party share. Both years
+  use the election-night count. 2024 House can't be the baseline because CD-9 was D-vs-D.
+- **Method.** Area-weighted crosswalks between precincts and tracts. Weighted least squares on
+  about 492 tracts (the unit where exposure is measured), with HC1 standard errors.
 
-1. **Measured exposure → aggregate vote** (answerable now, ecologically): did places whose
-   workforces are more AI-exposed swing differently, *conditional on* the things that already
-   drive swing?
-2. **Perceived threat → individual vote** (needs survey data): did voters who *believe* AI
-   threatens their job vote differently? This is the real question. Precinct data can't
-   answer it.
-
-The prototype addresses (1) and lays groundwork for (2).
-
-## What was built
-
-| Piece | File |
+| Swing toward D per +1 SD of exposure | Estimate (SE) |
 |---|---|
-| National **census-tract** exposure index (85,382 tracts), same Bartik construction as the county map, plus BA+ share and median income as controls | `src/pipeline/06_tract_exposure.py` → `data/processed/tract_exposure.parquet` |
-| King County precinct results (2026 + 2024) and precinct and tract boundaries | `src/pipeline/07_download_elections.py` |
-| Area-weighted crosswalks, tract-level regressions, map export | `src/pipeline/08_election_overlay.py` → `src/map/data/elections/king_2026.json` |
-| Map page: precinct or tract units; layers for exposure, 2026 D share, swing, BA+; binned scatter; model table | `src/map/elections.html` |
+| No controls | −2.00 pp (0.18) |
+| + BA+ share | +1.24 pp (0.19) |
+| + log income, 2024 D share, congressional district | +0.69 pp (0.18) |
 
-Tract data comes from the ACS **table-based Summary File bulk downloads**, not the Census API.
-As of Nov 2026 the API refuses requests that lack a key, and the bulk files include every tract.
+## 2. The visualization
 
-### Design choices
+![Swing by tract, King County, with binned scatter of swing against AI exposure](img/04_election_overlay.png)
 
-- **Why King County.** It posts machine-readable precinct CSVs on election night. WA votes
-  entirely by mail, so a large share of ballots is counted early. Boundaries for every year are
-  on ArcGIS REST. And there is a wide within-county exposure range (Eastside tech vs.
-  south-county logistics).
-- **Outcome.** swing = D two-party share in the 2026 US House race minus D two-party share for
-  2024 President. 2024 House can't serve as the baseline because CD-9 was D-vs-D in 2024.
-  Congressional-district fixed effects absorb candidate effects.
-- **Like-for-like snapshots.** The 2026 election-night count is compared with the 2024
-  election-night count. Late WA ballots lean young and Democratic. Even so, the 2026 snapshot
-  is about 50% of expected ballots versus about 68% for 2024, so the comparison isn't fully
-  matched.
-- **Inference at the tract level** (n ≈ 492). Exposure is only measured at the tract.
-  Precinct-level regressions would count interpolated copies of one tract value as independent
-  observations. Precincts are for display only.
+The interactive version (precinct or tract units, four layers, raw vs. controlled scatter) was
+**not merged**. It lives at commit `065b319` on branch `claude/adoring-allen-5w039k`, together
+with the download and analysis scripts (`07_download_elections.py`, `08_election_overlay.py`).
+To view it, check out that commit, run `cd src/map && python -m http.server`, and open
+`elections.html`.
 
-## First results (election-night, unofficial — will move)
+## 3. Why this isn't interesting (yet)
 
-Effect on swing of +1 SD of tract exposure (1 SD ≈ 2.7 index points), tract-level WLS weighted
-by ballots, HC1 SEs:
+- **Exposure ≈ education.** Across tracts, exposure correlates **r = 0.78** with BA+ share, and
+  BA+ share alone correlates r = −0.79 with swing. The sign flip in the table is confounding,
+  not an AI effect. With collinearity that high and a noisy education control, even the +0.69
+  can't be read causally.
+- **The wave's geography drowns everything.** The national environment was about D+12. A uniform
+  wave would cancel out of a cross-place comparison, but this one wasn't uniform. Most likely
+  (untested), places that moved toward Trump in 2024 (less educated, working-class suburbs)
+  snapped back hardest. In King
+  County, south-county tracts swung several points toward D and parts of Seattle swung slightly
+  toward R. That pattern runs opposite to exposure.
+- **Wrong test bed.** One deep-blue county (2026 House D 78%, countywide swing +1.3 pp) offers
+  little variation, and its exposure and education are especially tightly linked.
+- **Wrong level.** These are places, not people. "Perceived AI threat" is a survey question. The
+  2026 voter polls asked about AI in general and about data centers, not about AI and the
+  respondent's own job.
 
-| Specification | Swing toward D | Turnout ratio 26/24 |
-|---|---|---|
-| No controls | **−2.00 pp** (0.18) | +0.009 (0.003) |
-| + BA+ share | +1.24 pp (0.19) | −0.017 (0.004) |
-| + log income, 2024 D share, CD FE | **+0.69 pp** (0.18) | −0.024 (0.004) |
-
-Countywide: 2026 House D 78.3% vs 2024 Harris 77.0% (+1.3 pp), with 535,712 ballots counted
-on election night.
-
-**How to read this.** Raw, higher-exposure tracts swung *less* toward Democrats. Exposure
-correlates **r = 0.78 with BA+ share**, though, and education is the dominant swing predictor
-(r = −0.79 with swing). Once education is controlled the sign flips. That pattern is what
-confounding looks like. It is not an AI effect. With r = 0.78 and a noisy ACS education measure,
-some residual confounding is still expected, and the exposure coefficient can absorb it. The
-+0.7 pp is not a causal estimate and shouldn't be reported as one.
-
-## Why precinct data can't settle this (now or in 2028)
-
-1. **Collinearity with education.** In most metros, occupational AI exposure and college
-   education are close to the same variable. Separating them needs either within-education
-   variation (e.g. call-center and back-office towns: high exposure, low BA+) or individual data.
-2. **Ecological inference.** A precinct where exposed workers live and which swung tells you
-   nothing about whether the exposed workers swung.
-3. **Measured ≠ perceived.** The index measures where Claude is *used* for an occupation's tasks.
-   Perceived threat may track news exposure, age, or partisanship more than it tracks occupation.
-4. **Midterm composition.** Midterm electorates skew toward older, more educated voters, so
-   differential turnout gets mixed into the swing measure.
-
-## Did 2026 polls already ask about AI?
-
-Partly. Our reading of the published toplines (verify against the primary releases before
-citing):
-
-- The **Fox News Voter Poll** (SSRS, ~80k voters, Oct 19–Nov 3) appears to include AI items on a
-  half-sample: importance of "AI and data centers" to the congressional vote, whether AI will do
-  more to help or hurt society, local data-center construction, and which party better handles
-  AI. *Toplines were read from a model summary of a truncated page and are not verified.*
-- **CBS/YouGov exit poll:** prose only. "More voters see AI as doing more to harm society than to
-  help it." Majorities in Senate battlegrounds oppose local data centers.
-- **AP Voter Poll:** "neither party" was the plurality answer on handling AI. No AI-and-jobs item
-  was found.
-
-**Gap.** None of these items asks about AI and *the respondent's own job*. What they measure is
-data-center siting and general AI sentiment. No state- or county-level breakdown was published.
-
-## Plan toward 2028
-
-**Before final results (late Nov 2026)**
-- [ ] Re-run once King County posts its mid-election and final precinct files. Update `RESULTS`
-      in `07_download_elections.py`. Switch both years to `final`.
-- [ ] Add 2–4 more counties with fast precinct CSVs and different exposure-by-education profiles.
-      Candidates: Ada County ID (CSV is up), Oklahoma (statewide precinct export), Hamilton County
-      OH. Ideally include a call-center or back-office county where exposure is high and BA+ is low.
-- [ ] Robustness: theoretical (Eloundou β) exposure; the new Anthropic **robot-exposure** index
-      (Sept 2026) as a placebo or contrast, since physical-automation exposure has a different
-      geography; population-weighted interpolation using 2020 block counts instead of area weights.
-
-**2027**
-- [ ] National precinct file: when VEST/Redistricting Data Hub release 2026 precinct results
-      with boundaries, run nationally with state FE.
-- [ ] Individual-level: when **AP Voter Poll / Fox Voter Poll microdata** reach Roper or ICPSR,
-      link respondents' county or ZIP to tract or county exposure. With **CES 2026**, link each
-      respondent's *reported occupation* to the occupation-level exposure score. That is a far
-      better test than geography, because it measures the voter's own exposure.
-- [ ] Pitch a team module for **CES 2028** (proposals typically due ~early 2028):
-      *"How likely is it that AI will eliminate or substantially change your job in the next
-      5 years?"* plus occupation. That makes "perceived" measurable and lets us compare
-      perceived and measured exposure directly.
-- [ ] Lobby exit-poll consortia (AP, NEP/Edison, Fox/SSRS) to add an own-job AI item for 2028,
-      reported by state.
-
-**Identification ideas worth exploring**
-- Within-education comparisons: stratify by BA+ decile and look at exposure slopes within strata.
-- Shift-share IV. Exposure here is a Bartik construction, and Borusyak–Hull–Jaravel-style
-  exogenous-shares checks apply, so test balance of the occupation shares on 2016–2020 swing.
-- Event-study framing: 2016→2020→2024→2026 swing by exposure, with pre-trends visible. A 2026
-  divergence would only be meaningful if there were no pre-trends.
-
-## Data notes
-
-- Results: King County Elections, `election-night-results-report.csv` (2024 and 2026), unofficial.
-- Boundaries: King County GIS `VOTDST_AREA_418` (current) and `VOTDST_2024_AREA_3068`. TIGER 2024 tracts.
-- 99% of 2026 precinct names also existed in 2024. 2024 votes are area-interpolated onto 2026
-  precincts. Votes are conserved to within 0.03%.
-- King County's metadata on some older layers restricts redistribution. Check the current terms
-  before republishing the boundary-derived GeoJSON publicly.
+**If we revisit.** Control for the 2020→2024 shift to absorb the snapback. Add counties where
+exposure and education diverge (back-office and call-center towns). Better still, use
+individual data: link the occupations of Cooperative Election Study respondents to occupation
+exposure, and push for an own-job AI question in 2028 exit polls.

@@ -44,7 +44,7 @@ Construct a synthetic AI exposure index at the county level by combining Anthrop
 
 **Phase 2 — Outcome Overlays**
 Layer labor market outcomes (employment trends, wage changes, job postings) and structural vulnerability indicators (education, income, demographics, industry concentration) onto the base map.
-*Started:* a census-tract exposure index (national) and a 2026-midterms precinct overlay for King County, WA (`src/map/elections.html`, prototype on unofficial results). See `Claude_Proposals/impact_atlas/04_election_overlay.md`.
+*Started:* a national census-tract exposure index (`src/pipeline/06_tract_exposure.py`). A 2026-midterms precinct overlay was tried and shelved; see `Claude_Proposals/impact_atlas/04_election_overlay.md`.
 
 **Phase 3 — Forecasting & Causal Analysis**
 Introduce a capability-threshold toggle for scenario modeling ("if AI achieves X on benchmark Y, exposure looks like this"). Pursue shift-share IV and difference-in-differences analyses to estimate causal effects on local labor markets.
@@ -61,9 +61,7 @@ Repeat data collection and analyses for other countries, to the extent feasible.
 | AI Occupational Exposure Index | Felten, Raj & Seamans (2023) | Robustness check |
 | Workforce composition by county | ACS 5-year estimates (Census API) | Geographic weights |
 | Workforce composition by tract | ACS 5-year table-based Summary File (bulk) | Tract-level weights |
-| County shapefiles | Census TIGER/Line | Map geometry |
-| Precinct results & boundaries (2024, 2026) | King County Elections; King County GIS | Election overlay (prototype) |
-| State-level Claude usage | Anthropic geographic report | Validation |
+| County shapefiles | Census TIGER/Line | Map geometry || State-level Claude usage | Anthropic geographic report | Validation |
 
 ## Deliverables
 
