@@ -17,11 +17,12 @@ uv run python 02_download_acs.py        # Download ACS 5-year county occupation 
 uv run python 05_download_acs_1yr.py    # Download ACS 1-year data (~861 large counties)
 uv run python 03_compute_index.py       # Compute Bartik shift-share exposure index
 uv run python 04_export_for_map.py      # Export to src/map/data/atlas.json + rankings.json
+uv run python 06_tract_exposure.py      # National census-tract exposure from ACS bulk Summary File (no API key)
 ```
 
-Scripts cache their outputs — re-running a step skips the download if the output file already exists.
+Scripts cache their outputs — re-running a step skips the download if the output file already exists. Large bulk downloads (Census summary files) go to `data/raw/_cache/`, which is gitignored.
 
-The Census API works without a key but rate-limits aggressively. Set `CENSUS_API_KEY` to avoid issues:
+As of Nov 2026 the Census API rejects requests without a key (302 → `missing_key`). Steps 2/5 need `CENSUS_API_KEY`; step 6 uses the bulk Summary File on www2.census.gov and needs no key:
 ```bash
 export CENSUS_API_KEY=your_key_here
 ```
@@ -55,6 +56,9 @@ Step 3 (compute_index.py)
 Step 4 (export_for_map.py)
   → src/map/data/atlas.json      (main map payload: counties_5yr, counties_1yr, occ scores)
   → src/map/data/rankings.json   (top/bottom 15 counties per dataset)
+
+Step 6 (tract_exposure.py)  ACS Summary File C24010/B15003/B19013, 2020–24 5-year
+  → data/processed/tract_exposure.parquet   (85k tracts: exposure, sh_00..sh_24, ba_plus, income)
 ```
 
 ## Architecture
@@ -71,7 +75,6 @@ Step 4 (export_for_map.py)
 - `map.js` loads `atlas.json` and US county TopoJSON, renders a choropleth with a sequential blue color scale clamped to p05–p95.
 - Two datasets switchable via toggle: 5-year (all counties) and 1-year (large counties only).
 - Clicking a county opens a detail panel showing per-occupation contributions (`sh[i] * occ_exp[i]`).
-
 ## Key Constraint
 
-The `OCC_CATEGORY_ORDER` in `04_export_for_map.py` and the `OCC_CATEGORIES` tuple list in `02_download_acs.py` / `05_download_acs_1yr.py` must all stay consistent — array positions are used for indexing in both Python and JavaScript.
+The `OCC_CATEGORY_ORDER` in `04_export_for_map.py` and the `OCC_CATEGORIES` tuple list in `02_download_acs.py` / `05_download_acs_1yr.py` must all stay consistent — array positions are used for indexing in both Python and JavaScript. `06_tract_exposure.py` imports `OCC_CATEGORIES` from `02_download_acs.py` directly, so it follows automatically.

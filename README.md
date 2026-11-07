@@ -30,7 +30,8 @@ This is the same logic used in the China Shock literature (Autor, Dorn & Hanson 
     ├── impact_atlas/       # AI Impact Atlas — active development
     │   ├── 01_project_summary.md
     │   ├── 02_base_layer_exposure.md
-    │   └── 03_future_overlays_and_analyses.md
+    │   ├── 03_future_overlays_and_analyses.md
+    │   └── 04_election_overlay.md
     └── speculative/        # Exploratory ideas for future AI impacts projects
         ├── 01_clio_displacement_surveillance.md
         └── 02_interviewer_project_ideas.md
@@ -43,6 +44,7 @@ Construct a synthetic AI exposure index at the county level by combining Anthrop
 
 **Phase 2 — Outcome Overlays**
 Layer labor market outcomes (employment trends, wage changes, job postings) and structural vulnerability indicators (education, income, demographics, industry concentration) onto the base map.
+*Started:* a national census-tract exposure index (`src/pipeline/06_tract_exposure.py`). A 2026-midterms precinct overlay was tried and shelved; see `Claude_Proposals/impact_atlas/04_election_overlay.md`.
 
 **Phase 3 — Forecasting & Causal Analysis**
 Introduce a capability-threshold toggle for scenario modeling ("if AI achieves X on benchmark Y, exposure looks like this"). Pursue shift-share IV and difference-in-differences analyses to estimate causal effects on local labor markets.
@@ -58,8 +60,8 @@ Repeat data collection and analyses for other countries, to the extent feasible.
 | Theoretical LLM exposure (β scores) | Eloundou et al. (2023) | Robustness check |
 | AI Occupational Exposure Index | Felten, Raj & Seamans (2023) | Robustness check |
 | Workforce composition by county | ACS 5-year estimates (Census API) | Geographic weights |
-| County shapefiles | Census TIGER/Line | Map geometry |
-| State-level Claude usage | Anthropic geographic report | Validation |
+| Workforce composition by tract | ACS 5-year table-based Summary File (bulk) | Tract-level weights |
+| County shapefiles | Census TIGER/Line | Map geometry || State-level Claude usage | Anthropic geographic report | Validation |
 
 ## Deliverables
 

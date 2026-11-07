@@ -8,3 +8,6 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Large bulk downloads (Census summary files, election CSVs, shapes)
+data/raw/_cache/
