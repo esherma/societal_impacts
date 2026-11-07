@@ -38,7 +38,7 @@ No build step. Serve `src/map/` over HTTP (required for D3 JSON fetches):
 cd src/map && python -m http.server 8000
 ```
 
-Then open `http://localhost:8000`. The map fetches US county TopoJSON from a CDN plus local `data/atlas.json`.
+Then open `http://localhost:8000`. The map loads local `data/counties-2023.json` (county + state TopoJSON) and `data/atlas.json`.
 
 ## Data Flow
 
@@ -88,7 +88,8 @@ and per-county `r` (robot index) and `ws` ([sd_ai, sd_robot, n_tracts]).
 
 ### Web Map (`src/map/`)
 
-- Pure D3 v7 + TopoJSON (CDN). No bundler or build step.
+- Pure D3 v7 + topojson-client (CDN). No bundler or build step.
+- County shapes come from `data/counties-2023.json`, built by `src/pipeline/build_county_shapes.sh` from the Census 2023 cartographic boundary file. Don't switch back to `us-atlas@3`: it uses pre-2022 county codes, so Connecticut's planning regions and two Alaska census areas render blank.
 - `map.js` loads `atlas.json` and US county TopoJSON, renders a choropleth with a sequential blue color scale clamped to p05–p95.
 - Two datasets switchable via toggle: 5-year (all counties) and 1-year (large counties only).
 - Four layers via `#layer-toggle` (`LAYERS` in `map.js`): AI exposure (Blues), robot exposure (RdPu, 0–3 scale), AI × Robot (3×3 bivariate by national terciles), within-county spread (Greens; only counties with ≥10 tracts).
