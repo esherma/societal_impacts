@@ -20,6 +20,7 @@ uv run python 06_tract_exposure.py      # National census-tract exposure from AC
 uv run python 07_robot_exposure.py      # Robot exposure index + employment weights (county + tract)
 uv run python 08_geographic_variance.py # Within- vs between-county variance; per-county tract spread
 uv run python 04_export_for_map.py      # Export to src/map/data/atlas.json + rankings.json (run last)
+uv run python 09_robot_findings.py      # Headline AI-vs-robot numbers → data/processed/robot_findings.json (after step 4)
 ```
 
 Scripts cache their outputs — re-running a step skips the download if the output file already exists. Large bulk downloads (Census summary files) go to `data/raw/_cache/`, which is gitignored.
