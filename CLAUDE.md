@@ -16,8 +16,10 @@ uv run python 01_download_exposure.py   # Download Anthropic EconomicIndex from 
 uv run python 02_download_acs.py        # Download ACS 5-year county occupation data
 uv run python 05_download_acs_1yr.py    # Download ACS 1-year data (~861 large counties)
 uv run python 03_compute_index.py       # Compute Bartik shift-share exposure index
-uv run python 04_export_for_map.py      # Export to src/map/data/atlas.json + rankings.json
 uv run python 06_tract_exposure.py      # National census-tract exposure from ACS bulk Summary File (no API key)
+uv run python 07_robot_exposure.py      # Robot exposure index + employment weights (county + tract)
+uv run python 08_geographic_variance.py # Within- vs between-county variance; per-county tract spread
+uv run python 04_export_for_map.py      # Export to src/map/data/atlas.json + rankings.json (run last)
 ```
 
 Scripts cache their outputs — re-running a step skips the download if the output file already exists. Large bulk downloads (Census summary files) go to `data/raw/_cache/`, which is gitignored.
@@ -59,6 +61,20 @@ Step 4 (export_for_map.py)
 
 Step 6 (tract_exposure.py)  ACS Summary File C24010/B15003/B19013, 2020–24 5-year
   → data/processed/tract_exposure.parquet   (85k tracts: exposure, sh_00..sh_24, ba_plus, income)
+
+Step 7 (robot_exposure.py)  HF robot_exposure/ + ACS 2024 1-yr B24114 national employment + Census 2018 occ crosswalk
+  → data/raw/robot_exposure/robot_exposure_occupations.csv
+  → data/processed/occ_category_scores.csv       (25 groups × ai/robot × unweighted/emp-weighted)
+  → data/processed/soc_employment_weights.csv
+  → data/processed/county_dual_exposure.parquet  (ai, ai_w, robot, robot_w per county, 5yr + 1yr)
+  → adds ai_w, robot, robot_w to tract_exposure.parquet
+
+Step 8 (geographic_variance.py)  uses tract file + C24010 margins of error
+  → data/processed/geographic_variance.json      (within/between decomposition, noise-adjusted)
+  → data/processed/county_within_spread.parquet  (per-county tract SD, AI + robot)
+
+Step 4 reads step 7/8 outputs if present: atlas.json gains `occ_robot`, `summary_robot_*`,
+and per-county `r` (robot index) and `ws` ([sd_ai, sd_robot, n_tracts]).
 ```
 
 ## Architecture
@@ -74,7 +90,9 @@ Step 6 (tract_exposure.py)  ACS Summary File C24010/B15003/B19013, 2020–24 5-y
 - Pure D3 v7 + TopoJSON (CDN). No bundler or build step.
 - `map.js` loads `atlas.json` and US county TopoJSON, renders a choropleth with a sequential blue color scale clamped to p05–p95.
 - Two datasets switchable via toggle: 5-year (all counties) and 1-year (large counties only).
+- Four layers via `#layer-toggle` (`LAYERS` in `map.js`): AI exposure (Blues), robot exposure (RdPu, 0–3 scale), AI × Robot (3×3 bivariate by national terciles), within-county spread (Greens; only counties with ≥10 tracts).
+- The map's AI and robot indices both use **unweighted** category means (the published method). Employment-weighted variants (`ai_w`, `robot_w`) exist in the processed data for sensitivity checks only.
 - Clicking a county opens a detail panel showing per-occupation contributions (`sh[i] * occ_exp[i]`).
 ## Key Constraint
 
-The `OCC_CATEGORY_ORDER` in `04_export_for_map.py` and the `OCC_CATEGORIES` tuple list in `02_download_acs.py` / `05_download_acs_1yr.py` must all stay consistent — array positions are used for indexing in both Python and JavaScript. `06_tract_exposure.py` imports `OCC_CATEGORIES` from `02_download_acs.py` directly, so it follows automatically.
+The `OCC_CATEGORY_ORDER` in `04_export_for_map.py` and the `OCC_CATEGORIES` tuple list in `02_download_acs.py` / `05_download_acs_1yr.py` must all stay consistent — array positions are used for indexing in both Python and JavaScript. `06_tract_exposure.py`, `07_robot_exposure.py` and `08_geographic_variance.py` import `OCC_CATEGORIES` from `02_download_acs.py` directly, so they follow automatically.

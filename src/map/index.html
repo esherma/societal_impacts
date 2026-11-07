@@ -15,6 +15,12 @@
         county-level index built from Anthropic&rsquo;s observed AI usage
         and Census occupation data.
       </p>
+      <div id="layer-toggle" role="group" aria-label="Map layer">
+        <button class="layer-btn active" data-layer="ai" title="Share of local work in occupations where Claude is already used">AI exposure</button>
+        <button class="layer-btn" data-layer="robot" title="Share of local work in physical tasks robots can already do">Robot exposure</button>
+        <button class="layer-btn" data-layer="biv" title="AI and robot exposure together, by national thirds">AI × Robot</button>
+        <button class="layer-btn" data-layer="spread" title="How much exposure varies between census tracts inside the county">Within-county spread</button>
+      </div>
     </div>
     <div id="header-right">
       <div id="dataset-toggle" role="group" aria-label="Dataset">
@@ -64,14 +70,15 @@
         <div id="detail-score-context"></div>
       </div>
       <div id="detail-workforce"></div>
+      <div id="detail-other"></div>
       <div id="detail-occ-header">
         <span class="sort-col" data-col="name"   title="Sort by name">Occupation group<span class="sort-icon"> ↕</span></span>
         <span class="sort-col" data-col="share"  title="Sort by workforce share">Share<span class="sort-icon"> ↕</span></span>
-        <span class="sort-col sort-active" data-col="contrib" title="Sort by AI contribution">AI contribution<span class="sort-icon"> ↓</span></span>
+        <span class="sort-col sort-active" data-col="contrib" title="Sort by contribution"><span id="contrib-label">AI contribution</span><span class="sort-icon"> ↓</span></span>
       </div>
       <div id="detail-occ-list"></div>
       <div id="detail-footer">
-        Contribution = workforce share &times; occupation AI exposure score.
+        Contribution = workforce share &times; occupation <span id="footer-metric">AI</span> exposure score.
         <a href="methodology.html" target="_blank">Methodology ↗</a>
       </div>
     </div>
@@ -79,28 +86,31 @@
 
   <div id="bottom-bar">
     <div id="legend">
-      <div class="legend-title">AI Exposure Index</div>
-      <svg id="legend-svg" aria-hidden="true"></svg>
-      <div class="legend-endpoints">
-        <span class="legend-endpoint" id="legend-lo"></span>
-        <span class="legend-endpoint" id="legend-hi"></span>
+      <div class="legend-title" id="legend-title">AI Exposure Index</div>
+      <div id="legend-ramp">
+        <svg id="legend-svg" aria-hidden="true"></svg>
+        <div class="legend-endpoints">
+          <span class="legend-endpoint" id="legend-lo"></span>
+          <span class="legend-endpoint" id="legend-hi"></span>
+        </div>
       </div>
-      <div class="legend-sublabel">Scale ×100 &nbsp;&middot;&nbsp; p5–p95 range</div>
+      <div id="legend-biv" class="hidden" aria-label="Bivariate legend: AI exposure across, robot exposure up"></div>
+      <div class="legend-sublabel" id="legend-sub">Scale ×100 &nbsp;&middot;&nbsp; p5–p95 range</div>
     </div>
 
     <div id="stats-bar">
       <div class="stat"><span class="sval" id="stat-n"></span><span class="slabel">counties</span></div>
-      <div class="stat"><span class="sval" id="stat-mean"></span><span class="slabel">mean index</span></div>
-      <div class="stat"><span class="sval" id="stat-range"></span><span class="slabel">index range</span></div>
+      <div class="stat"><span class="sval" id="stat-mean"></span><span class="slabel" id="stat-mean-label">mean index</span></div>
+      <div class="stat"><span class="sval" id="stat-range"></span><span class="slabel" id="stat-range-label">index range</span></div>
     </div>
 
     <div id="rankings">
       <div class="rank-col">
-        <div class="rank-heading">Most Exposed</div>
+        <div class="rank-heading" id="top-heading">Most Exposed</div>
         <ul id="top-list"></ul>
       </div>
       <div class="rank-col">
-        <div class="rank-heading">Least Exposed</div>
+        <div class="rank-heading" id="bottom-heading">Least Exposed</div>
         <ul id="bottom-list"></ul>
       </div>
     </div>

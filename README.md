@@ -31,7 +31,8 @@ This is the same logic used in the China Shock literature (Autor, Dorn & Hanson 
     │   ├── 01_project_summary.md
     │   ├── 02_base_layer_exposure.md
     │   ├── 03_future_overlays_and_analyses.md
-    │   └── 04_election_overlay.md
+    │   ├── 04_election_overlay.md
+    │   └── 05_robot_layer_and_geographic_spread.md
     └── speculative/        # Exploratory ideas for future AI impacts projects
         ├── 01_clio_displacement_surveillance.md
         └── 02_interviewer_project_ideas.md
@@ -44,7 +45,7 @@ Construct a synthetic AI exposure index at the county level by combining Anthrop
 
 **Phase 2 — Outcome Overlays**
 Layer labor market outcomes (employment trends, wage changes, job postings) and structural vulnerability indicators (education, income, demographics, industry concentration) onto the base map.
-*Started:* a national census-tract exposure index (`src/pipeline/06_tract_exposure.py`). A 2026-midterms precinct overlay was tried and shelved; see `Claude_Proposals/impact_atlas/04_election_overlay.md`.
+*Started:* a national census-tract exposure index; a **robot (physical automation) exposure** layer and an AI × Robot bivariate layer; a **within-county spread** layer (`Claude_Proposals/impact_atlas/05_robot_layer_and_geographic_spread.md`). A 2026-midterms precinct overlay was tried and shelved (`04_election_overlay.md`).
 
 **Phase 3 — Forecasting & Causal Analysis**
 Introduce a capability-threshold toggle for scenario modeling ("if AI achieves X on benchmark Y, exposure looks like this"). Pursue shift-share IV and difference-in-differences analyses to estimate causal effects on local labor markets.
@@ -57,6 +58,8 @@ Repeat data collection and analyses for other countries, to the extent feasible.
 | Data | Source | Use |
 |------|--------|-----|
 | Occupation-level AI exposure scores | [Anthropic Economic Index](https://huggingface.co/datasets/Anthropic/EconomicIndex) | Primary exposure measure |
+| Occupation-level robot exposure scores | Anthropic Economic Index, `robot_exposure/` (Sept 2026) | Robot / AI × Robot layers |
+| National employment by detailed occupation | ACS 1-year B24114 + Census 2018 occupation crosswalk | Employment weights (sensitivity) |
 | Theoretical LLM exposure (β scores) | Eloundou et al. (2023) | Robustness check |
 | AI Occupational Exposure Index | Felten, Raj & Seamans (2023) | Robustness check |
 | Workforce composition by county | ACS 5-year estimates (Census API) | Geographic weights |

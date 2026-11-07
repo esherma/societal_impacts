@@ -277,10 +277,72 @@
   </div>
 
   <div class="source-block">
+    <div class="source-title">Anthropic Economic Index — Robot Exposure</div>
+    <div class="source-meta">HuggingFace: <code>Anthropic/EconomicIndex / robot_exposure/robot_exposure_occupations.csv</code> &middot; Released September 2026</div>
+    <div class="source-desc">
+      923 O*NET occupations with a 0–3 <code>robot_exposure_index</code>, averaged to 798 SOC-6 codes.
+      Input to the Robot Exposure Index layer.
+    </div>
+  </div>
+
+  <div class="source-block">
+    <div class="source-title">ACS Table-Based Summary File, 2020–2024 5-Year</div>
+    <div class="source-meta">US Census Bureau &middot; Tables C24010, B15003, B19013 &middot; bulk download, all census tracts</div>
+    <div class="source-desc">
+      Tract-level occupation counts and margins of error. Used for the within-county spread layer.
+    </div>
+  </div>
+
+  <div class="source-block">
     <div class="source-title">US Atlas TopoJSON</div>
     <div class="source-meta">npm: <code>us-atlas@3</code> &middot; County boundaries at 1:10m scale from Census TIGER/Line</div>
     <div class="source-desc">Used for county boundary polygons and state borders in the choropleth map.</div>
   </div>
+
+  <!-- ── Additional layers ── -->
+  <h2>Additional Map Layers</h2>
+
+  <h3>Robot Exposure Index</h3>
+  <p>
+    The same shift-share construction, using Anthropic's <em>robot exposure</em> scores
+    ("What work can robots do?", September 2026) in place of AI exposure. Each O*NET
+    occupation's physical tasks were rated by the kind of environment a deployed or
+    demonstrated robot can already work in: <strong>0</strong> none, <strong>1</strong> a
+    purpose-built cell, <strong>2</strong> a structured facility such as a warehouse or hospital, <strong>3</strong>
+    an unstructured setting such as a home or construction site. These ratings are averaged by
+    time-on-task to an occupation index on a 0–3 scale. County values run from about
+    0.19 (Arlington, VA) to 0.80. As with the AI index, category scores are unweighted means
+    across the SOC occupations in each group, so the two indices are comparable.
+  </p>
+
+  <h3>AI × Robot</h3>
+  <p>
+    Counties are split into national thirds on each index, and the nine combinations are
+    colored with a 3×3 bivariate palette. The striking pattern is how few counties are high
+    on both. Across counties, AI and robot exposure correlate at
+    <strong>r&nbsp;=&nbsp;&minus;0.86</strong>: places are exposed to one kind of
+    automation or the other. Part of this is real occupational structure. Across individual
+    occupations the correlation is &minus;0.39, and across the 25 groups it is
+    &minus;0.57. Part of it is amplification, because county workforces vary mostly along a
+    single white-collar/blue-collar axis. Randomly reassigning robot scores to groups gives
+    a county correlation of 0 on average, so the pattern is not a mechanical artifact.
+  </p>
+
+  <h3>Within-County Spread</h3>
+  <p>
+    Computed from the same index at the <strong>census-tract</strong> level (≈84,000 tracts
+    with 200+ workers, ACS 2020–24 table-based Summary File). For each county, the layer shows
+    the worker-weighted standard deviation of tract AI exposure, after subtracting each tract's
+    estimated ACS sampling variance (delta method on the published margins of error). It is
+    shown only for counties with 10 or more tracts. In smaller counties, survey noise usually
+    exceeds the measured variation.
+  </p>
+  <p>
+    Nationally, about <strong>58%</strong> of the tract-level variation in AI exposure lies
+    <em>within</em> counties, after removing noise (76% in counties with 500k+ workers). For
+    robot exposure the figure is 69% (83%). The county choropleth is a useful summary, but in
+    metros it hides most of the variation.
+  </p>
 
   <!-- ── Limitations ── -->
   <h2>Known Limitations</h2>
@@ -355,8 +417,11 @@
     </li>
     <li>
       <strong>Employment-weighted category scores.</strong> Current category scores use
-      unweighted occupation averages. Weighting by national employment within each
-      group (from BLS OES data) would give more accurate category scores.
+      unweighted occupation averages. Weights based on national employment (ACS 2024 table B24114,
+      mapped to SOC) are now computed in the pipeline. They change county rankings little
+      (rank correlation 0.97), but they move some group scores a lot. For example, AI exposure
+      for office and administrative support rises from 19 to 36 points. Switching the map's
+      headline index to the weighted version is pending review.
     </li>
     <li>
       <strong>PUMA-level microdata.</strong> ACS Public Use Microdata (PUMS) with
@@ -374,6 +439,7 @@
     <div class="source-desc" style="font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.78rem; line-height: 1.8; color: #94a3b8;">
       Anthropic. (2026). <em>Economic Index: Labor Market Impacts</em> [Data].
       HuggingFace: Anthropic/EconomicIndex.<br/>
+      Legate-Yang, R. &amp; Massenkoff, M. (2026). <em>What work can robots do?</em> Anthropic.<br/>
       US Census Bureau. (2024). <em>American Community Survey 5-Year Estimates</em>,
       Table C24010. <a href="https://data.census.gov" style="color: #60a5fa;">data.census.gov</a>.<br/>
       AI Exposure Atlas shift-share construction. societal_impacts/src/pipeline/.
