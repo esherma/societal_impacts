@@ -351,7 +351,7 @@ body {
 
 #detail-occ-header {
   display: grid;
-  grid-template-columns: 1fr 72px 100px;
+  grid-template-columns: 1fr 72px 116px;
   gap: 6px;
   padding: 8px 16px 4px;
   font-size: 0.67rem;
@@ -381,7 +381,7 @@ body {
 
 .occ-row {
   display: grid;
-  grid-template-columns: 1fr 72px 100px;
+  grid-template-columns: 1fr 72px 116px;
   gap: 6px;
   padding: 5px 0;
   border-bottom: 1px solid #1a2540;
@@ -616,3 +616,9 @@ body {
 }
 .legend-mid.hidden { display: none; }
 #detail-score-context b { color: #e2e8f0; font-weight: 600; }
+
+/* Contribution header wraps onto two lines */
+#detail-occ-header { align-items: end; }
+#detail-occ-header .sort-col { white-space: nowrap; }
+#detail-occ-header .sort-col[data-col="contrib"] { white-space: normal; line-height: 1.25; }
+.occ-contrib-val { min-width: 40px; }
