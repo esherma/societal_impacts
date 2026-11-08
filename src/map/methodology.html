@@ -155,13 +155,17 @@
   <h2>What the map shows</h2>
   <p>
     Each county gets an <strong>AI Exposure Index</strong>. It answers one question:
-    <em>how much of this county&rsquo;s work is in jobs where people already use AI?</em>
-    The index is built from two inputs: Anthropic&rsquo;s data on how much each occupation
-    already uses Claude, and Census counts of how many local residents work in each occupation.
+    <em>how much of the work done in this county is tasks AI can already do?</em>
+    The index is built from two inputs. The first is Anthropic&rsquo;s occupation scores, which
+    measure how much of each occupation&rsquo;s tasks people across the US are actually using
+    Claude for. Real usage is the evidence that AI can do a task. The second is Census counts
+    of how many local residents work in each occupation.
   </p>
   <p>
-    The index is <strong>not</strong> a forecast of job losses. It measures where AI is in use
-    today. Much of that use helps workers rather than replaces them.
+    The index is <strong>not</strong> a measure of local AI adoption. The usage data is national,
+    so it says nothing about whether workers in a particular county use AI. It is also
+    <strong>not</strong> a forecast of job losses. AI that can do a task often helps the worker
+    rather than replacing them.
   </p>
 
   <h2>How to read the numbers</h2>
@@ -227,7 +231,7 @@
     Economists call this a <em>shift-share</em> (or Bartik) measure. It is a standard way
     to turn a national, occupation-level measure into a local one. The index changes from
     county to county only through the local mix of jobs. Two counties with the same job mix
-    get the same score, even if one uses AI more. When you click a county, the panel lists
+    get the same score, even if workers in one use AI far more. When you click a county, the panel lists
     each group&rsquo;s <em>points</em>: its share of workers times its score. The points add
     up to the county&rsquo;s index.
   </p>
@@ -363,11 +367,11 @@
   </div>
 
   <div class="limitation-box">
-    <h3>In use is not the same as at risk</h3>
+    <h3>Capable is not the same as at risk</h3>
     <p>
-      A high index means AI is already part of the work done in that county&rsquo;s common
-      jobs. In many of those jobs AI assists workers rather than replacing them. The index
-      shows where change is most likely to show up first, not whether it will cost jobs.
+      A high index means much of the county&rsquo;s work is tasks that AI can already do.
+      For many of those tasks AI assists workers rather than replacing them. The index shows
+      where change could show up first, not whether it will cost jobs.
     </p>
   </div>
 
