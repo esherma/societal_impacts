@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Methodology — AI Exposure Atlas</title>
+  <title>About the Atlas</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -108,14 +108,6 @@
       padding: 2px 8px;
       border-radius: 10px;
     }
-    .limitation-box {
-      background: #111827;
-      border: 1px solid #1e2d4a;
-      border-radius: 8px;
-      padding: 16px 20px;
-      margin: 12px 0;
-    }
-    .limitation-box p { margin: 0; }
     ul {
       padding-left: 20px;
       font-size: 0.88rem;
@@ -123,6 +115,14 @@
       margin-bottom: 12px;
     }
     ul li { margin-bottom: 6px; }
+    .page a:not(.back-link) { color: #60a5fa; text-decoration: none; }
+    .page a:not(.back-link):hover { text-decoration: underline; }
+    .limitations li { margin-bottom: 10px; }
+    .bibtex {
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.76rem; line-height: 1.6;
+      color: #94a3b8; background: #0b1220; border: 1px solid #1e293b; border-radius: 6px;
+      padding: 12px 14px; margin: 8px 0 16px; overflow-x: auto; white-space: pre;
+    }
     .planned {
       display: inline-block;
       font-size: 0.68rem;
@@ -149,8 +149,18 @@
 <div class="page">
   <a href="index.html" class="back-link">← Back to the map</a>
 
-  <h1>Methodology &amp; Sources</h1>
-  <p class="tagline">What the numbers mean, how they are built, and what they leave out.</p>
+  <h1>About the Atlas</h1>
+  <p class="tagline">What the Atlas is, what the numbers mean, how they are built, and what they leave out.</p>
+
+  <p>
+    The AI Exposure Atlas is a tool for visualizing geographic exposure to AI automation. It
+    cross-references government data on jobs and the tasks they involve with data on AI
+    capabilities measured from real-world AI use. The Atlas is inspired by the
+    <a href="https://www.opportunityatlas.org/" target="_blank" rel="noopener">Opportunity Atlas</a>,
+    and it is developed by Eli Sherman in close collaboration with Claude. Questions and comments
+    are welcome: reach Eli on social media or by email at
+    <a href="mailto:grandparents.guide.to.ai@gmail.com">grandparents.guide.to.ai@gmail.com</a>.
+  </p>
 
   <h2>What the map shows</h2>
   <p>
@@ -349,54 +359,13 @@
   </p>
 
   <h2>Limitations</h2>
-
-  <div class="limitation-box">
-    <h3>Broad job groups</h3>
-    <p>
-      The Census county tables use only 25 broad job groups, so very different jobs share one
-      score. For example, computer programmers score about 730 and network support specialists
-      about 31. Both fall in &ldquo;Computer and mathematical,&rdquo; which averages to 371.
-    </p>
-  </div>
-
-  <div class="limitation-box">
-    <h3>Simple averages within groups</h3>
-    <p>
-      Each group score treats all of its occupations equally, regardless of how many people
-      hold each one. Weighting by national employment barely changes county rankings (rank
-      correlation 0.97), but it moves some group scores a lot. Office and administrative
-      support, for example, rises from 187 to about 350. The weighted version is computed in
-      the pipeline but not yet used on the map.
-    </p>
-  </div>
-
-  <div class="limitation-box">
-    <h3>Small-county noise</h3>
-    <p>
-      Survey estimates for counties with fewer than about 5,000 workers have wide margins of
-      error, and chance can produce odd job mixes. Dolores County, CO (about 1,300 workers)
-      scores 132 because the survey implies an unusually high share of computer workers. Treat
-      extreme values in very small counties with caution.
-    </p>
-  </div>
-
-  <div class="limitation-box">
-    <h3>Counties are not labor markets</h3>
-    <p>
-      People often work outside the county they live in, and some counties contain very
-      different local economies. San Bernardino County, CA is larger than nine states. The
-      index describes where workers live, not where they work.
-    </p>
-  </div>
-
-  <div class="limitation-box">
-    <h3>Capable is not the same as at risk</h3>
-    <p>
-      A high index means much of the county&rsquo;s work is tasks that AI can already do.
-      For many of those tasks AI assists workers rather than replacing them. The index shows
-      where change could show up first, not whether it will cost jobs.
-    </p>
-  </div>
+  <ul class="limitations">
+    <li><strong>Broad job groups.</strong> The Census county tables use only 25 broad job groups, so very different jobs share one score. For example, computer programmers score about 730 and network support specialists about 31. Both fall in &ldquo;Computer and mathematical,&rdquo; which averages to 371.</li>
+    <li><strong>Simple averages within groups.</strong> Each group score treats all of its occupations equally, regardless of how many people hold each one. Weighting by national employment barely changes county rankings (rank correlation 0.97), but it moves some group scores a lot. Office and administrative support, for example, rises from 187 to about 350. The weighted version is computed in the pipeline but not yet used on the map.</li>
+    <li><strong>Small-county noise.</strong> Survey estimates for counties with fewer than about 5,000 workers have wide margins of error, and chance can produce odd job mixes. Dolores County, CO (about 1,300 workers) scores 132 because the survey implies an unusually high share of computer workers. Treat extreme values in very small counties with caution.</li>
+    <li><strong>Counties are not labor markets.</strong> People often work outside the county they live in, and some counties contain very different local economies. San Bernardino County, CA is larger than nine states. The index describes where workers live, not where they work.</li>
+    <li><strong>Capable is not the same as at risk.</strong> A high index means much of the county&rsquo;s work is tasks that AI can already do. For many of those tasks AI assists workers rather than replacing them. The index shows where change could show up first, not whether it will cost jobs.</li>
+  </ul>
 
   <h2>Planned additions <span class="planned">Next</span></h2>
   <ul>
@@ -416,17 +385,17 @@
   <h2>Data sources</h2>
 
   <div class="source-block">
-    <div class="source-title">Anthropic Economic Index: Labor Market Impacts</div>
-    <div class="source-meta">HuggingFace: <code>Anthropic/EconomicIndex</code> &middot; <code>labor_market_impacts/job_exposure.csv</code> &middot; March 2026</div>
+    <div class="source-title"><a href="https://www.anthropic.com/research/labor-market-impacts" target="_blank" rel="noopener">Anthropic Economic Index: Labor Market Impacts</a></div>
+    <div class="source-meta"><a href="https://huggingface.co/datasets/Anthropic/EconomicIndex/tree/main/labor_market_impacts" target="_blank" rel="noopener">HuggingFace: <code>Anthropic/EconomicIndex</code></a> &middot; <code>labor_market_impacts/job_exposure.csv</code> &middot; March 2026</div>
     <div class="source-desc">
       AI exposure scores for 756 detailed occupations. Each score combines which tasks AI can
-      do (Eloundou et al.) with how Claude is actually used, weighted by the time each task takes.
+      do (<a href="https://arxiv.org/abs/2303.10130" target="_blank" rel="noopener">Eloundou et al. 2023</a>) with how Claude is actually used, weighted by the time each task takes.
     </div>
   </div>
 
   <div class="source-block">
-    <div class="source-title">Anthropic Economic Index: Robot Exposure</div>
-    <div class="source-meta">HuggingFace: <code>Anthropic/EconomicIndex</code> &middot; <code>robot_exposure/robot_exposure_occupations.csv</code> &middot; September 2026</div>
+    <div class="source-title"><a href="https://huggingface.co/datasets/Anthropic/EconomicIndex/tree/main/robot_exposure" target="_blank" rel="noopener">Anthropic Economic Index: Robot Exposure</a></div>
+    <div class="source-meta"><a href="https://huggingface.co/datasets/Anthropic/EconomicIndex/tree/main/robot_exposure" target="_blank" rel="noopener">HuggingFace: <code>Anthropic/EconomicIndex</code></a> &middot; <code>robot_exposure/robot_exposure_occupations.csv</code> &middot; September 2026</div>
     <div class="source-desc">
       Robot exposure scores (0&ndash;3) for 923 O*NET occupations, averaged to 798 detailed
       occupation codes.
@@ -434,7 +403,7 @@
   </div>
 
   <div class="source-block">
-    <div class="source-title">American Community Survey, Table C24010</div>
+    <div class="source-title"><a href="https://data.census.gov/table?q=C24010" target="_blank" rel="noopener">American Community Survey, Table C24010</a></div>
     <div class="source-meta">US Census Bureau &middot; 2020&ndash;24 five-year and 2024 one-year estimates</div>
     <div class="source-desc">
       Employed residents by 25 job groups, for every county (five-year) and for counties with
@@ -443,28 +412,37 @@
   </div>
 
   <div class="source-block">
-    <div class="source-title">ACS Summary File, 2020&ndash;24 five-year, census tracts</div>
+    <div class="source-title"><a href="https://www.census.gov/programs-surveys/acs/data/summary-file.html" target="_blank" rel="noopener">ACS Summary File, 2020&ndash;24 five-year, census tracts</a></div>
     <div class="source-meta">US Census Bureau &middot; Tables C24010, B15003, B19013 &middot; bulk download</div>
     <div class="source-desc">Tract-level job counts and margins of error, used for the neighborhood spread layer.</div>
   </div>
 
   <div class="source-block">
-    <div class="source-title">Census Cartographic Boundary Files, 2023</div>
-    <div class="source-meta"><code>cb_2023_us_county_5m</code> &middot; converted to TopoJSON with mapshaper</div>
+    <div class="source-title"><a href="https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html" target="_blank" rel="noopener">Census Cartographic Boundary Files, 2023</a></div>
+    <div class="source-meta"><code>cb_2023_us_county_5m</code> &middot; converted to TopoJSON with <a href="https://github.com/mbloch/mapshaper" target="_blank" rel="noopener">mapshaper</a></div>
     <div class="source-desc">County and state outlines for the map.</div>
   </div>
 
   <h2>Citation</h2>
-  <p>If you use this index, please cite the underlying data:</p>
-  <div class="source-block">
-    <div class="source-desc" style="font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.78rem; line-height: 1.8; color: #94a3b8;">
-      Anthropic. (2026). <em>Economic Index: Labor Market Impacts</em> [Data]. HuggingFace: Anthropic/EconomicIndex.<br/>
-      Legate-Yang, R. &amp; Massenkoff, M. (2026). <em>What work can robots do?</em> Anthropic.<br/>
-      US Census Bureau. <em>American Community Survey</em>, Table C24010.
-      <a href="https://data.census.gov" style="color: #60a5fa;">data.census.gov</a>.<br/>
-      AI Exposure Atlas shift-share construction. societal_impacts/src/pipeline/.
-    </div>
-  </div>
+  <p>If you use the Atlas, please cite it:</p>
+<pre class="bibtex">@misc{sherman2026aiexposureatlas,
+  author       = {Sherman, Eli},
+  title        = {{AI Exposure Atlas}},
+  year         = {2026},
+  howpublished = {\url{https://esherma.github.io/societal_impacts/}},
+  note         = {Developed in collaboration with Claude (Anthropic).
+                  Code: \url{https://github.com/esherma/societal_impacts}}
+}</pre>
+  <p>Please also cite the underlying data:</p>
+  <ul>
+    <li>Anthropic (2026). <em>Labor market impacts of AI: A new measure and early evidence</em>.
+      <a href="https://www.anthropic.com/research/labor-market-impacts" target="_blank" rel="noopener">anthropic.com/research/labor-market-impacts</a>.
+      Data: <a href="https://huggingface.co/datasets/Anthropic/EconomicIndex" target="_blank" rel="noopener">HuggingFace, Anthropic/EconomicIndex</a>.</li>
+    <li>Legate-Yang, R. &amp; Massenkoff, M. (2026). <em>What work can robots do?</em> Anthropic.
+      Data: <a href="https://huggingface.co/datasets/Anthropic/EconomicIndex/tree/main/robot_exposure" target="_blank" rel="noopener">HuggingFace, Anthropic/EconomicIndex</a>.</li>
+    <li>US Census Bureau. <em>American Community Survey</em>, 2020&ndash;2024 5-year and 2024 1-year
+      estimates, Table C24010. <a href="https://data.census.gov/table?q=C24010" target="_blank" rel="noopener">data.census.gov</a>.</li>
+  </ul>
 </div>
 </body>
 </html>
