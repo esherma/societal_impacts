@@ -213,6 +213,23 @@
 
   mapGroup.append("path").datum(stateBorders).attr("class", "state-border").attr("d", path);
 
+  // Selected-county outline, drawn above all counties and state borders so it is never
+  // hidden by a neighbour: a dark halo under a bright amber line.
+  const highlight = mapGroup.append("g").attr("class", "county-highlight");
+  const hlHalo = highlight.append("path").attr("class", "hl-halo");
+  const hlLine = highlight.append("path").attr("class", "hl-line");
+  let hlFeature = null;
+  function sizeHighlight() {
+    const k = d3.zoomTransform(svg.node()).k;
+    hlHalo.attr("stroke-width", 8 / k);
+    hlLine.attr("stroke-width", 3 / k);
+  }
+  function setHighlight(fips) {
+    hlFeature = fips ? counties.features.find(f => String(f.id).padStart(5, "0") === fips) : null;
+    highlight.style("display", hlFeature ? null : "none");
+    if (hlFeature) { hlHalo.attr("d", path(hlFeature)); hlLine.attr("d", path(hlFeature)); sizeHighlight(); }
+  }
+
   function updateFill() {
     countyPaths
       .attr("fill", (d) => fillFor(currentData()[String(d.id).padStart(5, "0")]))
@@ -231,6 +248,7 @@
       const k = event.transform.k;
       countyPaths.attr("stroke-width", 0.3 / k);
       mapGroup.select(".state-border").attr("stroke-width", 0.8 / k);
+      sizeHighlight();
     });
 
   svg.call(zoom);
@@ -396,6 +414,7 @@
     if (!rec) return;
 
     selectedFips = fips;
+    setHighlight(fips);
     const isRobot = isRobotView();
 
     document.getElementById("detail-county").textContent = rec.n;
@@ -429,18 +448,12 @@
   function closePanel() {
     document.getElementById("detail-panel").classList.add("hidden");
     selectedFips = null;
-    countyPaths.attr("stroke", null).attr("stroke-width", null);
+    setHighlight(null);
   }
 
   function onCountyClick(event, d) {
     event.stopPropagation();
     const fips = String(d.id).padStart(5, "0");
-    countyPaths
-      .attr("stroke", (dd) => String(dd.id).padStart(5, "0") === fips ? "#1e293b" : null)
-      .attr("stroke-width", (dd) => {
-        const k = d3.zoomTransform(svg.node()).k;
-        return String(dd.id).padStart(5, "0") === fips ? 2 / k : 0.3 / k;
-      });
     openPanel(fips);
     tooltip.classList.add("hidden");
   }
@@ -701,6 +714,7 @@
     setupProjection();
     countyPaths.attr("d", path);
     mapGroup.select(".state-border").attr("d", path);
+    if (hlFeature) setHighlight(selectedFips);
     svg.call(zoom.transform, d3.zoomIdentity);
   });
 
