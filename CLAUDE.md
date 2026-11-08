@@ -19,7 +19,7 @@ uv run python 03_compute_index.py       # Compute Bartik shift-share exposure in
 uv run python 06_tract_exposure.py      # National census-tract exposure from ACS bulk Summary File (no API key)
 uv run python 07_robot_exposure.py      # Robot exposure index + employment weights (county + tract)
 uv run python 08_geographic_variance.py # Within- vs between-county variance; per-county tract spread
-uv run python 04_export_for_map.py      # Export to src/map/data/atlas.json + rankings.json (run last)
+uv run python 04_export_for_map.py      # Export to src/map/data/atlas.json (run last)
 uv run python 09_robot_findings.py      # Headline AI-vs-robot numbers → data/processed/robot_findings.json (after step 4)
 ```
 
@@ -47,7 +47,7 @@ HuggingFace (Anthropic/EconomicIndex)
   → data/raw/labor_market_impacts/job_exposure.csv
 
 Census ACS API (C24010 table)
-  → data/raw/acs_county_occupations_raw.parquet       (5-year, all 3,222 counties)
+  → data/raw/acs_county_occupations_raw.parquet       (5-year, all 3,222 counties incl. Puerto Rico; the map uses the 3,144 in the 50 states + DC)
   → data/raw/acs_1yr_county_occupations_raw.parquet   (1-year, ~861 counties)
   → data/raw/acs_county_occupations_tidy.parquet
   → data/raw/acs_1yr_county_occupations_tidy.parquet
@@ -57,8 +57,7 @@ Step 3 (compute_index.py)
   → data/processed/occ_category_crosswalk.csv
 
 Step 4 (export_for_map.py)
-  → src/map/data/atlas.json      (main map payload: counties_5yr, counties_1yr, occ scores)
-  → src/map/data/rankings.json   (top/bottom 15 counties per dataset)
+  → src/map/data/atlas.json      (main map payload: counties_5yr, counties_1yr, occ scores; 50 states + DC only)
 
 Step 6 (tract_exposure.py)  ACS Summary File C24010/B15003/B19013, 2020–24 5-year
   → data/processed/tract_exposure.parquet   (85k tracts: exposure, sh_00..sh_24, ba_plus, income)
@@ -96,7 +95,7 @@ and per-county `r` (robot index) and `ws` ([sd_ai, sd_robot, n_tracts]).
 - The map's AI and robot indices both use **unweighted** category means (the published method). Employment-weighted variants (`ai_w`, `robot_w`) exist in the processed data for sensitivity checks only.
 - Display scale: every index is shown relative to the worker-weighted US average (100 = average US worker, 50 states + DC, 2020–24 data), computed in `map.js` (`BASE_AI`, `BASE_ROBOT`). `atlas.json` keeps raw scores; the rescale is linear, so ranks and colors match the raw scale. Distribution summaries and rankings are computed in the browser; 1-year counties with suppressed data (`w == 0`) are dropped on load.
 - Clicking a county opens a detail panel and outlines it on the map. The panel lists each group's contribution to the county index as a percentage (`sh[i] * occ_exp[i]` / total).
-- Ranking lists (all layers except spread) include only counties with 25K+ workers (`MIN_RANK_WORKERS`). The map computes rankings in the browser; `rankings.json` is still exported but no longer read by the map.
+- Ranking lists (all layers except spread) include only counties with 25K+ workers (`MIN_RANK_WORKERS`). The map computes rankings in the browser.
 ## Key Constraint
 
 The `OCC_CATEGORY_ORDER` in `04_export_for_map.py` and the `OCC_CATEGORIES` tuple list in `02_download_acs.py` / `05_download_acs_1yr.py` must all stay consistent — array positions are used for indexing in both Python and JavaScript. `06_tract_exposure.py`, `07_robot_exposure.py` and `08_geographic_variance.py` import `OCC_CATEGORIES` from `02_download_acs.py` directly, so they follow automatically.

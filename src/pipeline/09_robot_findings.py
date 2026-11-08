@@ -59,7 +59,8 @@ def main():
 
     # 2. Tract socioeconomic gradient.
     t = pd.read_parquet(PROC / "tract_exposure.parquet")
-    t = t[(t.workers > 0) & (t.median_hh_income > 0)].dropna(subset=["median_hh_income", "robot"])
+    t = t[(t.workers > 0) & (t.median_hh_income > 0) & (t.state_fips != "72")]   # 50 states + DC, as on the map
+    t = t.dropna(subset=["median_hh_income", "robot"])
     t["inc_q"] = pd.qcut(t.median_hh_income, 5, labels=False)
     grad = []
     for q, g in t.groupby("inc_q"):

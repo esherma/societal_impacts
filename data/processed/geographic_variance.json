@@ -1,41 +1,41 @@
 {
   "ai": {
     "overall": {
-      "n_tracts": 83973,
-      "n_counties": 3217,
-      "sd_total": 0.024262211950128832,
-      "sd_noise": 0.010771076672459863,
-      "within_share_raw": 0.6633575619656548,
-      "within_share_adj": 0.5807237677973527,
-      "noise_share_of_total": 0.19708676004406314
+      "n_tracts": 83058,
+      "n_counties": 3139,
+      "sd_total": 0.024270375344572288,
+      "sd_noise": 0.010744841416755009,
+      "within_share_raw": 0.6637713796202127,
+      "within_share_adj": 0.5818073198179007,
+      "noise_share_of_total": 0.1959959217043716
     },
     "by_size": {
       "<25k workers": {
-        "n_tracts": 13446,
-        "n_counties": 2280,
-        "sd_total": 0.015561018555038887,
-        "sd_noise": 0.010267390351655121,
-        "within_share_raw": 0.6299036711693713,
-        "within_share_adj": 0.3445497561036007,
-        "noise_share_of_total": 0.4353555708049652
+        "n_tracts": 12943,
+        "n_counties": 2212,
+        "sd_total": 0.015432521044434691,
+        "sd_noise": 0.010111246337471704,
+        "within_share_raw": 0.6250681354057901,
+        "within_share_adj": 0.34306034636472427,
+        "noise_share_of_total": 0.4292750292671979
       },
       "25k\u2013100k": {
-        "n_tracts": 16672,
-        "n_counties": 608,
-        "sd_total": 0.01793740478486235,
-        "sd_noise": 0.01052702730168589,
-        "within_share_raw": 0.7092790481700035,
-        "within_share_adj": 0.5565417951105539,
-        "noise_share_of_total": 0.3444231076917992
+        "n_tracts": 16386,
+        "n_counties": 599,
+        "sd_total": 0.017864533856751783,
+        "sd_noise": 0.010483582967993144,
+        "within_share_raw": 0.7115316782955372,
+        "within_share_adj": 0.5600078021500122,
+        "noise_share_of_total": 0.34437855236057163
       },
       "100k\u2013500k": {
-        "n_tracts": 31333,
-        "n_counties": 283,
-        "sd_total": 0.022732319935404897,
-        "sd_noise": 0.010810940838787645,
-        "within_share_raw": 0.7455004858634893,
-        "within_share_adj": 0.671116034886026,
-        "noise_share_of_total": 0.22617232479450777
+        "n_tracts": 31207,
+        "n_counties": 282,
+        "sd_total": 0.022727962416202754,
+        "sd_noise": 0.01080200065048614,
+        "within_share_raw": 0.7448921863087457,
+        "within_share_adj": 0.6704523051233457,
+        "noise_share_of_total": 0.22588500038897819
       },
       "500k+": {
         "n_tracts": 22522,
@@ -50,41 +50,41 @@
   },
   "robot": {
     "overall": {
-      "n_tracts": 83973,
-      "n_counties": 3217,
-      "sd_total": 0.12149587415803431,
-      "sd_noise": 0.04111566733761567,
-      "within_share_raw": 0.7288339050165412,
-      "within_share_adj": 0.6937627888387933,
-      "noise_share_of_total": 0.11452271278452213
+      "n_tracts": 83058,
+      "n_counties": 3139,
+      "sd_total": 0.12161724384025209,
+      "sd_noise": 0.041009973286514845,
+      "within_share_raw": 0.7294255320944371,
+      "within_share_adj": 0.6947120372162024,
+      "noise_share_of_total": 0.11370738158719511
     },
     "by_size": {
       "<25k workers": {
-        "n_tracts": 13446,
-        "n_counties": 2280,
-        "sd_total": 0.0794123640509232,
-        "sd_noise": 0.04343453486340449,
-        "within_share_raw": 0.6046888371700339,
-        "within_share_adj": 0.43595185604662023,
-        "noise_share_of_total": 0.2991535083171202
+        "n_tracts": 12943,
+        "n_counties": 2212,
+        "sd_total": 0.07941782635754256,
+        "sd_noise": 0.04292638527128817,
+        "within_share_raw": 0.600465061223497,
+        "within_share_adj": 0.4355619077661332,
+        "noise_share_of_total": 0.29215454400805857
       },
       "25k\u2013100k": {
-        "n_tracts": 16672,
-        "n_counties": 608,
-        "sd_total": 0.09570799487284205,
-        "sd_noise": 0.04213939266506244,
-        "within_share_raw": 0.7186978010096169,
-        "within_share_adj": 0.6510520041450238,
-        "noise_share_of_total": 0.1938563845275871
+        "n_tracts": 16386,
+        "n_counties": 599,
+        "sd_total": 0.09569941354244157,
+        "sd_noise": 0.0420347849361982,
+        "within_share_raw": 0.7188743615567602,
+        "within_share_adj": 0.6516714328402491,
+        "noise_share_of_total": 0.19292970790331535
       },
       "100k\u2013500k": {
-        "n_tracts": 31333,
-        "n_counties": 283,
-        "sd_total": 0.11903155364121044,
-        "sd_noise": 0.040645126735960414,
-        "within_share_raw": 0.7878383440975126,
-        "within_share_adj": 0.7598355416304072,
-        "noise_share_of_total": 0.11659844532037901
+        "n_tracts": 31207,
+        "n_counties": 282,
+        "sd_total": 0.1190154148442301,
+        "sd_noise": 0.04061482754248447,
+        "within_share_raw": 0.7873820194614596,
+        "within_share_adj": 0.7593577224757879,
+        "noise_share_of_total": 0.11645624897666644
       },
       "500k+": {
         "n_tracts": 22522,

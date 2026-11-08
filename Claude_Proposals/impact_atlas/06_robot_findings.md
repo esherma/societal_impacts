@@ -1,7 +1,8 @@
 # AI vs. Robot Exposure: Findings on Current Data
 
 *Nov 7, 2026. Builds on [05_robot_layer_and_geographic_spread.md](05_robot_layer_and_geographic_spread.md).
-Numbers come from `src/pipeline/09_robot_findings.py` → `data/processed/robot_findings.json`.*
+Numbers come from `src/pipeline/09_robot_findings.py` → `data/processed/robot_findings.json`.
+Updated Nov 8, 2026: Puerto Rico excluded (50 states + DC, as on the map); figures recomputed.*
 
 AI exposure and robot exposure fall on almost entirely different places and people. Both indices
 use the same Bartik construction: Anthropic Economic Index occupation scores (AI usage; robot
@@ -13,13 +14,13 @@ task exposure, Sept 2026), weighted by ACS 2020–24 5-year workforce shares in 
 
 | Measure | Value |
 |---|---|
-| AI vs. robot exposure, counties (n = 3,222) | Correlation: −0.86 |
-| AI vs. robot exposure, census tracts (n ≈ 84k) | Correlation: −0.85 |
-| Workers in counties top third on both | 0.05% of all US workers (15 counties) |
-| Workers in counties top third AI, bottom third robot | 72% of all US workers (839 counties) |
-| Workers in counties top third robot, bottom third AI | 6% of all US workers (815 counties) |
+| AI vs. robot exposure, counties (n = 3,144) | Correlation: −0.86 |
+| AI vs. robot exposure, census tracts (n ≈ 83k) | Correlation: −0.85 |
+| Workers in counties top third on both | 0.05% of all US workers (14 counties) |
+| Workers in counties top third AI, bottom third robot | 72% of all US workers (820 counties) |
+| Workers in counties top third robot, bottom third AI | 6% of all US workers (793 counties) |
 | Exposure vs. share of adults with a BA, tracts | Correlation: AI +0.76, robot −0.86 |
-| Richest vs. poorest income fifth of tracts | AI: 1.46×; robot: 0.55× |
+| Richest vs. poorest income fifth of tracts | AI: 1.47×; robot: 0.54× |
 | Production jobs, robot-heavy vs. AI-heavy counties | 11% vs. 4% of workers |
 
 **Reading the correlations.** A correlation runs from −1 to +1. At −0.86, a county that ranks
@@ -33,17 +34,17 @@ counties but 72% of workers. Shaded by county, robots look like the bigger story
 people, AI is.
 
 **Income and education.** Ranking tracts by median household income, worker-weighted AI exposure
-rises steadily from the poorest fifth (0.084) to the richest (0.123), 46% higher. Robot exposure
-falls from 0.505 to 0.276, so the poorest fifth is 83% higher. The share of adults with a
+rises steadily from the poorest fifth (0.084) to the richest (0.123), 47% higher. Robot exposure
+falls from 0.507 to 0.275, so the poorest fifth is 84% higher. The share of adults with a
 bachelor's degree tracks both, more strongly for robots.
 
 | Income fifth (tract median household income) | AI exposure | Robot exposure |
 |---|---|---|
-| 1 (~$43k) | 0.084 | 0.505 |
-| 2 (~$61k) | 0.089 | 0.468 |
-| 3 (~$77k) | 0.096 | 0.426 |
-| 4 (~$98k) | 0.106 | 0.369 |
-| 5 (~$140k) | 0.123 | 0.276 |
+| 1 (~$44k) | 0.084 | 0.507 |
+| 2 (~$62k) | 0.089 | 0.467 |
+| 3 (~$77k) | 0.096 | 0.425 |
+| 4 (~$98k) | 0.106 | 0.368 |
+| 5 (~$140k) | 0.123 | 0.275 |
 
 **What drives the split.** Production work is the largest single difference between the two
 county types (11% vs. 4% of workers), followed by material moving, construction, farming and
