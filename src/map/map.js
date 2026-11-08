@@ -162,7 +162,7 @@
       domain: () => { const s = spreadSummary(); return [s.p05, s.p95]; },
       fmt: fmtSpread,
       title: "Neighborhood Spread of AI Exposure",
-      sub: "Typical gap between a neighborhood and its county, in index points · gray = under 10 tracts",
+      sub: "Higher means high- and low-exposure workers live in different neighborhoods · gray = under 10 tracts",
       top: "Most Divided", bottom: "Most Even (50+ tracts)",
     },
   };
