@@ -94,6 +94,7 @@ and per-county `r` (robot index) and `ws` ([sd_ai, sd_robot, n_tracts]).
 - Two datasets switchable via toggle: 5-year (all counties) and 1-year (large counties only).
 - Four layers via `#layer-toggle` (`LAYERS` in `map.js`): AI exposure (Blues), robot exposure (RdPu, 0–3 scale), AI × Robot (3×3 bivariate by national terciles), within-county spread (Greens; only counties with ≥10 tracts).
 - The map's AI and robot indices both use **unweighted** category means (the published method). Employment-weighted variants (`ai_w`, `robot_w`) exist in the processed data for sensitivity checks only.
+- Display scale: every index is shown relative to the worker-weighted US average (100 = average US worker, 50 states + DC, 2020–24 data), computed in `map.js` (`BASE_AI`, `BASE_ROBOT`). `atlas.json` keeps raw scores; the rescale is linear, so ranks and colors match the raw scale. Distribution summaries and rankings are computed in the browser; 1-year counties with suppressed data (`w == 0`) are dropped on load.
 - Clicking a county opens a detail panel showing per-occupation contributions (`sh[i] * occ_exp[i]`).
 ## Key Constraint
 

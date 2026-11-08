@@ -467,6 +467,7 @@ body {
 #legend-svg { display: block; }
 
 .legend-endpoints {
+  position: relative;
   display: flex;
   justify-content: space-between;
   width: 220px;
@@ -606,3 +607,12 @@ body {
   border-bottom: 1px solid #1e2d4a; flex-shrink: 0;
 }
 #detail-other:empty { display: none; }
+
+/* US-average tick on the legend ramp */
+.legend-mid {
+  position: absolute; top: -16px; height: 14px; width: 0;
+  border-left: 2px solid #f8fafc; box-shadow: 0 0 0 1px #0f172a;
+  pointer-events: none;
+}
+.legend-mid.hidden { display: none; }
+#detail-score-context b { color: #e2e8f0; font-weight: 600; }

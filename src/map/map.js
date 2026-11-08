@@ -6,15 +6,35 @@
 
 (async function () {
   // ── 1. Load data ──────────────────────────────────────────────────
-  const [topoData, atlas, rankings] = await Promise.all([
+  const [topoData, atlas] = await Promise.all([
     d3.json("data/counties-2023.json"),
     d3.json("data/atlas.json"),
-    d3.json("data/rankings.json"),
   ]);
 
-  const { occ_names, occ_exp, occ_robot, summary_5yr, summary_1yr,
-          summary_robot_5yr, summary_robot_1yr, counties_5yr, counties_1yr } = atlas;
+  const { occ_names, occ_exp, occ_robot, counties_5yr, counties_1yr } = atlas;
   const hasRobot = Array.isArray(occ_robot);
+
+  // The 1-year file has a few counties whose occupation table the Census suppressed
+  // (0 workers, all-zero scores). Treat them as missing rather than as the lowest values.
+  for (const d of [counties_5yr, counties_1yr]) {
+    for (const [f, r] of Object.entries(d)) if (!r.w) delete d[f];
+  }
+
+  // ── Scale: 100 = the average US worker ──────────────────────────
+  // Raw scores are rescaled against the worker-weighted national average from the
+  // 2020–24 data (50 states + DC). The same baseline is used for both datasets, so a
+  // county's number can be compared across the toggle. Rescaling is linear: ranks,
+  // colors and correlations are unchanged.
+  function usAverage(key) {
+    let sw = 0, sv = 0;
+    for (const [f, r] of Object.entries(counties_5yr)) {
+      if (f.startsWith("72")) continue;
+      sw += r.w; sv += r.w * r[key];
+    }
+    return sv / sw;
+  }
+  const BASE_AI    = usAverage("e");
+  const BASE_ROBOT = hasRobot ? usAverage("r") : 1;
 
   // ── 2. State ──────────────────────────────────────────────────────
   let activeDataset = "5yr";
@@ -23,13 +43,35 @@
   let panelSort     = { col: "contrib", dir: "desc" };
 
   function currentData()    { return activeDataset === "5yr" ? counties_5yr : counties_1yr; }
-  function currentSummary() { return activeDataset === "5yr" ? summary_5yr  : summary_1yr;  }
-  function robotSummary()   { return activeDataset === "5yr" ? summary_robot_5yr : summary_robot_1yr; }
+  // Distribution summaries are computed here from the loaded records, so they match
+  // exactly the counties drawn on the map.
+  const summaryCache = {};
+  function summarize(key) {
+    const ck = activeDataset + key;
+    if (!summaryCache[ck]) {
+      const v = Object.values(currentData()).map(r => r[key]).sort(d3.ascending);
+      const q = (p) => d3.quantileSorted(v, p);
+      summaryCache[ck] = { n: v.length, min: v[0], max: v[v.length - 1], median: q(0.5),
+        p05: q(0.05), p10: q(0.10), p25: q(0.25), p75: q(0.75), p90: q(0.90), p95: q(0.95) };
+    }
+    return summaryCache[ck];
+  }
+  function currentSummary() { return summarize("e"); }
+  function robotSummary()   { return summarize("r"); }
 
   // ── 3. Formatting ─────────────────────────────────────────────────
-  // AI index displayed ×100 (0.1093 → "10.9"); robot index on its native 0–3 scale.
-  function fmtIndex(v)   { return (v * 100).toFixed(1); }
-  function fmtRobot(v)   { return v.toFixed(2); }
+  // Both indices are shown relative to the average US worker (= 100).
+  const relAI    = (v) => (v / BASE_AI) * 100;
+  const relRobot = (v) => (v / BASE_ROBOT) * 100;
+  function fmtIndex(v)   { return relAI(v).toFixed(0); }
+  function fmtRobot(v)   { return relRobot(v).toFixed(0); }
+  function fmtSpread(v)  { return "±" + relAI(v).toFixed(0); }
+  // "35% above the US average" style phrase for an index value already on the 100 scale
+  function vsAverage(x) {
+    const d = Math.round(x - 100);
+    return d === 0 ? "about the same as the average US worker"
+         : `${Math.abs(d)}% ${d > 0 ? "above" : "below"} the average US worker`;
+  }
   function fmtPct(v)     { return (v * 100).toFixed(1) + "%"; }
   function fmtN(n) {
     return n >= 1e6 ? (n / 1e6).toFixed(1) + "M"
@@ -86,7 +128,7 @@
   const hasSpread = (r) => r.ws && r.ws[2] >= MIN_SPREAD_TRACTS;
   function spreadSummary() {
     const v = Object.values(currentData()).filter(hasSpread).map(r => r.ws[0]).sort(d3.ascending);
-    return { p05: d3.quantileSorted(v, 0.05), p95: d3.quantileSorted(v, 0.95), mean: d3.mean(v),
+    return { p05: d3.quantileSorted(v, 0.05), p95: d3.quantileSorted(v, 0.95), median: d3.quantileSorted(v, 0.5),
              min: v[0], max: v[v.length - 1], n: v.length };
   }
 
@@ -97,7 +139,7 @@
       domain: () => [currentSummary().p05, currentSummary().p95],
       fmt: fmtIndex,
       title: "AI Exposure Index",
-      sub: "Scale ×100 · p5–p95 range",
+      sub: "White tick = average US worker (100) · colors span the middle 90% of counties",
       top: "Most Exposed", bottom: "Least Exposed",
     },
     robot: {
@@ -106,22 +148,22 @@
       domain: () => [robotSummary().p05, robotSummary().p95],
       fmt: fmtRobot,
       title: "Robot Exposure Index",
-      sub: "Scale 0–3 · p5–p95 range",
+      sub: "White tick = average US worker (100) · colors span the middle 90% of counties",
       top: "Most Robot-Exposed", bottom: "Least Robot-Exposed",
     },
     biv: {
       title: "AI × Robot Exposure",
-      sub: "National thirds of counties",
+      sub: "Counties split into national thirds on each index",
       top: "Exposed to Both", bottom: "Exposed to Neither",
     },
     spread: {
       value: r => (hasSpread(r) ? r.ws[0] : null),
       ramp: d3.interpolateGreens,
       domain: () => { const s = spreadSummary(); return [s.p05, s.p95]; },
-      fmt: fmtIndex,
-      title: "Within-County Spread of AI Exposure",
-      sub: "SD across tracts, noise-adjusted · ×100 · gray = under 10 tracts",
-      top: "Most Internally Divided", bottom: "Most Uniform (50+ tracts)",
+      fmt: fmtSpread,
+      title: "Neighborhood Spread of AI Exposure",
+      sub: "Typical gap between a neighborhood and its county, in index points · gray = under 10 tracts",
+      top: "Most Divided", bottom: "Most Even (50+ tracts)",
     },
   };
 
@@ -216,7 +258,7 @@
   function scoreLine(rec) {
     if (activeLayer === "robot") {
       return `<span class="tt-index tt-robot">${fmtRobot(rec.r)}</span>
-        <span class="tt-pctile">Robot Exposure Index &middot; ${pctileLabel(rec.r, robotSummary())}</span>`;
+        <span class="tt-pctile">Robot index &middot; ${pctileLabel(rec.r, robotSummary())} of counties</span>`;
     }
     if (activeLayer === "biv") {
       const [a, r] = bivClass(rec);
@@ -225,16 +267,16 @@
     }
     if (activeLayer === "spread") {
       if (!hasSpread(rec)) {
-        return `<span class="tt-pctile">Only ${rec.ws ? rec.ws[2] : 0} tract(s): too few to separate real spread from survey noise</span>`;
+        return `<span class="tt-pctile">Only ${rec.ws ? rec.ws[2] : 0} neighborhood(s): too few to tell real differences from survey noise</span>`;
       }
       return rec.ws[0] === 0
         ? `<span class="tt-index tt-spread">~0</span>
-           <span class="tt-pctile">Tract differences within survey noise (${rec.ws[2]} tracts)</span>`
-        : `<span class="tt-index tt-spread">${fmtIndex(rec.ws[0])}</span>
-           <span class="tt-pctile">SD of AI exposure across ${rec.ws[2]} tracts</span>`;
+           <span class="tt-pctile">Neighborhoods differ by no more than survey noise (${rec.ws[2]} tracts)</span>`
+        : `<span class="tt-index tt-spread">${fmtSpread(rec.ws[0])}</span>
+           <span class="tt-pctile">Typical neighborhood gap from the county, across ${rec.ws[2]} tracts</span>`;
     }
     return `<span class="tt-index">${fmtIndex(rec.e)}</span>
-      <span class="tt-pctile">AI Exposure Index &middot; ${pctileLabel(rec.e, currentSummary())}</span>`;
+      <span class="tt-pctile">AI index &middot; ${pctileLabel(rec.e, currentSummary())} of counties</span>`;
   }
 
   function onMouseMove(event, d) {
@@ -262,8 +304,8 @@
       <div class="tt-state">${rec.s}</div>
       <div class="tt-score-line">${scoreLine(rec)}</div>
       ${both}
-      <div class="tt-workforce">Civilian workforce: ${fmtN(rec.w)}</div>
-      <div class="tt-occ-label">Largest occupation groups</div>
+      <div class="tt-workforce">Employed residents: ${fmtN(rec.w)}</div>
+      <div class="tt-occ-label">Largest job groups</div>
       ${occRows}
       <div class="tt-click-hint">Click for full breakdown</div>
     `;
@@ -290,7 +332,7 @@
     return occ_names.map((name, i) => ({
       name:    shortOccName(name),
       share:   rec.sh[i],
-      contrib: rec.sh[i] * s[i],
+      contrib: rec.sh[i] * s[i] / (isRobotView() ? BASE_ROBOT : BASE_AI) * 100,
     }));
   }
 
@@ -315,7 +357,7 @@
     const maxContrib = Math.max(...rows.map(r => r.contrib));
     const list       = document.getElementById("detail-occ-list");
     list.innerHTML   = "";
-    document.getElementById("contrib-label").textContent = isRobot ? "Robot contrib." : "AI contribution";
+    document.getElementById("contrib-label").textContent = "Points";
     document.getElementById("footer-metric").textContent = isRobot ? "robot" : "AI";
 
     for (const row of rows) {
@@ -326,7 +368,7 @@
         <div class="occ-name">${row.name}</div>
         <div class="occ-share">${fmtPct(row.share)}</div>
         <div class="occ-contrib-cell">
-          <span class="occ-contrib-val">${isRobot ? row.contrib.toFixed(2) : (row.contrib * 100).toFixed(1)}</span>
+          <span class="occ-contrib-val">${row.contrib.toFixed(1)}</span>
           <div class="occ-bar-bg"><div class="occ-bar${isRobot ? " robot" : ""}" style="width:${barPct}%"></div></div>
         </div>
       `;
@@ -357,19 +399,20 @@
     const scoreEl = document.getElementById("detail-score");
     scoreEl.textContent = isRobot ? fmtRobot(rec.r) : fmtIndex(rec.e);
     scoreEl.classList.toggle("robot", isRobot);
-    document.getElementById("detail-score-context").textContent = isRobot
-      ? pctileLabel(rec.r, robotSummary()) + " of US counties · robot index, scale 0–3"
-      : pctileLabel(rec.e, currentSummary()) + " of US counties · AI index, scale 0–100";
+    const rel = isRobot ? relRobot(rec.r) : relAI(rec.e);
+    document.getElementById("detail-score-context").innerHTML =
+      `<b>${isRobot ? "Robot" : "AI"} exposure index</b> · ${pctileLabel(isRobot ? rec.r : rec.e, isRobot ? robotSummary() : currentSummary())} of US counties<br/>` +
+      `${vsAverage(rel).replace(/^./, c => c.toUpperCase())}`;
     document.getElementById("detail-workforce").textContent =
-      `Civilian workforce: ${rec.w.toLocaleString()}`;
+      `Employed residents: ${rec.w.toLocaleString()}`;
 
     const other = [];
     if (hasRobot) {
-      other.push(isRobot ? `AI index ${fmtIndex(rec.e)} (${pctileLabel(rec.e, currentSummary()).toLowerCase()})`
-                         : `Robot index ${fmtRobot(rec.r)} (${pctileLabel(rec.r, robotSummary()).toLowerCase()})`);
+      other.push(isRobot ? `AI index: ${fmtIndex(rec.e)} (${pctileLabel(rec.e, currentSummary()).toLowerCase()} of counties)`
+                         : `Robot index: ${fmtRobot(rec.r)} (${pctileLabel(rec.r, robotSummary()).toLowerCase()} of counties)`);
     }
     if (hasSpread(rec) && rec.ws[0] > 0) {
-      other.push(`AI exposure varies by ±${fmtIndex(rec.ws[0])} (1 SD) across its ${rec.ws[2]} census tracts`);
+      other.push(`Its ${rec.ws[2]} neighborhoods (census tracts) typically sit ${fmtSpread(rec.ws[0])} points from the county's AI index`);
     }
     document.getElementById("detail-other").innerHTML = other.map(t => `<div>${t}</div>`).join("");
 
@@ -474,6 +517,12 @@
     const [lo, hi] = colorScale.domain();
     document.getElementById("legend-lo").textContent = L.fmt(lo);
     document.getElementById("legend-hi").textContent = L.fmt(hi);
+    // Mark where the US average (100) falls on the AI and robot ramps
+    const mid = document.getElementById("legend-mid");
+    const base = activeLayer === "ai" ? BASE_AI : activeLayer === "robot" ? BASE_ROBOT : null;
+    const t = base == null ? -1 : (base - lo) / (hi - lo);
+    mid.classList.toggle("hidden", !(t > 0 && t < 1));
+    mid.style.left = `${Math.max(0, t) * 220}px`;
   }
   updateLegend();
 
@@ -490,8 +539,8 @@
     set("stat-n", s.n.toLocaleString());
     if (activeLayer === "robot") {
       const rs = robotSummary();
-      set("stat-mean", fmtRobot(rs.mean));            set("stat-mean-label", "mean robot index");
-      set("stat-range", `${fmtRobot(rs.min)}–${fmtRobot(rs.max)}`); set("stat-range-label", "robot range");
+      set("stat-mean", fmtRobot(rs.median));          set("stat-mean-label", "median county");
+      set("stat-range", `${fmtRobot(rs.min)}–${fmtRobot(rs.max)}`); set("stat-range-label", "lowest–highest");
     } else if (activeLayer === "biv") {
       const recs = Object.values(currentData());
       const n = recs.filter(r => { const [a, b] = bivClass(r); return a === 2 && b === 2; }).length;
@@ -501,11 +550,11 @@
     } else if (activeLayer === "spread") {
       const ss = spreadSummary();
       set("stat-n", ss.n.toLocaleString());
-      set("stat-mean", fmtIndex(ss.mean));             set("stat-mean-label", "mean tract SD");
-      set("stat-range", `${fmtIndex(ss.min)}–${fmtIndex(ss.max)}`); set("stat-range-label", "tract SD range");
+      set("stat-mean", fmtSpread(ss.median));          set("stat-mean-label", "median county");
+      set("stat-range", `${relAI(ss.min).toFixed(0)}–${relAI(ss.max).toFixed(0)}`); set("stat-range-label", "lowest–highest");
     } else {
-      set("stat-mean", fmtIndex(s.mean));              set("stat-mean-label", "mean index");
-      set("stat-range", `${fmtIndex(s.min)}–${fmtIndex(s.max)}`);   set("stat-range-label", "index range");
+      set("stat-mean", fmtIndex(s.median));            set("stat-mean-label", "median county");
+      set("stat-range", `${fmtIndex(s.min)}–${fmtIndex(s.max)}`);   set("stat-range-label", "lowest–highest");
     }
   }
   updateStats();
@@ -527,7 +576,7 @@
   function abbrevState(n) { return STATE_ABBREVS[n] || n.slice(0, 2).toUpperCase(); }
 
   // ── 13. Rankings ──────────────────────────────────────────────────
-  // The AI layer uses the precomputed rankings.json; other layers rank in the browser.
+  // All rankings are computed in the browser.
   // Small counties are noisy, so computed rankings require ≥ MIN_RANK_WORKERS workers
   // (spread rankings require ≥ 20 tracts instead).
   const MIN_RANK_WORKERS = 25000;
@@ -553,8 +602,8 @@
     }
     // "Most uniform" needs many tracts, or it just lists counties too small to measure
     const byDesc = (min) => entries.filter(e => e.r.ws && e.r.ws[2] >= min).sort((a, b) => b.r.ws[0] - a.r.ws[0]);
-    return { top: byDesc(20).slice(0, 8).map(e => item(e, fmtIndex(e.r.ws[0]))),
-             bottom: byDesc(50).slice(-8).reverse().map(e => item(e, fmtIndex(e.r.ws[0]))) };
+    return { top: byDesc(20).slice(0, 8).map(e => item(e, fmtSpread(e.r.ws[0]))),
+             bottom: byDesc(50).slice(-8).reverse().map(e => item(e, fmtSpread(e.r.ws[0]))) };
   }
 
   function updateRankings() {
@@ -562,9 +611,12 @@
     document.getElementById("top-heading").textContent = L.top;
     document.getElementById("bottom-heading").textContent = L.bottom;
     if (activeLayer === "ai") {
-      const fmt = it => ({ ...it, label: fmtIndex(it.exposure), num: it.rank });
-      renderRankList("top-list",    rankings[activeDataset].top.slice(0, 8).map(fmt));
-      renderRankList("bottom-list", rankings[activeDataset].bottom.slice(-8).reverse().map(fmt));
+      // Same ranking as rankings.json (all counties, no size cutoff), computed from the
+      // loaded records so suppressed 1-year counties don't appear as "least exposed".
+      const all = Object.entries(currentData()).sort((a, b) => b[1].e - a[1].e)
+        .map(([fips, r], i) => ({ fips, county: r.n, state: r.s, label: fmtIndex(r.e), num: i + 1 }));
+      renderRankList("top-list",    all.slice(0, 8));
+      renderRankList("bottom-list", all.slice(-8).reverse());
       return;
     }
     const { top, bottom } = computedRanking();
@@ -584,7 +636,7 @@
         <span class="rk-score">${item.label}</span>
       `;
       li.style.cursor = "pointer";
-      if (activeLayer === "biv") li.title = "National percentile: AI / robot (counties with 25K+ workers)";
+      if (activeLayer === "biv") li.title = "National percentile on AI / on robot exposure (0–99). Counties with 25K+ workers only";
       li.addEventListener("click", () => {
         zoomToCounty(item.fips);
         onCountyClick({ stopPropagation: () => {} }, { id: parseInt(item.fips, 10) });
