@@ -327,12 +327,16 @@
   function isRobotView() { return activeLayer === "robot" && hasRobot; }
   function contribScores() { return isRobotView() ? occ_robot : occ_exp; }
 
+  // Contribution = each group's share of the county's index (share × group score / total),
+  // so the column sums to 100%.
   function getRows(rec) {
     const s = contribScores();
+    const raw = occ_names.map((_, i) => rec.sh[i] * s[i]);
+    const total = d3.sum(raw);
     return occ_names.map((name, i) => ({
       name:    shortOccName(name),
       share:   rec.sh[i],
-      contrib: rec.sh[i] * s[i] / (isRobotView() ? BASE_ROBOT : BASE_AI) * 100,
+      contrib: total > 0 ? raw[i] / total : 0,
     }));
   }
 
@@ -357,7 +361,7 @@
     const maxContrib = Math.max(...rows.map(r => r.contrib));
     const list       = document.getElementById("detail-occ-list");
     list.innerHTML   = "";
-    document.getElementById("contrib-label").textContent = "Points";
+    document.getElementById("contrib-label").textContent = "Contribution to county index";
     document.getElementById("footer-metric").textContent = isRobot ? "robot" : "AI";
 
     for (const row of rows) {
@@ -368,7 +372,7 @@
         <div class="occ-name">${row.name}</div>
         <div class="occ-share">${fmtPct(row.share)}</div>
         <div class="occ-contrib-cell">
-          <span class="occ-contrib-val">${row.contrib.toFixed(1)}</span>
+          <span class="occ-contrib-val">${fmtPct(row.contrib)}</span>
           <div class="occ-bar-bg"><div class="occ-bar${isRobot ? " robot" : ""}" style="width:${barPct}%"></div></div>
         </div>
       `;
