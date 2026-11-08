@@ -170,9 +170,28 @@
 
   <h2>How to read the numbers</h2>
   <p>
-    Every index on the map uses the same scale: <strong>100 = the average US worker</strong>.
-    A county at 130 has a job mix 30% more exposed than the national average. A county at 70
-    is 30% less exposed. The white tick on the legend marks 100.
+    Every index on the map uses the same scale: <strong>100 = average exposure of US
+    workers</strong>. Each worker gets the score of their job group, and 100 is the average of
+    those scores across all US workers. A county at 130 has a job mix 30% more exposed than the
+    national average. A county at 70 is 30% less exposed. The white tick on the legend marks 100.
+  </p>
+  <p>
+    <strong>What 100 means in absolute terms.</strong> Anthropic&rsquo;s raw AI score for an
+    occupation can be read, loosely, as the share of the job that AI can already do. It is the
+    share of the workday spent on tasks that AI is capable of speeding up <em>and</em> that show
+    up in real Claude work usage. On that reading, the average US worker&rsquo;s job is roughly
+    <strong>10% AI-automatable</strong>. Arlington County, VA, at 147, is about 15%. So
+    &ldquo;47% above average&rdquo; means about 5 more percentage points of the job, not 47.
+  </p>
+  <p>
+    Treat the percentage as approximate, for three reasons. First, tasks where AI only assists
+    the worker count at half weight, so the score is not a pure share of hours (Anthropic
+    describes computer programmers&rsquo; 0.75 as &ldquo;75% coverage&rdquo;). Second, our 25
+    broad job groups average their occupations equally. Weighting each detailed occupation by
+    how many people hold it gives about 12% for the average worker instead of 10%. Third,
+    about 40% of workers score zero because their tasks rarely show up in Claude usage. The
+    robot score (0&ndash;3) has no percentage reading. It rates how far robots have already
+    gone in handling a job&rsquo;s physical tasks.
   </p>
   <p>
     Counties run from <strong>35</strong> (Kalawao County, HI) to <strong>147</strong>
@@ -236,7 +255,7 @@
     up to the county&rsquo;s index.
   </p>
   <p>
-    Group scores, on the same 100 = average worker scale. A group score is the index a county
+    Group scores, on the same 100 = US average scale. A group score is the index a county
     would get if every worker were in that group.
   </p>
   <div style="overflow-x:auto">
