@@ -622,3 +622,4 @@ body {
 #detail-occ-header .sort-col { white-space: nowrap; }
 #detail-occ-header .sort-col[data-col="contrib"] { white-space: normal; line-height: 1.25; }
 .occ-contrib-val { min-width: 40px; }
+.rank-note { display: block; font-weight: 400; text-transform: none; letter-spacing: 0; color: #64748b; font-size: 0.64rem; }
