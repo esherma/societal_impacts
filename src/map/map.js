@@ -546,7 +546,7 @@
     if (activeLayer === "robot") {
       const rs = robotSummary();
       set("stat-mean", fmtRobot(rs.median));          set("stat-mean-label", "median county");
-      set("stat-range", `${fmtRobot(rs.min)}–${fmtRobot(rs.max)}`); set("stat-range-label", "lowest–highest");
+      set("stat-range", `${fmtRobot(rs.min)}–${fmtRobot(rs.max)}`); set("stat-range-label", "range, all counties");
     } else if (activeLayer === "biv") {
       const recs = Object.values(currentData());
       const n = recs.filter(r => { const [a, b] = bivClass(r); return a === 2 && b === 2; }).length;
@@ -557,10 +557,10 @@
       const ss = spreadSummary();
       set("stat-n", ss.n.toLocaleString());
       set("stat-mean", fmtSpread(ss.median));          set("stat-mean-label", "median county");
-      set("stat-range", `${relAI(ss.min).toFixed(0)}–${relAI(ss.max).toFixed(0)}`); set("stat-range-label", "lowest–highest");
+      set("stat-range", `${relAI(ss.min).toFixed(0)}–${relAI(ss.max).toFixed(0)}`); set("stat-range-label", "range");
     } else {
       set("stat-mean", fmtIndex(s.median));            set("stat-mean-label", "median county");
-      set("stat-range", `${fmtIndex(s.min)}–${fmtIndex(s.max)}`);   set("stat-range-label", "lowest–highest");
+      set("stat-range", `${fmtIndex(s.min)}–${fmtIndex(s.max)}`);   set("stat-range-label", "range, all counties");
     }
   }
   updateStats();
@@ -614,12 +614,14 @@
 
   function updateRankings() {
     const L = LAYERS[activeLayer];
-    document.getElementById("top-heading").textContent = L.top;
-    document.getElementById("bottom-heading").textContent = L.bottom;
+    // Rankings skip small counties, so say so (spread headings already name their tract cutoff)
+    const note = activeLayer === "spread" ? "" : `<span class="rank-note">counties with 25K+ workers</span>`;
+    document.getElementById("top-heading").innerHTML = L.top + note;
+    document.getElementById("bottom-heading").innerHTML = L.bottom + note;
     if (activeLayer === "ai") {
-      // Same ranking as rankings.json (all counties, no size cutoff), computed from the
-      // loaded records so suppressed 1-year counties don't appear as "least exposed".
-      const all = Object.entries(currentData()).sort((a, b) => b[1].e - a[1].e)
+      // Same size cutoff as the other layers: tiny counties are too noisy to rank
+      const all = Object.entries(currentData()).filter(([, r]) => r.w >= MIN_RANK_WORKERS)
+        .sort((a, b) => b[1].e - a[1].e)
         .map(([fips, r], i) => ({ fips, county: r.n, state: r.s, label: fmtIndex(r.e), num: i + 1 }));
       renderRankList("top-list",    all.slice(0, 8));
       renderRankList("bottom-list", all.slice(-8).reverse());
