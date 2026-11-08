@@ -20,7 +20,7 @@
     for (const [f, r] of Object.entries(d)) if (!r.w) delete d[f];
   }
 
-  // ── Scale: 100 = the average US worker ──────────────────────────
+  // ── Scale: 100 = average exposure of US workers ──────────────────────────
   // Raw scores are rescaled against the worker-weighted national average from the
   // 2020–24 data (50 states + DC). The same baseline is used for both datasets, so a
   // county's number can be compared across the toggle. Rescaling is linear: ranks,
@@ -69,8 +69,8 @@
   // "35% above the US average" style phrase for an index value already on the 100 scale
   function vsAverage(x) {
     const d = Math.round(x - 100);
-    return d === 0 ? "about the same as the average US worker"
-         : `${Math.abs(d)}% ${d > 0 ? "above" : "below"} the average US worker`;
+    return d === 0 ? "about the same as the US average"
+         : `${Math.abs(d)}% ${d > 0 ? "above" : "below"} the US average`;
   }
   function fmtPct(v)     { return (v * 100).toFixed(1) + "%"; }
   function fmtN(n) {
@@ -139,7 +139,7 @@
       domain: () => [currentSummary().p05, currentSummary().p95],
       fmt: fmtIndex,
       title: "AI Exposure Index",
-      sub: "White tick = average US worker (100) · colors span the middle 90% of counties",
+      sub: "White tick = US average (100) · colors span the middle 90% of counties",
       top: "Most Exposed", bottom: "Least Exposed",
     },
     robot: {
@@ -148,7 +148,7 @@
       domain: () => [robotSummary().p05, robotSummary().p95],
       fmt: fmtRobot,
       title: "Robot Exposure Index",
-      sub: "White tick = average US worker (100) · colors span the middle 90% of counties",
+      sub: "White tick = US average (100) · colors span the middle 90% of counties",
       top: "Most Robot-Exposed", bottom: "Least Robot-Exposed",
     },
     biv: {
@@ -402,7 +402,9 @@
     const rel = isRobot ? relRobot(rec.r) : relAI(rec.e);
     document.getElementById("detail-score-context").innerHTML =
       `<b>${isRobot ? "Robot" : "AI"} exposure index</b> · ${pctileLabel(isRobot ? rec.r : rec.e, isRobot ? robotSummary() : currentSummary())} of US counties<br/>` +
-      `${vsAverage(rel).replace(/^./, c => c.toUpperCase())}`;
+      `${vsAverage(rel).replace(/^./, c => c.toUpperCase())}` +
+      // Raw AI score ≈ share of the job AI can do (see methodology), so give the absolute reading too
+      (isRobot ? "" : ` · roughly ${Math.round(rec.e * 100)}% of the typical job here is AI-automatable (US: ${Math.round(BASE_AI * 100)}%)`);
     document.getElementById("detail-workforce").textContent =
       `Employed residents: ${rec.w.toLocaleString()}`;
 
