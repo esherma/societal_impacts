@@ -74,6 +74,7 @@
       font-size: 0.85rem;
       color: #93c5fd;
     }
+    code { overflow-wrap: anywhere; }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -98,6 +99,7 @@
     }
     td:first-child { color: #cbd5e1; }
     tr:hover td { background: #111827; }
+    .score-chip.robot { color: #f472b6; background: rgba(244,114,182,0.12); }
     .score-chip {
       display: inline-block;
       background: #1e3a5f;
@@ -145,237 +147,321 @@
 </head>
 <body>
 <div class="page">
-  <a href="index.html" class="back-link">← Back to Atlas</a>
+  <a href="index.html" class="back-link">← Back to the map</a>
 
   <h1>Methodology &amp; Sources</h1>
-  <p class="tagline">How the AI Exposure Index is constructed, what it measures, and what it does not.</p>
+  <p class="tagline">What the numbers mean, how they are built, and what they leave out.</p>
 
-  <!-- ── What This Is ── -->
-  <h2>What the Index Measures</h2>
+  <h2>What the map shows</h2>
   <p>
-    The <strong>AI Exposure Index</strong> answers: <em>How concentrated is this county's workforce in
-    occupations where AI systems are currently being actively used?</em> It is a weighted average of
-    occupation-level AI activity scores, where the weights are each occupation's share of the local
-    civilian workforce.
+    Each county gets an <strong>AI Exposure Index</strong>. It answers one question:
+    <em>how much of the work done in this county is tasks AI can already do?</em>
+    The index is built from two inputs. The first is Anthropic&rsquo;s occupation scores, which
+    measure how much of each occupation&rsquo;s tasks people across the US are actually using
+    Claude for. Real usage is the evidence that AI can do a task. The second is Census counts
+    of how many local residents work in each occupation.
   </p>
   <p>
-    The index is <strong>not</strong> a prediction of job loss. It measures current observed usage
-    of AI tools (specifically, Claude) across occupation types — not theoretical capability, not
-    future automation potential. Counties with high scores have large shares of workers in occupations
-    where AI is already integrated into daily work. Counties with low scores have workforces concentrated
-    in occupations where AI usage has not yet been observed at scale.
-  </p>
-  <p>
-    The practical scale: county index values in the US range from roughly
-    <strong>0.035</strong> (rural agricultural counties, Appalachia) to
-    <strong>0.150</strong> (Northern Virginia tech corridor, Silicon Valley).
-    The national county mean is approximately <strong>0.087</strong>.
+    The index is <strong>not</strong> a measure of local AI adoption. The usage data is national,
+    so it says nothing about whether workers in a particular county use AI. It is also
+    <strong>not</strong> a forecast of job losses. AI that can do a task often helps the worker
+    rather than replacing them.
   </p>
 
-  <!-- ── Method ── -->
-  <h2>Construction Method: Bartik Shift-Share</h2>
+  <h2>How to read the numbers</h2>
   <p>
-    The core method is a <strong>Bartik-style shift-share</strong>, the same approach used in
-    the China shock literature (Autor, Dorn &amp; Hanson 2013) for constructing geographic
-    exposure to national-level labor market shocks.
+    Every index on the map uses the same scale: <strong>100 = average exposure of US
+    workers</strong>. Each worker gets the score of their job group, and 100 is the average of
+    those scores across all US workers. A county at 130 has a job mix 30% more exposed than the
+    national average. A county at 70 is 30% less exposed. The white tick on the legend marks 100.
+  </p>
+  <p>
+    <strong>What 100 means in absolute terms.</strong> Anthropic&rsquo;s raw AI score for an
+    occupation can be read, loosely, as the share of the job that AI can already do. It is the
+    share of the workday spent on tasks that AI is capable of speeding up <em>and</em> that show
+    up in real Claude work usage. On that reading, the average US worker&rsquo;s job is roughly
+    <strong>10% AI-automatable</strong>. Arlington County, VA, at 147, is about 15%. So
+    &ldquo;47% above average&rdquo; means about 5 more percentage points of the job, not 47.
+  </p>
+  <p>
+    Treat the percentage as approximate, for three reasons. First, tasks where AI only assists
+    the worker count at half weight, so the score is not a pure share of hours (Anthropic
+    describes computer programmers&rsquo; 0.75 as &ldquo;75% coverage&rdquo;). Second, our 25
+    broad job groups average their occupations equally. Weighting each detailed occupation by
+    how many people hold it gives about 12% for the average worker instead of 10%. Third,
+    about 40% of workers score zero because their tasks rarely show up in Claude usage. The
+    robot score (0&ndash;3) has no percentage reading. It rates how far robots have already
+    gone in handling a job&rsquo;s physical tasks.
+  </p>
+  <p>
+    Counties run from <strong>35</strong> (Kalawao County, HI) to <strong>147</strong>
+    (Arlington County, VA). Among counties with at least 25,000 workers, the low end is about 68.
+    The ranking lists under the map include only those larger counties, because estimates for
+    very small counties are noisy. The range shown beside them covers all counties.
+  </p>
+  <p>
+    The median county scores <strong>84</strong>, below 100. This is expected. The average
+    worker lives in a large metro area, and metros score high. Only 11% of counties are above
+    100, but those counties hold 47% of US workers.
+  </p>
+  <p>
+    The map colors run from the 5th to the 95th percentile county. Counties beyond those
+    values get the end colors, so a few extreme counties don&rsquo;t wash out the rest.
+  </p>
+  <p>
+    <em>Why rescale?</em> Anthropic&rsquo;s raw AI score runs from 0 to 1 and the robot score
+    from 0 to 3. On those scales a county shows up as something like 0.087 or 0.45, which
+    is hard to read. Dividing by the national average puts both indices on one familiar
+    scale. This is a linear change, so rankings, colors and correlations are exactly the same
+    as on the raw scale. The national averages used are 0.102 (AI) and 0.394 (robot), taken
+    from the 2020&ndash;24 data for the 50 states and DC.
+  </p>
+
+  <h2>&ldquo;All counties&rdquo; vs. &ldquo;Large counties, 2024&rdquo;</h2>
+  <p>
+    The job counts come from the Census Bureau&rsquo;s American Community Survey (ACS), which
+    surveys a sample of households each year. The toggle switches between two versions of
+    that survey:
+  </p>
+  <ul>
+    <li><strong>All counties (2020&ndash;24, pooled).</strong> This version combines five years
+      of responses, which gives enough of them to estimate every county, including small
+      ones. It is the default.</li>
+    <li><strong>Large counties, 2024.</strong> This version uses only 2024 responses, so it is
+      more current. A single year has too few responses for small places, so the Census
+      publishes it only for counties with 65,000+ residents (about 835 counties with usable
+      data). Other counties are faded.</li>
+  </ul>
+  <p>
+    Both versions use the same national average as 100, so you can compare a county&rsquo;s
+    number across the toggle. The typical county scores higher in the 2024 version (median
+    96 vs. 84) mainly because only larger, more urban counties are included.
+  </p>
+
+  <h2>How the index is built</h2>
+  <p>
+    The Census reports each county&rsquo;s workers in 25 job groups. Each group gets an
+    exposure score: the average of Anthropic&rsquo;s scores for all detailed occupations in
+    that group. A county&rsquo;s index is the average of those group scores, weighted by
+    how many of its workers are in each group:
   </p>
   <div class="formula">
-    AI_Exposure(county) = &Sigma;<sub>k</sub> [ share<sub>k</sub>(county) &times; exposure_score<sub>k</sub> ]
+    County index = &Sigma;<sub>groups</sub> ( share of county workers in group &times; group score )
   </div>
-  <p>Where:</p>
-  <ul>
-    <li><strong>share<sub>k</sub>(county)</strong> is the fraction of the county's civilian employed
-        population in occupation group <em>k</em></li>
-    <li><strong>exposure_score<sub>k</sub></strong> is the mean observed AI exposure across all
-        6-digit SOC occupations within ACS occupation group <em>k</em></li>
-  </ul>
   <p>
-    The shift-share approach attributes variation in county-level exposure entirely to the county's
-    occupational mix — not to local adoption patterns or industry structure. This is both a strength
-    (it's purely driven by workforce composition, which is well-measured) and a limitation (two counties
-    with identical occupation mixes get the same score even if one has much higher AI adoption).
+    Economists call this a <em>shift-share</em> (or Bartik) measure. It is a standard way
+    to turn a national, occupation-level measure into a local one. The index changes from
+    county to county only through the local mix of jobs. Two counties with the same job mix
+    get the same score, even if workers in one use AI far more. When you click a county, the panel lists
+    each group&rsquo;s <em>contribution to the county index</em>: its share of workers times its
+    score, as a percentage of the county&rsquo;s total. Contributions add up to 100%.
   </p>
-
-  <!-- ── Occupation Crosswalk ── -->
-  <h2>Occupation Group Crosswalk</h2>
   <p>
-    The ACS C24010 table reports employment across 25 occupation groups. These are mapped to
-    SOC major group prefixes to match the Anthropic occupation-level exposure scores.
-    The category exposure score is the <strong>unweighted mean</strong> of observed_exposure
-    across all 6-digit SOC occupations within the prefix set.
+    Group scores, on the same 100 = US average scale. A group score is the index a county
+    would get if every worker were in that group.
   </p>
+  <div style="overflow-x:auto">
   <table>
     <thead>
-      <tr>
-        <th>ACS Occupation Group</th>
-        <th>SOC Prefix(es)</th>
-        <th># Occupations</th>
-        <th>Category Score</th>
-      </tr>
+      <tr><th>Job group</th><th>SOC codes</th><th># occupations</th><th>AI score</th><th>Robot score</th></tr>
     </thead>
     <tbody>
-      <tr><td>Computer and mathematical</td><td>15-</td><td>21</td><td><span class="score-chip">0.3787</span></td></tr>
-      <tr><td>Sales and related</td><td>41-</td><td>20</td><td><span class="score-chip">0.2361</span></td></tr>
-      <tr><td>Legal</td><td>23-</td><td>7</td><td><span class="score-chip">0.2158</span></td></tr>
-      <tr><td>Office and administrative support</td><td>43-</td><td>50</td><td><span class="score-chip">0.1906</span></td></tr>
-      <tr><td>Business and financial operations</td><td>13-</td><td>29</td><td><span class="score-chip">0.1766</span></td></tr>
-      <tr><td>Arts, design, entertainment, sports, media</td><td>27-</td><td>34</td><td><span class="score-chip">0.1424</span></td></tr>
-      <tr><td>Educational instruction and library</td><td>25-</td><td>57</td><td><span class="score-chip">0.1293</span></td></tr>
-      <tr><td>Life, physical, and social science</td><td>19-</td><td>46</td><td><span class="score-chip">0.1219</span></td></tr>
-      <tr><td>Management</td><td>11-</td><td>35</td><td><span class="score-chip">0.0974</span></td></tr>
-      <tr><td>Health technologists and technicians</td><td>29-2</td><td>19</td><td><span class="score-chip">0.0590</span></td></tr>
-      <tr><td>Community and social service</td><td>21-</td><td>12</td><td><span class="score-chip">0.0516</span></td></tr>
-      <tr><td>Healthcare support</td><td>31-</td><td>16</td><td><span class="score-chip">0.0494</span></td></tr>
-      <tr><td>Architecture and engineering</td><td>17-</td><td>34</td><td><span class="score-chip">0.0381</span></td></tr>
-      <tr><td>Health diagnosing and treating practitioners</td><td>29-1</td><td>41</td><td><span class="score-chip">0.0287</span></td></tr>
-      <tr><td>Building and grounds cleaning &amp; maintenance</td><td>37-</td><td>8</td><td><span class="score-chip">0.0247</span></td></tr>
-      <tr><td>Personal care and service</td><td>39-</td><td>27</td><td><span class="score-chip">0.0191</span></td></tr>
-      <tr><td>Law enforcement workers</td><td>33-3, 33-9</td><td>15</td><td><span class="score-chip">0.0145</span></td></tr>
-      <tr><td>Transportation</td><td>53-1 thru 53-6</td><td>29</td><td><span class="score-chip">0.0098</span></td></tr>
-      <tr><td>Food preparation and serving</td><td>35-</td><td>15</td><td><span class="score-chip">0.0094</span></td></tr>
-      <tr><td>Production</td><td>51-</td><td>98</td><td><span class="score-chip">0.0078</span></td></tr>
-      <tr><td>Installation, maintenance, and repair</td><td>49-</td><td>50</td><td><span class="score-chip">0.0071</span></td></tr>
-      <tr><td>Firefighting and prevention workers</td><td>33-1, 33-2</td><td>6</td><td><span class="score-chip">0.0053</span></td></tr>
-      <tr><td>Construction and extraction</td><td>47-</td><td>56</td><td><span class="score-chip">0.0040</span></td></tr>
-      <tr><td>Farming, fishing, and forestry</td><td>45-</td><td>11</td><td><span class="score-chip">0.0018</span></td></tr>
-      <tr><td>Material moving</td><td>53-7</td><td>15</td><td><span class="score-chip">0.0000</span></td></tr>
+      <tr><td>Computer and mathematical</td><td>15-</td><td>21</td><td><span class="score-chip">371</span></td><td><span class="score-chip robot">5</span></td></tr>
+      <tr><td>Sales and related</td><td>41-</td><td>20</td><td><span class="score-chip">231</span></td><td><span class="score-chip robot">80</span></td></tr>
+      <tr><td>Legal</td><td>23-</td><td>7</td><td><span class="score-chip">211</span></td><td><span class="score-chip robot">0</span></td></tr>
+      <tr><td>Office and administrative support</td><td>43-</td><td>50</td><td><span class="score-chip">187</span></td><td><span class="score-chip robot">89</span></td></tr>
+      <tr><td>Business and financial operations</td><td>13-</td><td>29</td><td><span class="score-chip">173</span></td><td><span class="score-chip robot">9</span></td></tr>
+      <tr><td>Arts, design, entertainment, sports, media</td><td>27-</td><td>34</td><td><span class="score-chip">139</span></td><td><span class="score-chip robot">31</span></td></tr>
+      <tr><td>Educational instruction and library</td><td>25-</td><td>57</td><td><span class="score-chip">127</span></td><td><span class="score-chip robot">11</span></td></tr>
+      <tr><td>Life, physical, and social science</td><td>19-</td><td>46</td><td><span class="score-chip">119</span></td><td><span class="score-chip robot">73</span></td></tr>
+      <tr><td>Management</td><td>11-</td><td>35</td><td><span class="score-chip">95</span></td><td><span class="score-chip robot">13</span></td></tr>
+      <tr><td>Health technologists and technicians</td><td>29-2</td><td>19</td><td><span class="score-chip">58</span></td><td><span class="score-chip robot">73</span></td></tr>
+      <tr><td>Community and social service</td><td>21-</td><td>12</td><td><span class="score-chip">51</span></td><td><span class="score-chip robot">5</span></td></tr>
+      <tr><td>Healthcare support</td><td>31-</td><td>16</td><td><span class="score-chip">48</span></td><td><span class="score-chip robot">108</span></td></tr>
+      <tr><td>Architecture and engineering</td><td>17-</td><td>34</td><td><span class="score-chip">37</span></td><td><span class="score-chip robot">46</span></td></tr>
+      <tr><td>Health diagnosing and treating practitioners</td><td>29-1</td><td>41</td><td><span class="score-chip">28</span></td><td><span class="score-chip robot">19</span></td></tr>
+      <tr><td>Building and grounds cleaning and maintenance</td><td>37-</td><td>8</td><td><span class="score-chip">24</span></td><td><span class="score-chip robot">198</span></td></tr>
+      <tr><td>Personal care and service</td><td>39-</td><td>27</td><td><span class="score-chip">19</span></td><td><span class="score-chip robot">122</span></td></tr>
+      <tr><td>Law enforcement workers</td><td>33-3, 33-9</td><td>15</td><td><span class="score-chip">14</span></td><td><span class="score-chip robot">97</span></td></tr>
+      <tr><td>Transportation</td><td>53-1 to 53-6</td><td>29</td><td><span class="score-chip">10</span></td><td><span class="score-chip robot">220</span></td></tr>
+      <tr><td>Food preparation and serving</td><td>35-</td><td>15</td><td><span class="score-chip">9</span></td><td><span class="score-chip robot">227</span></td></tr>
+      <tr><td>Production</td><td>51-</td><td>98</td><td><span class="score-chip">8</span></td><td><span class="score-chip robot">229</span></td></tr>
+      <tr><td>Installation, maintenance, and repair</td><td>49-</td><td>50</td><td><span class="score-chip">7</span></td><td><span class="score-chip robot">111</span></td></tr>
+      <tr><td>Firefighting and prevention workers</td><td>33-1, 33-2</td><td>6</td><td><span class="score-chip">5</span></td><td><span class="score-chip robot">49</span></td></tr>
+      <tr><td>Construction and extraction</td><td>47-</td><td>56</td><td><span class="score-chip">4</span></td><td><span class="score-chip robot">232</span></td></tr>
+      <tr><td>Farming, fishing, and forestry</td><td>45-</td><td>11</td><td><span class="score-chip">2</span></td><td><span class="score-chip robot">243</span></td></tr>
+      <tr><td>Material moving</td><td>53-7</td><td>15</td><td><span class="score-chip">0</span></td><td><span class="score-chip robot">330</span></td></tr>
     </tbody>
   </table>
-
-  <!-- ── Data Sources ── -->
-  <h2>Data Sources</h2>
-
-  <div class="source-block">
-    <div class="source-title">Anthropic Economic Index — Labor Market Impacts</div>
-    <div class="source-meta">HuggingFace: <code>Anthropic/EconomicIndex / labor_market_impacts/job_exposure.csv</code> &middot; Released March 2026</div>
-    <div class="source-desc">
-      756 occupations at 6-digit SOC level with <code>observed_exposure</code> scores.
-      Observed exposure combines theoretical AI task feasibility (Eloundou et al. β scores)
-      with actual Claude API and consumer usage patterns, weighted by time-on-task.
-      This is the occupation-level exposure input to the shift-share.
-    </div>
   </div>
 
-  <div class="source-block">
-    <div class="source-title">American Community Survey (ACS) 5-Year Estimates, 2024</div>
-    <div class="source-meta">US Census Bureau &middot; Table C24010 &middot; Released December 2024 &middot; Period: 2020–2024</div>
-    <div class="source-desc">
-      County-level civilian employment counts by 25 occupation groups.
-      5-year estimates pool survey responses to achieve reliable estimates even for small counties.
-      Covers all 3,222 US counties and county-equivalents.
-    </div>
-  </div>
+  <h2>The other map layers</h2>
 
-  <div class="source-block">
-    <div class="source-title">American Community Survey (ACS) 1-Year Estimates, 2024</div>
-    <div class="source-meta">US Census Bureau &middot; Table C24010 &middot; Released September 2024</div>
-    <div class="source-desc">
-      Same occupation table as the 5-year data, but using only 2024 survey responses.
-      Available for 861 counties with population &ge; 65,000.
-      Provides more current workforce composition for large counties.
-    </div>
-  </div>
+  <h3>Robot exposure</h3>
+  <p>
+    This layer is built the same way, using Anthropic&rsquo;s robot exposure scores
+    (&ldquo;What work can robots do?&rdquo;, September 2026) in place of the AI scores. Each
+    occupation&rsquo;s physical tasks are rated by where a working robot has already been
+    shown to operate. The ratings run from 0 (nowhere) through a purpose-built cell and a
+    structured site such as a warehouse, up to 3 (messy, open settings such as homes or
+    construction sites). Counties run from <strong>47</strong> (Arlington County, VA) to
+    <strong>203</strong> (Kalawao County, HI). Among counties with 25,000+ workers the top
+    is 143 (St. Joseph County, MI).
+  </p>
 
-  <div class="source-block">
-    <div class="source-title">US Atlas TopoJSON</div>
-    <div class="source-meta">npm: <code>us-atlas@3</code> &middot; County boundaries at 1:10m scale from Census TIGER/Line</div>
-    <div class="source-desc">Used for county boundary polygons and state borders in the choropleth map.</div>
-  </div>
+  <h3>AI &times; Robot</h3>
+  <p>
+    This layer splits counties into national thirds (low, middle, high) on each index and
+    colors the nine combinations. Very few counties are high on both. Across counties, the
+    two indices correlate at <strong>&minus;0.86</strong>: a place tends to be exposed to one
+    kind of automation or the other.
+  </p>
+  <p>
+    Some of this reflects real job content. Across individual occupations the correlation is
+    &minus;0.39, and across the 25 groups it is &minus;0.57. The county pattern is stronger
+    because local job mixes vary mostly along one office-work vs. hands-on-work axis. When the
+    robot scores are shuffled at random across groups, the county correlation averages zero,
+    so the pattern is not built into the method.
+  </p>
 
-  <!-- ── Limitations ── -->
-  <h2>Known Limitations</h2>
+  <h3>Neighborhood spread</h3>
+  <p>
+    This layer applies the same AI index to census tracts, which are neighborhoods of about
+    4,000 people (roughly 83,000 tracts with 200+ workers). For each county it shows how far
+    a typical tract&rsquo;s index sits from the county&rsquo;s, in index points (a
+    worker-weighted standard deviation). Higher means high- and low-exposure workers live in
+    different neighborhoods. A county with very mixed jobs scores near zero if every neighborhood
+    has that same mix. The median county is about <strong>&plusmn;10</strong>.
+    The most divided counties, such as King County, WA and Santa Clara County, CA, reach
+    about &plusmn;34.
+  </p>
+  <p>
+    Tract numbers come from a smaller sample, so some of their variation is survey noise. That
+    noise is estimated from the Census margins of error and subtracted out. The layer is shown
+    only for counties with 10 or more tracts. In smaller counties the noise usually exceeds
+    the real differences.
+  </p>
+  <p>
+    After removing noise, about <strong>58%</strong> of the variation in AI exposure across
+    tracts lies <em>within</em> counties rather than between them. That rises to 76% in
+    counties with 500,000+ workers. For robot exposure the figures are 69% and 83%. The county
+    map is a useful summary, but inside big metros it hides most of the differences.
+  </p>
+
+  <h2>Limitations</h2>
 
   <div class="limitation-box">
-    <h3>Aggregation to broad occupation groups</h3>
+    <h3>Broad job groups</h3>
     <p>
-      The ACS summary tables report employment at 25 broad occupation groups
-      (e.g., "Computer and mathematical occupations"), not at 6-digit SOC detail.
-      Within each group, the category score is an unweighted mean across all matching
-      SOC occupations — which masks substantial within-group variation.
-      For example, "Computer programmers" (74.5% exposure) and "Network support
-      specialists" (3.2% exposure) are both in the "Computer and mathematical" group,
-      averaged to a group score of 37.9%.
+      The Census county tables use only 25 broad job groups, so very different jobs share one
+      score. For example, computer programmers score about 730 and network support specialists
+      about 31. Both fall in &ldquo;Computer and mathematical,&rdquo; which averages to 371.
     </p>
   </div>
 
   <div class="limitation-box">
-    <h3>Small-county sampling noise</h3>
+    <h3>Simple averages within groups</h3>
     <p>
-      ACS 5-year estimates for counties with fewer than ~5,000 workers carry large
-      margins of error. Occasionally, random sampling fluctuations produce anomalous
-      occupation concentrations. Dolores County, CO (1,336 workers) is a known
-      example where the estimate implies an unusually high share of computer/math
-      workers. Exercise caution interpreting outliers in very small counties.
+      Each group score treats all of its occupations equally, regardless of how many people
+      hold each one. Weighting by national employment barely changes county rankings (rank
+      correlation 0.97), but it moves some group scores a lot. Office and administrative
+      support, for example, rises from 187 to about 350. The weighted version is computed in
+      the pipeline but not yet used on the map.
     </p>
   </div>
 
   <div class="limitation-box">
-    <h3>Geographic unit mismatch with labor markets</h3>
+    <h3>Small-county noise</h3>
     <p>
-      Counties are administrative units that often don't correspond to actual labor
-      market areas. San Bernardino County, CA has a land area larger than nine US
-      states and contains dramatically different labor markets (coastal suburbs,
-      inland logistics corridors, desert communities). A single county-level index
-      obscures this heterogeneity. Commuting zone and PUMA-level analysis are
-      planned.
+      Survey estimates for counties with fewer than about 5,000 workers have wide margins of
+      error, and chance can produce odd job mixes. Dolores County, CO (about 1,300 workers)
+      scores 132 because the survey implies an unusually high share of computer workers. Treat
+      extreme values in very small counties with caution.
     </p>
   </div>
 
   <div class="limitation-box">
-    <h3>Observed ≠ affected</h3>
+    <h3>Counties are not labor markets</h3>
     <p>
-      High AI Exposure Index does not mean workers in those counties are at risk of
-      displacement. The Anthropic data measures where Claude is being <em>used</em> —
-      in many cases for augmentation (AI assisting workers) rather than automation
-      (AI replacing tasks). The index is a measure of current AI activity in the
-      occupational mix, not a prediction of labor market outcomes.
+      People often work outside the county they live in, and some counties contain very
+      different local economies. San Bernardino County, CA is larger than nine states. The
+      index describes where workers live, not where they work.
     </p>
   </div>
 
-  <!-- ── Planned Features ── -->
-  <h2>Planned Features <span class="planned">Phase 2</span></h2>
+  <div class="limitation-box">
+    <h3>Capable is not the same as at risk</h3>
+    <p>
+      A high index means much of the county&rsquo;s work is tasks that AI can already do.
+      For many of those tasks AI assists workers rather than replacing them. The index shows
+      where change could show up first, not whether it will cost jobs.
+    </p>
+  </div>
+
+  <h2>Planned additions <span class="planned">Next</span></h2>
   <ul>
-    <li>
-      <strong>Commuting zone resolution.</strong> Aggregate county data to BEA/USDA
-      commuting zones (~709 areas), which better reflect actual labor market geography.
-      Will require building commuting zone TopoJSON boundaries from county polygons.
-    </li>
-    <li>
-      <strong>Augmentation vs. automation split.</strong> The Anthropic Economic Index
-      distinguishes task-level augmentation (AI assisting) from automation (AI replacing).
-      A second map layer showing automation-heavy vs. augmentation-heavy regions
-      would make the policy implications clearer.
-    </li>
-    <li>
-      <strong>Theoretical exposure toggle.</strong> Current map shows "observed" exposure
-      (where Claude is actually being used). A second layer using Eloundou et al. (2023)
-      theoretical β scores would show where AI <em>could</em> be deployed based on
-      capability alone — the gap between observed and theoretical is a measure of
-      latent risk.
-    </li>
-    <li>
-      <strong>Employment-weighted category scores.</strong> Current category scores use
-      unweighted occupation averages. Weighting by national employment within each
-      group (from BLS OES data) would give more accurate category scores.
-    </li>
-    <li>
-      <strong>PUMA-level microdata.</strong> ACS Public Use Microdata (PUMS) with
-      6-digit SOC codes would allow more precise matching to the Anthropic occupation
-      scores, at the cost of PUMA-level geography instead of county-level.
-    </li>
+    <li><strong>Commuting zones.</strong> Group counties into the roughly 700 areas where people
+      actually live and work, which better match real labor markets.</li>
+    <li><strong>Detailed occupations.</strong> Use Census microdata (PUMS), which records about
+      500 occupations instead of 25 groups. It is only available for larger areas (PUMAs), not
+      for counties.</li>
+    <li><strong>Assist vs. automate.</strong> Anthropic&rsquo;s data separates AI that helps
+      with a task from AI that does it. A layer showing that split would clarify which places
+      face more replacement than assistance.</li>
+    <li><strong>Potential vs. current use.</strong> Add a layer for where AI <em>could</em> be
+      used based on what it can do (Eloundou et al. 2023). The gap with current use would show
+      where adoption may still be coming.</li>
   </ul>
 
-  <!-- ── Citation ── -->
+  <h2>Data sources</h2>
+
+  <div class="source-block">
+    <div class="source-title">Anthropic Economic Index: Labor Market Impacts</div>
+    <div class="source-meta">HuggingFace: <code>Anthropic/EconomicIndex</code> &middot; <code>labor_market_impacts/job_exposure.csv</code> &middot; March 2026</div>
+    <div class="source-desc">
+      AI exposure scores for 756 detailed occupations. Each score combines which tasks AI can
+      do (Eloundou et al.) with how Claude is actually used, weighted by the time each task takes.
+    </div>
+  </div>
+
+  <div class="source-block">
+    <div class="source-title">Anthropic Economic Index: Robot Exposure</div>
+    <div class="source-meta">HuggingFace: <code>Anthropic/EconomicIndex</code> &middot; <code>robot_exposure/robot_exposure_occupations.csv</code> &middot; September 2026</div>
+    <div class="source-desc">
+      Robot exposure scores (0&ndash;3) for 923 O*NET occupations, averaged to 798 detailed
+      occupation codes.
+    </div>
+  </div>
+
+  <div class="source-block">
+    <div class="source-title">American Community Survey, Table C24010</div>
+    <div class="source-meta">US Census Bureau &middot; 2020&ndash;24 five-year and 2024 one-year estimates</div>
+    <div class="source-desc">
+      Employed residents by 25 job groups, for every county (five-year) and for counties with
+      65,000+ residents (one-year).
+    </div>
+  </div>
+
+  <div class="source-block">
+    <div class="source-title">ACS Summary File, 2020&ndash;24 five-year, census tracts</div>
+    <div class="source-meta">US Census Bureau &middot; Tables C24010, B15003, B19013 &middot; bulk download</div>
+    <div class="source-desc">Tract-level job counts and margins of error, used for the neighborhood spread layer.</div>
+  </div>
+
+  <div class="source-block">
+    <div class="source-title">Census Cartographic Boundary Files, 2023</div>
+    <div class="source-meta"><code>cb_2023_us_county_5m</code> &middot; converted to TopoJSON with mapshaper</div>
+    <div class="source-desc">County and state outlines for the map.</div>
+  </div>
+
   <h2>Citation</h2>
-  <p>
-    If referencing this index, please cite the primary data sources:
-  </p>
+  <p>If you use this index, please cite the underlying data:</p>
   <div class="source-block">
     <div class="source-desc" style="font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.78rem; line-height: 1.8; color: #94a3b8;">
-      Anthropic. (2026). <em>Economic Index: Labor Market Impacts</em> [Data].
-      HuggingFace: Anthropic/EconomicIndex.<br/>
-      US Census Bureau. (2024). <em>American Community Survey 5-Year Estimates</em>,
-      Table C24010. <a href="https://data.census.gov" style="color: #60a5fa;">data.census.gov</a>.<br/>
+      Anthropic. (2026). <em>Economic Index: Labor Market Impacts</em> [Data]. HuggingFace: Anthropic/EconomicIndex.<br/>
+      Legate-Yang, R. &amp; Massenkoff, M. (2026). <em>What work can robots do?</em> Anthropic.<br/>
+      US Census Bureau. <em>American Community Survey</em>, Table C24010.
+      <a href="https://data.census.gov" style="color: #60a5fa;">data.census.gov</a>.<br/>
       AI Exposure Atlas shift-share construction. societal_impacts/src/pipeline/.
     </div>
   </div>

@@ -1,15 +1,19 @@
 """
 Step 4: Export county exposure data as a single JSON for the interactive map.
 
-Produces src/map/data/atlas.json with structure:
+Produces src/map/data/atlas.json (50 states + DC; Puerto Rico and suppressed counties excluded) with structure:
 {
   "occ_names": [...25 names...],
   "occ_exp":   [...25 category exposure scores...],
+  "occ_robot": [...25 category robot exposure scores (0–3), from step 7...],
+  "summary_robot_5yr" / "summary_robot_1yr": { ... },
   "summary_5yr": { min, max, mean, median, p05, p10, p25, p75, p90, p95, n },
   "summary_1yr": { ... },
   "counties_5yr": {
     "51013": { "e": 0.149, "n": "Arlington County", "s": "Virginia",
-               "w": 145584, "sh": [...25 workforce shares...] }
+               "w": 145584, "sh": [...25 workforce shares...],
+               "r": 0.31,                       # robot index (if step 7 ran)
+               "ws": [sd_ai, sd_robot, n_tracts] # within-county tract SD (if step 8 ran) }
   },
   "counties_1yr": { ... same structure, ~861 counties ... }
 }
@@ -64,7 +68,27 @@ def load_crosswalk() -> dict[str, float]:
     return dict(zip(cw["occ_category"], cw["category_exposure"]))
 
 
-def compute_county_records(tidy_df: pd.DataFrame, occ_exp: list[float]) -> dict:
+def load_robot_scores() -> list[float] | None:
+    """Robot category scores from step 7 (unweighted, same method as occ_exp). None if not run."""
+    path = PROC_DIR / "occ_category_scores.csv"
+    if not path.exists():
+        return None
+    cs = pd.read_csv(path).set_index("occ_category")["robot_unweighted"]
+    return [round(float(cs[c]), 6) for c in OCC_CATEGORY_ORDER]
+
+
+def load_within_spread() -> dict:
+    """Noise-adjusted within-county tract SD from step 8, keyed by FIPS. Empty if not run."""
+    path = PROC_DIR / "county_within_spread.parquet"
+    if not path.exists():
+        return {}
+    df = pd.read_parquet(path)
+    return {r.fips: (round(float(r.sd_ai), 5), round(float(r.sd_robot), 5), int(r.n_tracts))
+            for r in df.itertuples()}
+
+
+def compute_county_records(tidy_df: pd.DataFrame, occ_exp: list[float],
+                           occ_robot: list[float] | None = None, spread: dict | None = None) -> dict:
     """
     For each county, compute:
       - total shift-share exposure index
@@ -91,10 +115,16 @@ def compute_county_records(tidy_df: pd.DataFrame, occ_exp: list[float]) -> dict:
     # Shift-share exposure
     occ_exp_arr = np.array(occ_exp)
     exposure = shares.values @ occ_exp_arr  # dot product per county
+    robot = shares.values @ np.array(occ_robot) if occ_robot else None
+    spread = spread or {}
 
     records = {}
     for fips in pivot.index:
         fips_str = str(fips).zfill(5)
+        # The map covers the 50 states + DC: skip Puerto Rico, and skip counties whose
+        # occupation table the Census suppressed (0 workers, which would read as exposure 0).
+        if fips_str.startswith("72") or totals[fips] <= 0:
+            continue
         raw_name = county_meta.loc[fips, "county_name"]
         # Split "Alameda County, California" → county_name, state
         parts = str(raw_name).split(", ", 1)
@@ -110,15 +140,21 @@ def compute_county_records(tidy_df: pd.DataFrame, occ_exp: list[float]) -> dict:
             "w": int(totals[fips]),
             "sh": sh,
         }
+        if robot is not None:
+            records[fips_str]["r"] = round(float(robot[pivot.index.get_loc(fips)]), 6)
+        if fips_str in spread:
+            # within-county tract SD (AI, robot) and number of tracts — tract-based, so the
+            # same for the 5-yr and 1-yr datasets
+            records[fips_str]["ws"] = list(spread[fips_str])
 
     return records
 
 
-def summary_stats(records: dict) -> dict:
-    exposures = [v["e"] for v in records.values() if v["e"] > 0]
+def summary_stats(records: dict, key: str = "e") -> dict:
+    exposures = [v[key] for v in records.values() if v.get(key, 0) > 0]
     arr = np.array(exposures)
     return {
-        "n": len(records),
+        "n": len(exposures),
         "min": round(float(np.min(arr)), 6),
         "max": round(float(np.max(arr)), 6),
         "mean": round(float(np.mean(arr)), 6),
@@ -138,16 +174,21 @@ def main():
     occ_exp = [round(float(cw.get(cat, 0.0)), 6) for cat in OCC_CATEGORY_ORDER]
     print(f"  {len([e for e in occ_exp if e > 0])} categories with exposure data")
 
+    occ_robot = load_robot_scores()
+    spread = load_within_spread()
+    print(f"  robot scores: {'yes' if occ_robot else 'no (run 07_robot_exposure.py)'}; "
+          f"within-county spread: {len(spread)} counties")
+
     print("Building 5-year county records...")
     tidy_5yr = pd.read_parquet(RAW_DIR / "acs_county_occupations_tidy.parquet")
-    counties_5yr = compute_county_records(tidy_5yr, occ_exp)
+    counties_5yr = compute_county_records(tidy_5yr, occ_exp, occ_robot, spread)
     stats_5yr = summary_stats(counties_5yr)
     print(f"  {len(counties_5yr)} counties, mean={stats_5yr['mean']:.4f}, "
           f"range=[{stats_5yr['min']:.4f}, {stats_5yr['max']:.4f}]")
 
     print("Building 1-year county records...")
     tidy_1yr = pd.read_parquet(RAW_DIR / "acs_1yr_county_occupations_tidy.parquet")
-    counties_1yr = compute_county_records(tidy_1yr, occ_exp)
+    counties_1yr = compute_county_records(tidy_1yr, occ_exp, occ_robot, spread)
     stats_1yr = summary_stats(counties_1yr)
     print(f"  {len(counties_1yr)} counties, mean={stats_1yr['mean']:.4f}, "
           f"range=[{stats_1yr['min']:.4f}, {stats_1yr['max']:.4f}]")
@@ -161,6 +202,10 @@ def main():
         "counties_5yr": counties_5yr,
         "counties_1yr": counties_1yr,
     }
+    if occ_robot:
+        atlas["occ_robot"] = occ_robot
+        atlas["summary_robot_5yr"] = summary_stats(counties_5yr, "r")
+        atlas["summary_robot_1yr"] = summary_stats(counties_1yr, "r")
 
     out_path = MAP_DATA_DIR / "atlas.json"
     with open(out_path, "w") as f:
@@ -168,27 +213,6 @@ def main():
 
     size_kb = out_path.stat().st_size / 1024
     print(f"\nSaved atlas.json ({size_kb:.0f} KB)")
-
-    # Top 10 / bottom 10 for each dataset (used in rankings panel)
-    def top_bottom(records, n=15):
-        sorted_items = sorted(records.items(), key=lambda x: x[1]["e"], reverse=True)
-        top = [{"fips": k, "county": v["n"], "state": v["s"], "exposure": v["e"], "rank": i+1}
-               for i, (k, v) in enumerate(sorted_items[:n])]
-        bottom = [{"fips": k, "county": v["n"], "state": v["s"], "exposure": v["e"], "rank": len(records)-n+i+1}
-                  for i, (k, v) in enumerate(sorted_items[-n:])]
-        return top, bottom
-
-    top5, bot5 = top_bottom(counties_5yr)
-    top1, bot1 = top_bottom(counties_1yr)
-
-    rankings = {
-        "5yr": {"top": top5, "bottom": bot5},
-        "1yr": {"top": top1, "bottom": bot1},
-    }
-    rankings_path = MAP_DATA_DIR / "rankings.json"
-    with open(rankings_path, "w") as f:
-        json.dump(rankings, f, indent=2)
-    print(f"Saved rankings.json")
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Exposure Atlas — County-Level Index</title>
+  <title>AI Exposure Atlas</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -11,20 +11,27 @@
     <div id="header-left">
       <h1>AI Exposure Atlas</h1>
       <p class="subtitle">
-        Where AI is currently active in the US workforce &mdash;
-        county-level index built from Anthropic&rsquo;s observed AI usage
-        and Census occupation data.
+        How much of each county&rsquo;s work AI can already do.
+        <b>100 = average exposure of US workers;</b> the average US worker&rsquo;s job is roughly 10% AI-automatable.
       </p>
+      <div id="layer-toggle" role="group" aria-label="Map layer">
+        <button class="layer-btn active" data-layer="ai" title="How much local work is tasks that AI can already do, based on national Claude usage by occupation">AI exposure</button>
+        <button class="layer-btn" data-layer="robot" title="How concentrated local jobs are in physical tasks today's robots can already do">Robot exposure</button>
+        <button class="layer-btn" data-layer="biv" title="Both indices at once: each county placed in the low, middle or high third nationally on each">AI × Robot</button>
+        <button class="layer-btn" data-layer="spread" title="Higher means high- and low-exposure workers live in different neighborhoods (census tracts) of the county">Neighborhood spread</button>
+      </div>
     </div>
     <div id="header-right">
       <div id="dataset-toggle" role="group" aria-label="Dataset">
-        <button class="toggle-btn active" data-dataset="5yr">
-          5-Year Estimate
-          <span class="toggle-sub">2020–2024 · all 3,222 counties</span>
+        <button class="toggle-btn active" data-dataset="5yr"
+                title="Census survey answers from 2020 to 2024 pooled together. Pooling gives enough answers to cover every county, including small ones.">
+          All counties
+          <span class="toggle-sub">2020–24 survey, pooled</span>
         </button>
-        <button class="toggle-btn" data-dataset="1yr">
-          1-Year Estimate
-          <span class="toggle-sub">2024 · 861 larger counties</span>
+        <button class="toggle-btn" data-dataset="1yr"
+                title="2024 survey answers only. More current, but the Census publishes one-year figures only for counties with 65,000+ residents. Other counties are faded.">
+          Large counties, 2024
+          <span class="toggle-sub">latest year · 65K+ residents</span>
         </button>
       </div>
       <div id="search-container">
@@ -64,50 +71,56 @@
         <div id="detail-score-context"></div>
       </div>
       <div id="detail-workforce"></div>
+      <div id="detail-other"></div>
       <div id="detail-occ-header">
-        <span class="sort-col" data-col="name"   title="Sort by name">Occupation group<span class="sort-icon"> ↕</span></span>
-        <span class="sort-col" data-col="share"  title="Sort by workforce share">Share<span class="sort-icon"> ↕</span></span>
-        <span class="sort-col sort-active" data-col="contrib" title="Sort by AI contribution">AI contribution<span class="sort-icon"> ↓</span></span>
+        <span class="sort-col" data-col="name"   title="Sort by name">Job group<span class="sort-icon"> ↕</span></span>
+        <span class="sort-col" data-col="share"  title="Share of the county's employed residents in this group">Workers<span class="sort-icon"> ↕</span></span>
+        <span class="sort-col sort-active" data-col="contrib" title="This group's share of the county's index"><span id="contrib-label">Contribution to county index</span><span class="sort-icon"> ↓</span></span>
       </div>
       <div id="detail-occ-list"></div>
       <div id="detail-footer">
-        Contribution = workforce share &times; occupation AI exposure score.
-        <a href="methodology.html" target="_blank">Methodology ↗</a>
+        Contribution = share of workers in the group &times; the group&rsquo;s <span id="footer-metric">AI</span> exposure score,
+        as a percentage of the county&rsquo;s index. Contributions add up to 100%.
+        <a href="methodology.html" target="_blank">How it&rsquo;s built ↗</a>
       </div>
     </div>
   </div>
 
   <div id="bottom-bar">
     <div id="legend">
-      <div class="legend-title">AI Exposure Index</div>
-      <svg id="legend-svg" aria-hidden="true"></svg>
-      <div class="legend-endpoints">
-        <span class="legend-endpoint" id="legend-lo"></span>
-        <span class="legend-endpoint" id="legend-hi"></span>
+      <div class="legend-title" id="legend-title">AI Exposure Index</div>
+      <div id="legend-ramp">
+        <svg id="legend-svg" aria-hidden="true"></svg>
+        <div class="legend-endpoints">
+          <span class="legend-endpoint" id="legend-lo"></span>
+          <span class="legend-mid" id="legend-mid" title="Average US worker = 100"></span>
+          <span class="legend-endpoint" id="legend-hi"></span>
+        </div>
       </div>
-      <div class="legend-sublabel">Scale ×100 &nbsp;&middot;&nbsp; p5–p95 range</div>
+      <div id="legend-biv" class="hidden" aria-label="Bivariate legend: AI exposure across, robot exposure up"></div>
+      <div class="legend-sublabel" id="legend-sub"></div>
     </div>
 
     <div id="stats-bar">
       <div class="stat"><span class="sval" id="stat-n"></span><span class="slabel">counties</span></div>
-      <div class="stat"><span class="sval" id="stat-mean"></span><span class="slabel">mean index</span></div>
-      <div class="stat"><span class="sval" id="stat-range"></span><span class="slabel">index range</span></div>
+      <div class="stat"><span class="sval" id="stat-mean"></span><span class="slabel" id="stat-mean-label">mean index</span></div>
+      <div class="stat"><span class="sval" id="stat-range"></span><span class="slabel" id="stat-range-label">index range</span></div>
     </div>
 
     <div id="rankings">
       <div class="rank-col">
-        <div class="rank-heading">Most Exposed</div>
+        <div class="rank-heading" id="top-heading">Most Exposed</div>
         <ul id="top-list"></ul>
       </div>
       <div class="rank-col">
-        <div class="rank-heading">Least Exposed</div>
+        <div class="rank-heading" id="bottom-heading">Least Exposed</div>
         <ul id="bottom-list"></ul>
       </div>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
   <script src="map.js"></script>
 </body>
 </html>

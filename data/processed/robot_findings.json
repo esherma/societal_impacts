@@ -1,0 +1,742 @@
+{
+  "county_corr": -0.8593894534844302,
+  "terciles": [
+    {
+      "ai_t": 0,
+      "robot_t": 0,
+      "n_counties": 44,
+      "workers": 89332,
+      "worker_share": 0.0005538349389981491
+    },
+    {
+      "ai_t": 0,
+      "robot_t": 1,
+      "n_counties": 212,
+      "workers": 1335565,
+      "worker_share": 0.008280152244470772
+    },
+    {
+      "ai_t": 0,
+      "robot_t": 2,
+      "n_counties": 793,
+      "workers": 9347527,
+      "worker_share": 0.057952212486326864
+    },
+    {
+      "ai_t": 1,
+      "robot_t": 0,
+      "n_counties": 184,
+      "workers": 2007135,
+      "worker_share": 0.012443709872006112
+    },
+    {
+      "ai_t": 1,
+      "robot_t": 1,
+      "n_counties": 622,
+      "workers": 13641729,
+      "worker_share": 0.08457513711261677
+    },
+    {
+      "ai_t": 1,
+      "robot_t": 2,
+      "n_counties": 241,
+      "workers": 5571776,
+      "worker_share": 0.03454354790076738
+    },
+    {
+      "ai_t": 2,
+      "robot_t": 0,
+      "n_counties": 820,
+      "workers": 116340350,
+      "worker_share": 0.721279615874192
+    },
+    {
+      "ai_t": 2,
+      "robot_t": 1,
+      "n_counties": 214,
+      "workers": 12887278,
+      "worker_share": 0.07989773905187603
+    },
+    {
+      "ai_t": 2,
+      "robot_t": 2,
+      "n_counties": 14,
+      "workers": 76463,
+      "worker_share": 0.0004740505187459754
+    }
+  ],
+  "income_gradient": [
+    {
+      "income_quintile": 1,
+      "median_income": 44063.0,
+      "ai": 0.08381996957763495,
+      "robot": 0.5068592129294638
+    },
+    {
+      "income_quintile": 2,
+      "median_income": 61839.5,
+      "ai": 0.08926651701168839,
+      "robot": 0.4673348575586921
+    },
+    {
+      "income_quintile": 3,
+      "median_income": 77450.5,
+      "ai": 0.09620804805410403,
+      "robot": 0.4248126317636463
+    },
+    {
+      "income_quintile": 4,
+      "median_income": 98048.0,
+      "ai": 0.10602200454348816,
+      "robot": 0.3675498783917362
+    },
+    {
+      "income_quintile": 5,
+      "median_income": 140435.0,
+      "ai": 0.12332997251660582,
+      "robot": 0.2748482931120999
+    }
+  ],
+  "richest_vs_poorest_ai_ratio": 1.471367421606808,
+  "poorest_vs_richest_robot_ratio": 1.8441417524930224,
+  "tract_corr_ai_robot": -0.8522039858303638,
+  "tract_corr_ba": {
+    "ai": 0.7644027632179116,
+    "robot": -0.8557701139579575,
+    "n_tracts": 82708
+  },
+  "occupation_mix": [
+    {
+      "occ": "Business and financial operations occupations",
+      "share_ai_heavy": 0.06898474256489687,
+      "share_robot_heavy": 0.03024651428768272,
+      "ai_score": 0.176634,
+      "robot_score": 0.036491,
+      "gap": -0.03873822827721415
+    },
+    {
+      "occ": "Management occupations",
+      "share_ai_heavy": 0.12285536633214536,
+      "share_robot_heavy": 0.08869818044815508,
+      "ai_score": 0.097449,
+      "robot_score": 0.05299,
+      "gap": -0.034157185883990276
+    },
+    {
+      "occ": "Computer and mathematical occupations",
+      "share_ai_heavy": 0.0455842026084673,
+      "share_robot_heavy": 0.011436906539023637,
+      "ai_score": 0.378748,
+      "robot_score": 0.018795,
+      "gap": -0.03414729606944367
+    },
+    {
+      "occ": "Arts, design, entertainment, sports, media occupations",
+      "share_ai_heavy": 0.02426752860465006,
+      "share_robot_heavy": 0.009174139336532553,
+      "ai_score": 0.142415,
+      "robot_score": 0.123022,
+      "gap": -0.015093389268117506
+    },
+    {
+      "occ": "Sales and related occupations",
+      "share_ai_heavy": 0.09240474790242603,
+      "share_robot_heavy": 0.07832275119504879,
+      "ai_score": 0.236095,
+      "robot_score": 0.315457,
+      "gap": -0.01408199670737724
+    },
+    {
+      "occ": "Health diagnosing and treating practitioners",
+      "share_ai_heavy": 0.046946721747012074,
+      "share_robot_heavy": 0.034120915902141766,
+      "ai_score": 0.028744,
+      "robot_score": 0.07626,
+      "gap": -0.012825805844870308
+    },
+    {
+      "occ": "Architecture and engineering occupations",
+      "share_ai_heavy": 0.02542812140972585,
+      "share_robot_heavy": 0.014346263161368781,
+      "ai_score": 0.038071,
+      "robot_score": 0.182312,
+      "gap": -0.011081858248357068
+    },
+    {
+      "occ": "Legal occupations",
+      "share_ai_heavy": 0.014294905728665945,
+      "share_robot_heavy": 0.0043911112714625,
+      "ai_score": 0.215757,
+      "robot_score": 0.001543,
+      "gap": -0.009903794457203446
+    },
+    {
+      "occ": "Educational instruction and library occupations",
+      "share_ai_heavy": 0.06393912577175506,
+      "share_robot_heavy": 0.056563393176612374,
+      "ai_score": 0.129296,
+      "robot_score": 0.042156,
+      "gap": -0.007375732595142688
+    },
+    {
+      "occ": "Life, physical, and social science occupations",
+      "share_ai_heavy": 0.013411156842832273,
+      "share_robot_heavy": 0.006621933558469534,
+      "ai_score": 0.121911,
+      "robot_score": 0.287292,
+      "gap": -0.0067892232843627396
+    },
+    {
+      "occ": "Office and administrative support occupations",
+      "share_ai_heavy": 0.1042329724898543,
+      "share_robot_heavy": 0.09910110939503022,
+      "ai_score": 0.190566,
+      "robot_score": 0.350346,
+      "gap": -0.0051318630948240795
+    },
+    {
+      "occ": "Personal care and service occupations",
+      "share_ai_heavy": 0.024940172915501765,
+      "share_robot_heavy": 0.020502893047540806,
+      "ai_score": 0.019148,
+      "robot_score": 0.48161,
+      "gap": -0.004437279867960959
+    },
+    {
+      "occ": "Firefighting and prevention workers",
+      "share_ai_heavy": 0.011915454166417773,
+      "share_robot_heavy": 0.009273591391605503,
+      "ai_score": 0.00525,
+      "robot_score": 0.192443,
+      "gap": -0.00264186277481227
+    },
+    {
+      "occ": "Community and social service occupations",
+      "share_ai_heavy": 0.01812591556575171,
+      "share_robot_heavy": 0.01665414008646353,
+      "ai_score": 0.051617,
+      "robot_score": 0.020193,
+      "gap": -0.0014717754792881801
+    },
+    {
+      "occ": "Food preparation and serving occupations",
+      "share_ai_heavy": 0.049937838926821236,
+      "share_robot_heavy": 0.05151988215813656,
+      "ai_score": 0.009427,
+      "robot_score": 0.894813,
+      "gap": 0.0015820432313153263
+    },
+    {
+      "occ": "Health technologists and technicians",
+      "share_ai_heavy": 0.018403793639008327,
+      "share_robot_heavy": 0.021923351062799818,
+      "ai_score": 0.058963,
+      "robot_score": 0.286042,
+      "gap": 0.003519557423791491
+    },
+    {
+      "occ": "Law enforcement workers",
+      "share_ai_heavy": 0.008306004883086563,
+      "share_robot_heavy": 0.012881369566517436,
+      "ai_score": 0.014527,
+      "robot_score": 0.381396,
+      "gap": 0.004575364683430873
+    },
+    {
+      "occ": "Healthcare support occupations",
+      "share_ai_heavy": 0.03095067243290915,
+      "share_robot_heavy": 0.03852910033637766,
+      "ai_score": 0.049381,
+      "robot_score": 0.425042,
+      "gap": 0.007578427903468507
+    },
+    {
+      "occ": "Building and grounds cleaning and maintenance",
+      "share_ai_heavy": 0.03125010822169605,
+      "share_robot_heavy": 0.039751661656607165,
+      "ai_score": 0.024737,
+      "robot_score": 0.778763,
+      "gap": 0.008501553434911116
+    },
+    {
+      "occ": "Transportation occupations",
+      "share_ai_heavy": 0.03412437816346604,
+      "share_robot_heavy": 0.05014772817880069,
+      "ai_score": 0.00979,
+      "robot_score": 0.868421,
+      "gap": 0.01602335001533465
+    },
+    {
+      "occ": "Installation, maintenance, and repair occupations",
+      "share_ai_heavy": 0.0264880408806575,
+      "share_robot_heavy": 0.045760000605507715,
+      "ai_score": 0.00712,
+      "robot_score": 0.436126,
+      "gap": 0.019271959724850216
+    },
+    {
+      "occ": "Farming, fishing, and forestry occupations",
+      "share_ai_heavy": 0.0030591643123817295,
+      "share_robot_heavy": 0.024786374323390554,
+      "ai_score": 0.001845,
+      "robot_score": 0.956617,
+      "gap": 0.021727210011008823
+    },
+    {
+      "occ": "Construction and extraction occupations",
+      "share_ai_heavy": 0.04432551030343294,
+      "share_robot_heavy": 0.06614241069643337,
+      "ai_score": 0.004038,
+      "robot_score": 0.915427,
+      "gap": 0.02181690039300043
+    },
+    {
+      "occ": "Material moving occupations",
+      "share_ai_heavy": 0.03351073772968711,
+      "share_robot_heavy": 0.059224352633589654,
+      "ai_score": 0.0,
+      "robot_score": 1.302753,
+      "gap": 0.025713614903902546
+    },
+    {
+      "occ": "Production occupations",
+      "share_ai_heavy": 0.04231304635820672,
+      "share_robot_heavy": 0.10987925303130976,
+      "ai_score": 0.007763,
+      "robot_score": 0.903643,
+      "gap": 0.06756620667310304
+    }
+  ],
+  "top_ai_large": [
+    {
+      "name": "Arlington County, Virginia",
+      "w": 145078,
+      "ai": 0.150466,
+      "robot": 0.187085
+    },
+    {
+      "name": "Loudoun County, Virginia",
+      "w": 236475,
+      "ai": 0.147575,
+      "robot": 0.243861
+    },
+    {
+      "name": "Forsyth County, Georgia",
+      "w": 138163,
+      "ai": 0.14496,
+      "robot": 0.271816
+    },
+    {
+      "name": "Fairfax County, Virginia",
+      "w": 610160,
+      "ai": 0.140919,
+      "robot": 0.252216
+    },
+    {
+      "name": "District of Columbia, District of Columbia",
+      "w": 374990,
+      "ai": 0.140651,
+      "robot": 0.201113
+    },
+    {
+      "name": "Collin County, Texas",
+      "w": 615475,
+      "ai": 0.137143,
+      "robot": 0.273808
+    },
+    {
+      "name": "San Francisco County, California",
+      "w": 476356,
+      "ai": 0.137064,
+      "robot": 0.251112
+    },
+    {
+      "name": "Santa Clara County, California",
+      "w": 999346,
+      "ai": 0.135629,
+      "robot": 0.291346
+    },
+    {
+      "name": "Howard County, Maryland",
+      "w": 175641,
+      "ai": 0.134898,
+      "robot": 0.242619
+    },
+    {
+      "name": "King County, Washington",
+      "w": 1256602,
+      "ai": 0.13421,
+      "robot": 0.295161
+    }
+  ],
+  "top_robot_large": [
+    {
+      "name": "Merced County, California",
+      "w": 114903,
+      "ai": 0.074413,
+      "robot": 0.544509
+    },
+    {
+      "name": "Tulare County, California",
+      "w": 195392,
+      "ai": 0.075329,
+      "robot": 0.533526
+    },
+    {
+      "name": "Yakima County, Washington",
+      "w": 110078,
+      "ai": 0.077238,
+      "robot": 0.532613
+    },
+    {
+      "name": "Clayton County, Georgia",
+      "w": 140990,
+      "ai": 0.085113,
+      "robot": 0.518752
+    },
+    {
+      "name": "Stanislaus County, California",
+      "w": 241063,
+      "ai": 0.080577,
+      "robot": 0.510032
+    },
+    {
+      "name": "Kern County, California",
+      "w": 365769,
+      "ai": 0.080137,
+      "robot": 0.50664
+    },
+    {
+      "name": "San Joaquin County, California",
+      "w": 351099,
+      "ai": 0.0866,
+      "robot": 0.49046
+    },
+    {
+      "name": "Monterey County, California",
+      "w": 186765,
+      "ai": 0.083843,
+      "robot": 0.489276
+    },
+    {
+      "name": "San Bernardino County, California",
+      "w": 972221,
+      "ai": 0.086578,
+      "robot": 0.484767
+    },
+    {
+      "name": "Webb County, Texas",
+      "w": 115910,
+      "ai": 0.090067,
+      "robot": 0.479265
+    }
+  ],
+  "states": [
+    {
+      "state": "Mississippi",
+      "ai": 0.08706421358977383,
+      "robot": 0.45009618549692376,
+      "workers": 1255444.0
+    },
+    {
+      "state": "Wyoming",
+      "ai": 0.08781607232788269,
+      "robot": 0.4259393260573649,
+      "workers": 288713.0
+    },
+    {
+      "state": "Indiana",
+      "ai": 0.09081683200382246,
+      "robot": 0.4465857236948207,
+      "workers": 3323528.0
+    },
+    {
+      "state": "Kentucky",
+      "ai": 0.09104979733463064,
+      "robot": 0.4432091403246038,
+      "workers": 2047296.0
+    },
+    {
+      "state": "West Virginia",
+      "ai": 0.09130581028232525,
+      "robot": 0.4276875899901645,
+      "workers": 744248.0
+    },
+    {
+      "state": "Alaska",
+      "ai": 0.09177123003002292,
+      "robot": 0.41090266154168936,
+      "workers": 338408.0
+    },
+    {
+      "state": "North Dakota",
+      "ai": 0.09193273611466661,
+      "robot": 0.4104023431653932,
+      "workers": 406256.0
+    },
+    {
+      "state": "Louisiana",
+      "ai": 0.09261505948277277,
+      "robot": 0.416207471804066,
+      "workers": 2013003.0
+    },
+    {
+      "state": "South Dakota",
+      "ai": 0.09264798752411715,
+      "robot": 0.41691840163237875,
+      "workers": 461290.0
+    },
+    {
+      "state": "Arkansas",
+      "ai": 0.09311556371206622,
+      "robot": 0.43776804446882633,
+      "workers": 1341614.0
+    },
+    {
+      "state": "Alabama",
+      "ai": 0.09342726379844735,
+      "robot": 0.43234946813902103,
+      "workers": 2256522.0
+    },
+    {
+      "state": "Montana",
+      "ai": 0.09348703491092514,
+      "robot": 0.4111700948927488,
+      "workers": 547966.0
+    },
+    {
+      "state": "Iowa",
+      "ai": 0.09420141212073886,
+      "robot": 0.432384435389024,
+      "workers": 1639141.0
+    },
+    {
+      "state": "Nevada",
+      "ai": 0.09463064427845767,
+      "robot": 0.4410993815944064,
+      "workers": 1499718.0
+    },
+    {
+      "state": "Idaho",
+      "ai": 0.09466793274118716,
+      "robot": 0.4237184095370707,
+      "workers": 919255.0
+    },
+    {
+      "state": "Oklahoma",
+      "ai": 0.09481942374789123,
+      "robot": 0.4232439370839997,
+      "workers": 1825720.0
+    },
+    {
+      "state": "Wisconsin",
+      "ai": 0.09534888449219772,
+      "robot": 0.4265433027665074,
+      "workers": 3031042.0
+    },
+    {
+      "state": "Michigan",
+      "ai": 0.09561156096347687,
+      "robot": 0.4191941761382187,
+      "workers": 4732153.0
+    },
+    {
+      "state": "South Carolina",
+      "ai": 0.09610644461933054,
+      "robot": 0.41996564574850237,
+      "workers": 2435236.0
+    },
+    {
+      "state": "Tennessee",
+      "ai": 0.0961923781594449,
+      "robot": 0.4273522098999707,
+      "workers": 3362616.0
+    },
+    {
+      "state": "New Mexico",
+      "ai": 0.09649595793425082,
+      "robot": 0.39847629198892925,
+      "workers": 917730.0
+    },
+    {
+      "state": "Ohio",
+      "ai": 0.09655460766378386,
+      "robot": 0.4197767669313355,
+      "workers": 5709399.0
+    },
+    {
+      "state": "Kansas",
+      "ai": 0.09760537201814913,
+      "robot": 0.40577679334029626,
+      "workers": 1460125.0
+    },
+    {
+      "state": "Maine",
+      "ai": 0.09812823398132411,
+      "robot": 0.39511868596247784,
+      "workers": 692551.0
+    },
+    {
+      "state": "Vermont",
+      "ai": 0.09829095726900915,
+      "robot": 0.37411421278042956,
+      "workers": 339613.0
+    },
+    {
+      "state": "Hawaii",
+      "ai": 0.09851426951428252,
+      "robot": 0.39892442531678207,
+      "workers": 667178.0
+    },
+    {
+      "state": "Nebraska",
+      "ai": 0.09853411787553895,
+      "robot": 0.40740527320103764,
+      "workers": 1024674.0
+    },
+    {
+      "state": "Missouri",
+      "ai": 0.09962541740324198,
+      "robot": 0.4089842515543617,
+      "workers": 2995281.0
+    },
+    {
+      "state": "Pennsylvania",
+      "ai": 0.10014885725133849,
+      "robot": 0.39593726325975237,
+      "workers": 6332886.0
+    },
+    {
+      "state": "Oregon",
+      "ai": 0.10136430239365643,
+      "robot": 0.3898330528642676,
+      "workers": 2066462.0
+    },
+    {
+      "state": "North Carolina",
+      "ai": 0.10150100257524249,
+      "robot": 0.3997651127724162,
+      "workers": 5084958.0
+    },
+    {
+      "state": "Texas",
+      "ai": 0.10231992422614317,
+      "robot": 0.4046545099889995,
+      "workers": 14431125.0
+    },
+    {
+      "state": "Delaware",
+      "ai": 0.1024715108661127,
+      "robot": 0.3839330887363341,
+      "workers": 487985.0
+    },
+    {
+      "state": "Rhode Island",
+      "ai": 0.10260741306627273,
+      "robot": 0.3797590376904843,
+      "workers": 559823.0
+    },
+    {
+      "state": "Minnesota",
+      "ai": 0.10282876886754934,
+      "robot": 0.3809550650436093,
+      "workers": 2992254.0
+    },
+    {
+      "state": "Illinois",
+      "ai": 0.10346020998620001,
+      "robot": 0.3925683618753836,
+      "workers": 6263764.0
+    },
+    {
+      "state": "Florida",
+      "ai": 0.10384066361242986,
+      "robot": 0.39545735247083497,
+      "workers": 10484998.0
+    },
+    {
+      "state": "California",
+      "ai": 0.10393240744328863,
+      "robot": 0.39238627790835756,
+      "workers": 18742898.0
+    },
+    {
+      "state": "Georgia",
+      "ai": 0.10393867782660705,
+      "robot": 0.40367777665689714,
+      "workers": 5213857.0
+    },
+    {
+      "state": "Arizona",
+      "ai": 0.10477051227060773,
+      "robot": 0.389503698804105,
+      "workers": 3415601.0
+    },
+    {
+      "state": "New Hampshire",
+      "ai": 0.105280707821235,
+      "robot": 0.3712051642595378,
+      "workers": 749856.0
+    },
+    {
+      "state": "New York",
+      "ai": 0.10571861423773869,
+      "robot": 0.3517557174614072,
+      "workers": 9523591.0
+    },
+    {
+      "state": "Connecticut",
+      "ai": 0.10586801917978834,
+      "robot": 0.35685574059282194,
+      "workers": 1849864.0
+    },
+    {
+      "state": "Utah",
+      "ai": 0.10816892468567764,
+      "robot": 0.3885199302169349,
+      "workers": 1714800.0
+    },
+    {
+      "state": "Washington",
+      "ai": 0.10927158807255961,
+      "robot": 0.37673010767280524,
+      "workers": 3819646.0
+    },
+    {
+      "state": "Massachusetts",
+      "ai": 0.1097728624002083,
+      "robot": 0.3349770791330545,
+      "workers": 3709853.0
+    },
+    {
+      "state": "Colorado",
+      "ai": 0.11018723392217858,
+      "robot": 0.35346736747741314,
+      "workers": 3085757.0
+    },
+    {
+      "state": "New Jersey",
+      "ai": 0.11166065279472957,
+      "robot": 0.3533915018316495,
+      "workers": 4687305.0
+    },
+    {
+      "state": "Virginia",
+      "ai": 0.11390713537216514,
+      "robot": 0.3470001548667032,
+      "workers": 4277711.0
+    },
+    {
+      "state": "Maryland",
+      "ai": 0.11408772560607798,
+      "robot": 0.33664989352015945,
+      "workers": 3151451.0
+    },
+    {
+      "state": "District of Columbia",
+      "ai": 0.140651,
+      "robot": 0.20111300000000001,
+      "workers": 374990.0
+    }
+  ]
+}

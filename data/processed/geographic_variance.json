@@ -1,0 +1,320 @@
+{
+  "ai": {
+    "overall": {
+      "n_tracts": 83058,
+      "n_counties": 3139,
+      "sd_total": 0.024270375344572288,
+      "sd_noise": 0.010744841416755009,
+      "within_share_raw": 0.6637713796202127,
+      "within_share_adj": 0.5818073198179007,
+      "noise_share_of_total": 0.1959959217043716
+    },
+    "by_size": {
+      "<25k workers": {
+        "n_tracts": 12943,
+        "n_counties": 2212,
+        "sd_total": 0.015432521044434691,
+        "sd_noise": 0.010111246337471704,
+        "within_share_raw": 0.6250681354057901,
+        "within_share_adj": 0.34306034636472427,
+        "noise_share_of_total": 0.4292750292671979
+      },
+      "25k\u2013100k": {
+        "n_tracts": 16386,
+        "n_counties": 599,
+        "sd_total": 0.017864533856751783,
+        "sd_noise": 0.010483582967993144,
+        "within_share_raw": 0.7115316782955372,
+        "within_share_adj": 0.5600078021500122,
+        "noise_share_of_total": 0.34437855236057163
+      },
+      "100k\u2013500k": {
+        "n_tracts": 31207,
+        "n_counties": 282,
+        "sd_total": 0.022727962416202754,
+        "sd_noise": 0.01080200065048614,
+        "within_share_raw": 0.7448921863087457,
+        "within_share_adj": 0.6704523051233457,
+        "noise_share_of_total": 0.22588500038897819
+      },
+      "500k+": {
+        "n_tracts": 22522,
+        "n_counties": 46,
+        "sd_total": 0.027351468621853333,
+        "sd_noise": 0.011066121621606044,
+        "within_share_raw": 0.79841819978069,
+        "within_share_adj": 0.7589620175732087,
+        "noise_share_of_total": 0.1636927998244636
+      }
+    }
+  },
+  "robot": {
+    "overall": {
+      "n_tracts": 83058,
+      "n_counties": 3139,
+      "sd_total": 0.12161724384025209,
+      "sd_noise": 0.041009973286514845,
+      "within_share_raw": 0.7294255320944371,
+      "within_share_adj": 0.6947120372162024,
+      "noise_share_of_total": 0.11370738158719511
+    },
+    "by_size": {
+      "<25k workers": {
+        "n_tracts": 12943,
+        "n_counties": 2212,
+        "sd_total": 0.07941782635754256,
+        "sd_noise": 0.04292638527128817,
+        "within_share_raw": 0.600465061223497,
+        "within_share_adj": 0.4355619077661332,
+        "noise_share_of_total": 0.29215454400805857
+      },
+      "25k\u2013100k": {
+        "n_tracts": 16386,
+        "n_counties": 599,
+        "sd_total": 0.09569941354244157,
+        "sd_noise": 0.0420347849361982,
+        "within_share_raw": 0.7188743615567602,
+        "within_share_adj": 0.6516714328402491,
+        "noise_share_of_total": 0.19292970790331535
+      },
+      "100k\u2013500k": {
+        "n_tracts": 31207,
+        "n_counties": 282,
+        "sd_total": 0.1190154148442301,
+        "sd_noise": 0.04061482754248447,
+        "within_share_raw": 0.7873820194614596,
+        "within_share_adj": 0.7593577224757879,
+        "noise_share_of_total": 0.11645624897666644
+      },
+      "500k+": {
+        "n_tracts": 22522,
+        "n_counties": 46,
+        "sd_total": 0.13650886729904804,
+        "sd_noise": 0.04010788207736373,
+        "within_share_raw": 0.84179049847621,
+        "within_share_adj": 0.8268426508821386,
+        "noise_share_of_total": 0.08632522772046486
+      }
+    }
+  },
+  "most_divided": {
+    "ai": [
+      {
+        "fips": "53033",
+        "county": "King County, Washington",
+        "n_tracts": 494,
+        "sd": 0.03514,
+        "mean": 0.13421
+      },
+      {
+        "fips": "06085",
+        "county": "Santa Clara County, California",
+        "n_tracts": 408,
+        "sd": 0.0343,
+        "mean": 0.13563
+      },
+      {
+        "fips": "34017",
+        "county": "Hudson County, New Jersey",
+        "n_tracts": 181,
+        "sd": 0.03233,
+        "mean": 0.12083
+      },
+      {
+        "fips": "48113",
+        "county": "Dallas County, Texas",
+        "n_tracts": 642,
+        "sd": 0.03143,
+        "mean": 0.10479
+      },
+      {
+        "fips": "34021",
+        "county": "Mercer County, New Jersey",
+        "n_tracts": 83,
+        "sd": 0.03033,
+        "mean": 0.11171
+      },
+      {
+        "fips": "34023",
+        "county": "Middlesex County, New Jersey",
+        "n_tracts": 190,
+        "sd": 0.02871,
+        "mean": 0.12115
+      },
+      {
+        "fips": "34013",
+        "county": "Essex County, New Jersey",
+        "n_tracts": 209,
+        "sd": 0.02861,
+        "mean": 0.10258
+      },
+      {
+        "fips": "06001",
+        "county": "Alameda County, California",
+        "n_tracts": 375,
+        "sd": 0.02751,
+        "mean": 0.12356
+      },
+      {
+        "fips": "12119",
+        "county": "Sumter County, Florida",
+        "n_tracts": 25,
+        "sd": 0.02727,
+        "mean": 0.10075
+      },
+      {
+        "fips": "13117",
+        "county": "Forsyth County, Georgia",
+        "n_tracts": 48,
+        "sd": 0.02648,
+        "mean": 0.14496
+      },
+      {
+        "fips": "05007",
+        "county": "Benton County, Arkansas",
+        "n_tracts": 57,
+        "sd": 0.02636,
+        "mean": 0.11449
+      },
+      {
+        "fips": "34039",
+        "county": "Union County, New Jersey",
+        "n_tracts": 119,
+        "sd": 0.02598,
+        "mean": 0.10041
+      },
+      {
+        "fips": "17031",
+        "county": "Cook County, Illinois",
+        "n_tracts": 1324,
+        "sd": 0.02507,
+        "mean": 0.10848
+      },
+      {
+        "fips": "45057",
+        "county": "Lancaster County, South Carolina",
+        "n_tracts": 21,
+        "sd": 0.02492,
+        "mean": 0.10946
+      },
+      {
+        "fips": "06013",
+        "county": "Contra Costa County, California",
+        "n_tracts": 240,
+        "sd": 0.02482,
+        "mean": 0.11154
+      }
+    ],
+    "robot": [
+      {
+        "fips": "34039",
+        "county": "Union County, New Jersey",
+        "n_tracts": 119,
+        "sd": 0.16228,
+        "mean": 0.4079
+      },
+      {
+        "fips": "48113",
+        "county": "Dallas County, Texas",
+        "n_tracts": 642,
+        "sd": 0.16214,
+        "mean": 0.42538
+      },
+      {
+        "fips": "34021",
+        "county": "Mercer County, New Jersey",
+        "n_tracts": 83,
+        "sd": 0.15787,
+        "mean": 0.36152
+      },
+      {
+        "fips": "06053",
+        "county": "Monterey County, California",
+        "n_tracts": 101,
+        "sd": 0.15756,
+        "mean": 0.48926
+      },
+      {
+        "fips": "34013",
+        "county": "Essex County, New Jersey",
+        "n_tracts": 209,
+        "sd": 0.1532,
+        "mean": 0.38628
+      },
+      {
+        "fips": "48201",
+        "county": "Harris County, Texas",
+        "n_tracts": 1109,
+        "sd": 0.1499,
+        "mean": 0.42321
+      },
+      {
+        "fips": "34017",
+        "county": "Hudson County, New Jersey",
+        "n_tracts": 181,
+        "sd": 0.14872,
+        "mean": 0.34831
+      },
+      {
+        "fips": "06083",
+        "county": "Santa Barbara County, California",
+        "n_tracts": 104,
+        "sd": 0.14558,
+        "mean": 0.42831
+      },
+      {
+        "fips": "47157",
+        "county": "Shelby County, Tennessee",
+        "n_tracts": 240,
+        "sd": 0.14239,
+        "mean": 0.44369
+      },
+      {
+        "fips": "06029",
+        "county": "Kern County, California",
+        "n_tracts": 232,
+        "sd": 0.14051,
+        "mean": 0.50664
+      },
+      {
+        "fips": "06037",
+        "county": "Los Angeles County, California",
+        "n_tracts": 2460,
+        "sd": 0.13798,
+        "mean": 0.39705
+      },
+      {
+        "fips": "17031",
+        "county": "Cook County, Illinois",
+        "n_tracts": 1324,
+        "sd": 0.13769,
+        "mean": 0.36774
+      },
+      {
+        "fips": "17097",
+        "county": "Lake County, Illinois",
+        "n_tracts": 158,
+        "sd": 0.1376,
+        "mean": 0.35589
+      },
+      {
+        "fips": "09120",
+        "county": "Greater Bridgeport Planning Region, Connecticut",
+        "n_tracts": 78,
+        "sd": 0.13721,
+        "mean": 0.37629
+      },
+      {
+        "fips": "34031",
+        "county": "Passaic County, New Jersey",
+        "n_tracts": 119,
+        "sd": 0.13671,
+        "mean": 0.43171
+      }
+    ]
+  },
+  "notes": {
+    "min_workers_per_tract": 200,
+    "acs": "2020\u20132024 5-year C24010"
+  }
+}
