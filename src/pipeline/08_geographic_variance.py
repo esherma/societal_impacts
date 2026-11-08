@@ -79,7 +79,8 @@ def decompose(df: pd.DataFrame, x: str, noise: str) -> dict:
 def main():
     tr = pd.read_parquet(PROC_DIR / "tract_exposure.parquet")
     cat = pd.read_csv(PROC_DIR / "occ_category_scores.csv")
-    tr = tr[(tr["workers"] >= MIN_WORKERS) & tr["exposure"].notna()].copy()
+    # 50 states + DC, matching the map (Puerto Rico excluded)
+    tr = tr[(tr["workers"] >= MIN_WORKERS) & tr["exposure"].notna() & (tr["state_fips"] != "72")].copy()
     tr = tr.merge(tract_moes(), on="geoid", how="left")
     print(f"{len(tr):,} tracts with ≥{MIN_WORKERS} workers in {tr['county_fips5'].nunique():,} counties")
 

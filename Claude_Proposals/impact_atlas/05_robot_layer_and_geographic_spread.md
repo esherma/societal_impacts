@@ -1,6 +1,7 @@
 # Robot Exposure Layer and Within-County Spread
 
-*Nov 7, 2026. Two analyses on how exposure differs across places, now layers on the main map.*
+*Nov 7, 2026. Two analyses on how exposure differs across places, now layers on the main map.
+Updated Nov 8, 2026: Puerto Rico excluded (50 states + DC, as on the map); counts recomputed.*
 
 ## 1. AI × Robot: places face one kind of automation or the other
 
@@ -18,9 +19,9 @@ can already work in. There are 798 SOC-6 codes, mapped to the 25 ACS groups. Scr
 |---|---|---|
 | Occupations (n = 756) | −0.39 | — |
 | 25 ACS groups | −0.57 | — |
-| Counties (n = 3,222) | **−0.86** | 15 counties, **0.05% of workers** |
-| Counties with 25k+ workers (n = 937) | — | **0** (closest: Laurel KY, Webb TX, Hall GA, around the 63rd–68th percentiles on both) |
-| Census tracts (n ≈ 84k) | −0.85 | 0.4% of workers |
+| Counties (n = 3,144) | **−0.86** | 14 counties, **0.05% of workers** |
+| Counties with 25k+ workers (n = 927) | — | **0** (closest: Laurel KY, Webb TX, Hall GA, around the 63rd–68th percentiles on both) |
+| Census tracts (n ≈ 83k) | −0.85 | 0.4% of workers |
 
 - **Teal** (AI only): metros, suburbs and college towns.
 - **Pink** (robot only): agricultural, manufacturing and logistics counties, concentrated in
@@ -75,7 +76,7 @@ method. Script: `src/pipeline/08_geographic_variance.py`.
   could be off by a few points either way.
 - **Robot scores are unweighted means within groups**, matching the published AI index. With
   national-employment weights (ACS B24114 mapped to SOC, since `bls.gov` blocks automated
-  downloads), the county correlation is −0.80 and 29 counties (0.2% of workers) are high on
+  downloads), the county correlation is −0.80 and 32 counties (0.2% of workers) are high on
   both. The conclusion doesn't change. The weighted AI index ranks counties almost identically
   to the published one (rank r = 0.97), but it moves some groups a lot: office/admin rises from
   19 to 36. Switching the headline index is a separate decision.

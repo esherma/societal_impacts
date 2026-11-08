@@ -1,310 +1,310 @@
 {
-  "county_corr": -0.8587314580440905,
+  "county_corr": -0.8593894534844302,
   "terciles": [
     {
       "ai_t": 0,
       "robot_t": 0,
       "n_counties": 44,
       "workers": 89332,
-      "worker_share": 0.0005499114036415323
+      "worker_share": 0.0005538349389981491
     },
     {
       "ai_t": 0,
       "robot_t": 1,
-      "n_counties": 215,
-      "workers": 1354364,
-      "worker_share": 0.008337216319813285
+      "n_counties": 212,
+      "workers": 1335565,
+      "worker_share": 0.008280152244470772
     },
     {
       "ai_t": 0,
       "robot_t": 2,
-      "n_counties": 815,
-      "workers": 9461671,
-      "worker_share": 0.05824431088976382
+      "n_counties": 793,
+      "workers": 9347527,
+      "worker_share": 0.057952212486326864
     },
     {
       "ai_t": 1,
       "robot_t": 0,
-      "n_counties": 191,
-      "workers": 2258178,
-      "worker_share": 0.01390092949505696
+      "n_counties": 184,
+      "workers": 2007135,
+      "worker_share": 0.012443709872006112
     },
     {
       "ai_t": 1,
       "robot_t": 1,
-      "n_counties": 639,
-      "workers": 13756709,
-      "worker_share": 0.08468377687366342
+      "n_counties": 622,
+      "workers": 13641729,
+      "worker_share": 0.08457513711261677
     },
     {
       "ai_t": 1,
       "robot_t": 2,
-      "n_counties": 244,
-      "workers": 5589321,
-      "worker_share": 0.03440683468984343
+      "n_counties": 241,
+      "workers": 5571776,
+      "worker_share": 0.03454354790076738
     },
     {
       "ai_t": 2,
       "robot_t": 0,
-      "n_counties": 839,
-      "workers": 117473807,
-      "worker_share": 0.7231472047920618
+      "n_counties": 820,
+      "workers": 116340350,
+      "worker_share": 0.721279615874192
     },
     {
       "ai_t": 2,
       "robot_t": 1,
-      "n_counties": 220,
-      "workers": 12375975,
-      "worker_share": 0.07618423167154563
+      "n_counties": 214,
+      "workers": 12887278,
+      "worker_share": 0.07989773905187603
     },
     {
       "ai_t": 2,
       "robot_t": 2,
-      "n_counties": 15,
-      "workers": 88629,
-      "worker_share": 0.0005455838646100543
+      "n_counties": 14,
+      "workers": 76463,
+      "worker_share": 0.0004740505187459754
     }
   ],
   "income_gradient": [
     {
       "income_quintile": 1,
-      "median_income": 42865.0,
-      "ai": 0.08409672351628626,
-      "robot": 0.5047333494286517
+      "median_income": 44063.0,
+      "ai": 0.08381996957763495,
+      "robot": 0.5068592129294638
     },
     {
       "income_quintile": 2,
-      "median_income": 61369.0,
-      "ai": 0.0891385487637312,
-      "robot": 0.4683946843187404
+      "median_income": 61839.5,
+      "ai": 0.08926651701168839,
+      "robot": 0.4673348575586921
     },
     {
       "income_quintile": 3,
-      "median_income": 77010.0,
-      "ai": 0.09606509212313172,
-      "robot": 0.42558713698737544
+      "median_income": 77450.5,
+      "ai": 0.09620804805410403,
+      "robot": 0.4248126317636463
     },
     {
       "income_quintile": 4,
-      "median_income": 97604.0,
-      "ai": 0.10583387014395017,
-      "robot": 0.36868264968811026
+      "median_income": 98048.0,
+      "ai": 0.10602200454348816,
+      "robot": 0.3675498783917362
     },
     {
       "income_quintile": 5,
-      "median_income": 140000.0,
-      "ai": 0.12318938790714865,
-      "robot": 0.2755604847086992
+      "median_income": 140435.0,
+      "ai": 0.12332997251660582,
+      "robot": 0.2748482931120999
     }
   ],
-  "richest_vs_poorest_ai_ratio": 1.4648535966242686,
-  "poorest_vs_richest_robot_ratio": 1.8316608419462461,
-  "tract_corr_ai_robot": -0.8515975821108578,
+  "richest_vs_poorest_ai_ratio": 1.471367421606808,
+  "poorest_vs_richest_robot_ratio": 1.8441417524930224,
+  "tract_corr_ai_robot": -0.8522039858303638,
   "tract_corr_ba": {
-    "ai": 0.763594087637722,
-    "robot": -0.8554490917157203,
-    "n_tracts": 83619
+    "ai": 0.7644027632179116,
+    "robot": -0.8557701139579575,
+    "n_tracts": 82708
   },
   "occupation_mix": [
     {
       "occ": "Business and financial operations occupations",
-      "share_ai_heavy": 0.0689543027510805,
-      "share_robot_heavy": 0.030208094315475567,
+      "share_ai_heavy": 0.06898474256489687,
+      "share_robot_heavy": 0.03024651428768272,
       "ai_score": 0.176634,
       "robot_score": 0.036491,
-      "gap": -0.03874620843560493
+      "gap": -0.03873822827721415
     },
     {
       "occ": "Management occupations",
-      "share_ai_heavy": 0.12259369493950262,
-      "share_robot_heavy": 0.08790462189078466,
+      "share_ai_heavy": 0.12285536633214536,
+      "share_robot_heavy": 0.08869818044815508,
       "ai_score": 0.097449,
       "robot_score": 0.05299,
-      "gap": -0.03468907304871796
+      "gap": -0.034157185883990276
     },
     {
       "occ": "Computer and mathematical occupations",
-      "share_ai_heavy": 0.04539216593985074,
-      "share_robot_heavy": 0.011318263248637581,
+      "share_ai_heavy": 0.0455842026084673,
+      "share_robot_heavy": 0.011436906539023637,
       "ai_score": 0.378748,
       "robot_score": 0.018795,
-      "gap": -0.03407390269121316
+      "gap": -0.03414729606944367
     },
     {
       "occ": "Arts, design, entertainment, sports, media occupations",
-      "share_ai_heavy": 0.0242158925602028,
-      "share_robot_heavy": 0.009145891598851841,
+      "share_ai_heavy": 0.02426752860465006,
+      "share_robot_heavy": 0.009174139336532553,
       "ai_score": 0.142415,
       "robot_score": 0.123022,
-      "gap": -0.015070000961350959
+      "gap": -0.015093389268117506
     },
     {
       "occ": "Sales and related occupations",
-      "share_ai_heavy": 0.09245672514112024,
-      "share_robot_heavy": 0.07846510679033343,
+      "share_ai_heavy": 0.09240474790242603,
+      "share_robot_heavy": 0.07832275119504879,
       "ai_score": 0.236095,
       "robot_score": 0.315457,
-      "gap": -0.013991618350786814
+      "gap": -0.01408199670737724
     },
     {
       "occ": "Health diagnosing and treating practitioners",
-      "share_ai_heavy": 0.04695706025658978,
-      "share_robot_heavy": 0.03421976485231834,
+      "share_ai_heavy": 0.046946721747012074,
+      "share_robot_heavy": 0.034120915902141766,
       "ai_score": 0.028744,
       "robot_score": 0.07626,
-      "gap": -0.012737295404271438
+      "gap": -0.012825805844870308
     },
     {
       "occ": "Architecture and engineering occupations",
-      "share_ai_heavy": 0.025351562859795628,
-      "share_robot_heavy": 0.014272970444649789,
+      "share_ai_heavy": 0.02542812140972585,
+      "share_robot_heavy": 0.014346263161368781,
       "ai_score": 0.038071,
       "robot_score": 0.182312,
-      "gap": -0.01107859241514584
+      "gap": -0.011081858248357068
     },
     {
       "occ": "Legal occupations",
-      "share_ai_heavy": 0.014294434352927723,
-      "share_robot_heavy": 0.004375556178184597,
+      "share_ai_heavy": 0.014294905728665945,
+      "share_robot_heavy": 0.0043911112714625,
       "ai_score": 0.215757,
       "robot_score": 0.001543,
-      "gap": -0.009918878174743125
+      "gap": -0.009903794457203446
     },
     {
       "occ": "Educational instruction and library occupations",
-      "share_ai_heavy": 0.06384771857832107,
-      "share_robot_heavy": 0.05646507500630701,
+      "share_ai_heavy": 0.06393912577175506,
+      "share_robot_heavy": 0.056563393176612374,
       "ai_score": 0.129296,
       "robot_score": 0.042156,
-      "gap": -0.007382643572014062
+      "gap": -0.007375732595142688
     },
     {
       "occ": "Life, physical, and social science occupations",
-      "share_ai_heavy": 0.013391002614650954,
-      "share_robot_heavy": 0.0066218541471163034,
+      "share_ai_heavy": 0.013411156842832273,
+      "share_robot_heavy": 0.006621933558469534,
       "ai_score": 0.121911,
       "robot_score": 0.287292,
-      "gap": -0.006769148467534651
+      "gap": -0.0067892232843627396
     },
     {
       "occ": "Office and administrative support occupations",
-      "share_ai_heavy": 0.10454755578177542,
-      "share_robot_heavy": 0.0993418778194675,
+      "share_ai_heavy": 0.1042329724898543,
+      "share_robot_heavy": 0.09910110939503022,
       "ai_score": 0.190566,
       "robot_score": 0.350346,
-      "gap": -0.00520567796230792
+      "gap": -0.0051318630948240795
     },
     {
       "occ": "Personal care and service occupations",
-      "share_ai_heavy": 0.02492937802441353,
-      "share_robot_heavy": 0.020638452405500038,
+      "share_ai_heavy": 0.024940172915501765,
+      "share_robot_heavy": 0.020502893047540806,
       "ai_score": 0.019148,
       "robot_score": 0.48161,
-      "gap": -0.004290925618913491
+      "gap": -0.004437279867960959
     },
     {
       "occ": "Firefighting and prevention workers",
-      "share_ai_heavy": 0.01196642083285853,
-      "share_robot_heavy": 0.009709622068871342,
+      "share_ai_heavy": 0.011915454166417773,
+      "share_robot_heavy": 0.009273591391605503,
       "ai_score": 0.00525,
       "robot_score": 0.192443,
-      "gap": -0.0022567987639871886
+      "gap": -0.00264186277481227
     },
     {
       "occ": "Community and social service occupations",
-      "share_ai_heavy": 0.018114218486253723,
-      "share_robot_heavy": 0.016620027184415964,
+      "share_ai_heavy": 0.01812591556575171,
+      "share_robot_heavy": 0.01665414008646353,
       "ai_score": 0.051617,
       "robot_score": 0.020193,
-      "gap": -0.0014941913018377585
+      "gap": -0.0014717754792881801
     },
     {
       "occ": "Food preparation and serving occupations",
-      "share_ai_heavy": 0.04996075993255251,
-      "share_robot_heavy": 0.05173088229764065,
+      "share_ai_heavy": 0.049937838926821236,
+      "share_robot_heavy": 0.05151988215813656,
       "ai_score": 0.009427,
       "robot_score": 0.894813,
-      "gap": 0.0017701223650881392
+      "gap": 0.0015820432313153263
     },
     {
       "occ": "Health technologists and technicians",
-      "share_ai_heavy": 0.018422071541616094,
-      "share_robot_heavy": 0.022017988059403033,
+      "share_ai_heavy": 0.018403793639008327,
+      "share_robot_heavy": 0.021923351062799818,
       "ai_score": 0.058963,
       "robot_score": 0.286042,
-      "gap": 0.0035959165177869394
+      "gap": 0.003519557423791491
     },
     {
       "occ": "Law enforcement workers",
-      "share_ai_heavy": 0.008333233920902896,
-      "share_robot_heavy": 0.013056344624538307,
+      "share_ai_heavy": 0.008306004883086563,
+      "share_robot_heavy": 0.012881369566517436,
       "ai_score": 0.014527,
       "robot_score": 0.381396,
-      "gap": 0.004723110703635411
+      "gap": 0.004575364683430873
     },
     {
       "occ": "Healthcare support occupations",
-      "share_ai_heavy": 0.030898548985307025,
-      "share_robot_heavy": 0.03842363575207796,
+      "share_ai_heavy": 0.03095067243290915,
+      "share_robot_heavy": 0.03852910033637766,
       "ai_score": 0.049381,
       "robot_score": 0.425042,
-      "gap": 0.007525086766770935
+      "gap": 0.007578427903468507
     },
     {
       "occ": "Building and grounds cleaning and maintenance",
-      "share_ai_heavy": 0.03131145568730905,
-      "share_robot_heavy": 0.04032662956046562,
+      "share_ai_heavy": 0.03125010822169605,
+      "share_robot_heavy": 0.039751661656607165,
       "ai_score": 0.024737,
       "robot_score": 0.778763,
-      "gap": 0.00901517387315657
+      "gap": 0.008501553434911116
     },
     {
       "occ": "Transportation occupations",
-      "share_ai_heavy": 0.03412967823397429,
-      "share_robot_heavy": 0.04986699789075315,
+      "share_ai_heavy": 0.03412437816346604,
+      "share_robot_heavy": 0.05014772817880069,
       "ai_score": 0.00979,
       "robot_score": 0.868421,
-      "gap": 0.01573731965677886
+      "gap": 0.01602335001533465
     },
     {
       "occ": "Installation, maintenance, and repair occupations",
-      "share_ai_heavy": 0.026540092222260257,
-      "share_robot_heavy": 0.04571111585680792,
+      "share_ai_heavy": 0.0264880408806575,
+      "share_robot_heavy": 0.045760000605507715,
       "ai_score": 0.00712,
       "robot_score": 0.436126,
-      "gap": 0.019171023634547663
+      "gap": 0.019271959724850216
     },
     {
       "occ": "Farming, fishing, and forestry occupations",
-      "share_ai_heavy": 0.0030532827482129673,
-      "share_robot_heavy": 0.024850311788477946,
+      "share_ai_heavy": 0.0030591643123817295,
+      "share_robot_heavy": 0.024786374323390554,
       "ai_score": 0.001845,
       "robot_score": 0.956617,
-      "gap": 0.021797029040264978
+      "gap": 0.021727210011008823
     },
     {
       "occ": "Construction and extraction occupations",
-      "share_ai_heavy": 0.04432452664550143,
-      "share_robot_heavy": 0.06621143845204508,
+      "share_ai_heavy": 0.04432551030343294,
+      "share_robot_heavy": 0.06614241069643337,
       "ai_score": 0.004038,
       "robot_score": 0.915427,
-      "gap": 0.021886911806543646
+      "gap": 0.02181690039300043
     },
     {
       "occ": "Material moving occupations",
-      "share_ai_heavy": 0.03364627245569733,
-      "share_robot_heavy": 0.05887302341520861,
+      "share_ai_heavy": 0.03351073772968711,
+      "share_robot_heavy": 0.059224352633589654,
       "ai_score": 0.0,
       "robot_score": 1.302753,
-      "gap": 0.025226750959511275
+      "gap": 0.025713614903902546
     },
     {
       "occ": "Production occupations",
-      "share_ai_heavy": 0.04236849170394211,
-      "share_robot_heavy": 0.10962367481811616,
+      "share_ai_heavy": 0.04231304635820672,
+      "share_robot_heavy": 0.10987925303130976,
       "ai_score": 0.007763,
       "robot_score": 0.903643,
-      "gap": 0.06725518311417406
+      "gap": 0.06756620667310304
     }
   ],
   "top_ai_large": [
@@ -533,12 +533,6 @@
       "ai": 0.09534888449219772,
       "robot": 0.4265433027665074,
       "workers": 3031042.0
-    },
-    {
-      "state": "Puerto Rico",
-      "ai": 0.09541701328605157,
-      "robot": 0.4260981324677559,
-      "workers": 1150831.0
     },
     {
       "state": "Michigan",

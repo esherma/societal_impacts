@@ -1,7 +1,7 @@
 """
 Step 4: Export county exposure data as a single JSON for the interactive map.
 
-Produces src/map/data/atlas.json with structure:
+Produces src/map/data/atlas.json (50 states + DC; Puerto Rico and suppressed counties excluded) with structure:
 {
   "occ_names": [...25 names...],
   "occ_exp":   [...25 category exposure scores...],
@@ -121,6 +121,10 @@ def compute_county_records(tidy_df: pd.DataFrame, occ_exp: list[float],
     records = {}
     for fips in pivot.index:
         fips_str = str(fips).zfill(5)
+        # The map covers the 50 states + DC: skip Puerto Rico, and skip counties whose
+        # occupation table the Census suppressed (0 workers, which would read as exposure 0).
+        if fips_str.startswith("72") or totals[fips] <= 0:
+            continue
         raw_name = county_meta.loc[fips, "county_name"]
         # Split "Alameda County, California" → county_name, state
         parts = str(raw_name).split(", ", 1)
@@ -150,7 +154,7 @@ def summary_stats(records: dict, key: str = "e") -> dict:
     exposures = [v[key] for v in records.values() if v.get(key, 0) > 0]
     arr = np.array(exposures)
     return {
-        "n": len(records),
+        "n": len(exposures),
         "min": round(float(np.min(arr)), 6),
         "max": round(float(np.max(arr)), 6),
         "mean": round(float(np.mean(arr)), 6),
@@ -209,27 +213,6 @@ def main():
 
     size_kb = out_path.stat().st_size / 1024
     print(f"\nSaved atlas.json ({size_kb:.0f} KB)")
-
-    # Top 10 / bottom 10 for each dataset (used in rankings panel)
-    def top_bottom(records, n=15):
-        sorted_items = sorted(records.items(), key=lambda x: x[1]["e"], reverse=True)
-        top = [{"fips": k, "county": v["n"], "state": v["s"], "exposure": v["e"], "rank": i+1}
-               for i, (k, v) in enumerate(sorted_items[:n])]
-        bottom = [{"fips": k, "county": v["n"], "state": v["s"], "exposure": v["e"], "rank": len(records)-n+i+1}
-                  for i, (k, v) in enumerate(sorted_items[-n:])]
-        return top, bottom
-
-    top5, bot5 = top_bottom(counties_5yr)
-    top1, bot1 = top_bottom(counties_1yr)
-
-    rankings = {
-        "5yr": {"top": top5, "bottom": bot5},
-        "1yr": {"top": top1, "bottom": bot1},
-    }
-    rankings_path = MAP_DATA_DIR / "rankings.json"
-    with open(rankings_path, "w") as f:
-        json.dump(rankings, f, indent=2)
-    print(f"Saved rankings.json")
 
 
 if __name__ == "__main__":
