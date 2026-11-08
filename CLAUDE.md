@@ -92,10 +92,11 @@ and per-county `r` (robot index) and `ws` ([sd_ai, sd_robot, n_tracts]).
 - County shapes come from `data/counties-2023.json`, built by `src/pipeline/build_county_shapes.sh` from the Census 2023 cartographic boundary file. Don't switch back to `us-atlas@3`: it uses pre-2022 county codes, so Connecticut's planning regions and two Alaska census areas render blank.
 - `map.js` loads `atlas.json` and US county TopoJSON, renders a choropleth with a sequential blue color scale clamped to p05–p95.
 - Two datasets switchable via toggle: 5-year (all counties) and 1-year (large counties only).
-- Four layers via `#layer-toggle` (`LAYERS` in `map.js`): AI exposure (Blues), robot exposure (RdPu, 0–3 scale), AI × Robot (3×3 bivariate by national terciles), within-county spread (Greens; only counties with ≥10 tracts).
+- Four layers via `#layer-toggle` (`LAYERS` in `map.js`): AI exposure (Blues), robot exposure (RdPu), AI × Robot (3×3 bivariate by national terciles), neighborhood spread (Greens; within-county tract SD, only counties with ≥10 tracts).
 - The map's AI and robot indices both use **unweighted** category means (the published method). Employment-weighted variants (`ai_w`, `robot_w`) exist in the processed data for sensitivity checks only.
 - Display scale: every index is shown relative to the worker-weighted US average (100 = average US worker, 50 states + DC, 2020–24 data), computed in `map.js` (`BASE_AI`, `BASE_ROBOT`). `atlas.json` keeps raw scores; the rescale is linear, so ranks and colors match the raw scale. Distribution summaries and rankings are computed in the browser; 1-year counties with suppressed data (`w == 0`) are dropped on load.
-- Clicking a county opens a detail panel showing per-occupation contributions (`sh[i] * occ_exp[i]`).
+- Clicking a county opens a detail panel and outlines it on the map. The panel lists each group's contribution to the county index as a percentage (`sh[i] * occ_exp[i]` / total).
+- Ranking lists (all layers except spread) include only counties with 25K+ workers (`MIN_RANK_WORKERS`). The map computes rankings in the browser; `rankings.json` is still exported but no longer read by the map.
 ## Key Constraint
 
 The `OCC_CATEGORY_ORDER` in `04_export_for_map.py` and the `OCC_CATEGORIES` tuple list in `02_download_acs.py` / `05_download_acs_1yr.py` must all stay consistent — array positions are used for indexing in both Python and JavaScript. `06_tract_exposure.py`, `07_robot_exposure.py` and `08_geographic_variance.py` import `OCC_CATEGORIES` from `02_download_acs.py` directly, so they follow automatically.

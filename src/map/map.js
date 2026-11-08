@@ -454,7 +454,7 @@
   function onCountyClick(event, d) {
     event.stopPropagation();
     const fips = String(d.id).padStart(5, "0");
-    openPanel(fips);
+    if (currentData()[fips]) openPanel(fips); else closePanel();   // e.g. faded counties in the 1-year view
     tooltip.classList.add("hidden");
   }
 
@@ -481,7 +481,8 @@
     updateLegend();
     updateStats();
     updateRankings();
-    if (selectedFips) openPanel(selectedFips);
+    // A county open in the 5-year view may have no 1-year data: close rather than show stale numbers
+    if (selectedFips) currentData()[selectedFips] ? openPanel(selectedFips) : closePanel();
   }
 
   document.querySelectorAll(".toggle-btn").forEach((btn) => {
